@@ -5,13 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stack. Сайты, каталоги и телеграм-боты</title>
 <meta name="description" content="Студия Stack собирает сайты под товар, а не по шаблону. Каталог с фильтром, цена сразу, заявка с выбранной моделью. Два работающих продукта можно открыть прямо сейчас.">
-<meta name="theme-color" content="#F6F7F8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#101215" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#08090D">
 <meta property="og:title" content="Stack. Сайты, каталоги и телеграм-боты">
 <meta property="og:description" content="Собираем сайты под товар, а не по шаблону. Два работающих продукта можно открыть и потрогать.">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="assets/app.css">
-<link rel="preload" href="assets/fonts/Rubik.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Unbounded.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/Onest.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
@@ -37,7 +36,7 @@
   <!-- ── 1. Герой: асимметричный сплит, справа настоящие снимки работ ── -->
   <section class="hero wrap">
     <div class="hero-say">
-      <h1>Собираем сайты <em>под товар</em>, а не по шаблону</h1>
+      <h1>Сайты <em>под товар</em>, а не по шаблону</h1>
       <p class="lead">Каталог с фильтром, цена сразу, заявка с выбранной моделью.
          Два работающих продукта ниже можно открыть и потрогать.</p>
       <div class="cta">
@@ -199,10 +198,32 @@
         <span class="hint">Куда прислать ответ и макет</span>
         <span class="err" id="eContact">Нужен телеграм через собаку или адрес почты</span>
       </div>
+      <div class="fld">
+        <label for="fType">Что нужно</label>
+        <select id="fType" name="type">
+          <option>Лендинг</option>
+          <option>Сайт с каталогом</option>
+          <option>Телеграм-бот</option>
+          <option>Правки на готовом сайте</option>
+          <option selected>Пока не знаю, нужен совет</option>
+        </select>
+        <span class="hint">Если не уверены, оставьте как есть</span>
+      </div>
+      <div class="fld">
+        <label for="fBudget">Бюджет</label>
+        <select id="fBudget" name="budget">
+          <option selected>Пока не определён</option>
+          <option>До 6 000 ₽</option>
+          <option>6 000 до 15 000 ₽</option>
+          <option>15 000 до 30 000 ₽</option>
+          <option>Больше 30 000 ₽</option>
+        </select>
+        <span class="hint">Помогает сразу предложить подходящий вариант</span>
+      </div>
       <div class="fld wide">
-        <label for="fTask">Что нужно сделать</label>
+        <label for="fTask">Расскажите о задаче</label>
         <textarea id="fTask" name="task" rows="4" maxlength="900"></textarea>
-        <span class="hint">Чем занимаетесь, что продаёте, есть ли уже сайт. Хватит пяти строк</span>
+        <span class="hint">Чем занимаетесь, что продаёте, есть ли уже сайт и что в нём не устраивает, когда нужен результат. Чем подробнее, тем точнее ответ</span>
         <span class="err" id="eTask">Опишите задачу хотя бы в двух словах</span>
       </div>
       <div class="fld wide send">
@@ -227,7 +248,7 @@
       <span class="glyph" aria-hidden="true"><i></i><i></i><i></i></span>
       <span>Stack</span>
     </span>
-    <span class="c">Сайты, каталоги и телеграм-боты. Работаем по России и Казахстану</span>
+    <span class="c">© 2026 Stack. Сайты, каталоги и телеграм-боты. Работаем по России и Казахстану</span>
     <a class="mail" id="mailFoot" href="#">почта</a>
   </div>
 </footer>

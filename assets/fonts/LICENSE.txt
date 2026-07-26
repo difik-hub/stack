@@ -4,6 +4,9 @@ Rubik — Hubert & Fischer, Meir Sadan, Cyreal
         https://github.com/google/fonts/tree/main/ofl/rubik
 Onest — Aleksey Chekulaev
         https://github.com/google/fonts/tree/main/ofl/onest
+Unbounded — NaN (Jérémie Hornus, Ilya Ruderman и другие)
+        https://github.com/google/fonts/tree/main/ofl/unbounded
+        https://github.com/google/fonts/tree/main/ofl/onest
 
 Урезаны до латиницы и кириллицы, упакованы в woff2 (fontTools).
 Полный текст лицензии: https://openfontlicense.org/

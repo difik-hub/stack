@@ -9,7 +9,7 @@
    Почта, на которую приходят заявки. Телеграм оставь пустым,
    если не хочешь показывать: тогда ссылка на него просто не появится. */
 const CONTACT = {
-  mail: 'nikitakovalev2604@gmail.com',
+  mail: 'sandrakaran@onet.pl',
   tg:   ''            // например 'stack_studio', без собаки
 };
 /* ▲▲▲ дальше менять ничего не нужно ▲▲▲ */
@@ -107,6 +107,8 @@ function letter() {
     '',
     'Имя: ' + F.name.el.value.trim(),
     'Связь: ' + F.contact.el.value.trim(),
+    'Что нужно: ' + $('fType').value,
+    'Бюджет: ' + $('fBudget').value,
     '',
     'Задача:',
     F.task.el.value.trim()
