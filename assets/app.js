@@ -146,6 +146,38 @@ $('copyBtn').addEventListener('click', async () => {
   setTimeout(() => { btn.textContent = 'Скопировать текст'; }, 2600);
 });
 
+/* ── встречающая панель: один показ на браузер, закрытие одним нажатием ──
+   Нажатие в любом месте панели закрывает её; ссылка «смотреть работы»
+   сначала уводит к работам, потом панель закрывается так же. */
+(() => {
+  const box = $('intro');
+  let seen = false;
+  try { seen = localStorage.getItem('stack.introSeen') === '1'; } catch (e) {}
+  if (seen) return;
+
+  const show = setTimeout(() => {
+    box.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('in')));
+  }, 900);
+
+  function close() {
+    clearTimeout(show);
+    box.classList.remove('in');
+    setTimeout(() => { box.hidden = true; }, 240);
+    try { localStorage.setItem('stack.introSeen', '1'); } catch (e) {}
+    removeEventListener('keydown', onKey);
+  }
+  function onKey(e) { if (e.key === 'Escape') close(); }
+
+  box.addEventListener('click', e => {
+    if (e.target.closest('.intro-go')) {
+      document.getElementById('works').scrollIntoView({ behavior: 'smooth' });
+    }
+    close();
+  });
+  addEventListener('keydown', onKey);
+})();
+
 /* Самопроверка проверок формы и полноты сетки: ?selftest в адресе. */
 if (location.search.includes('selftest')) {
   const t = [];
