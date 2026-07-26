@@ -110,7 +110,8 @@
   <section class="works wrap" id="works">
     <h2>Работы</h2>
     <p class="say">Каждый проект начинается с нуля: своя типографика, свой цвет, своя
-       структура страницы. Одинаковых среди них нет, и это видно.</p>
+       структура страницы. Нажмите на любую работу, откроется макет целиком
+       и рассказ, зачем он сделан именно так.</p>
     <div class="wgrid" id="wgrid"></div>
   </section>
 
@@ -255,6 +256,22 @@
     </div>
   </section>
 </main>
+
+<!-- Просмотр работы: слева рассказ, справа макет во всю длину -->
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="vName">
+  <div class="vbox">
+    <button class="vx" id="vX" aria-label="Закрыть просмотр">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="vinfo">
+      <b id="vName"></b>
+      <span class="vsphere" id="vSphere"></span>
+      <div class="vstory" id="vStory"></div>
+      <a class="btn sm" id="vAsk" href="#form">Хочу похожий</a>
+    </div>
+    <div class="vshot" id="vShot"></div>
+  </div>
+</div>
 
 <footer class="foot">
   <div class="wrap in">
