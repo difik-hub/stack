@@ -9,25 +9,28 @@
 <meta property="og:title" content="Stack. Сайты, каталоги и телеграм-боты">
 <meta property="og:description" content="Собираем сайты под товар, а не по шаблону. Два работающих продукта можно открыть и потрогать.">
 <meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 <link rel="stylesheet" href="assets/app.css">
 <link rel="preload" href="assets/fonts/Unbounded.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/Onest.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
 
-<!-- Встречающая панель. Показывается один раз, закрывается одним
-     нажатием в любом месте панели или клавишей Esc. -->
-<aside class="intro" id="intro" hidden aria-label="Коротко о студии">
-  <button class="intro-x" id="introX" aria-label="Закрыть">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
-  <span class="glyph big" aria-hidden="true"><i></i><i></i><i></i></span>
-  <p class="intro-h">Мы Stack. Собираем сайты и телеграм-ботов под товар, а не по шаблону.</p>
-  <p class="intro-t">Макет показываем до оплаты. Два наших продукта работают в проде,
-     их можно открыть и потрогать прямо на этой странице.</p>
-  <span class="intro-go">Смотреть работы
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
-</aside>
+<!-- Заставка на входе, как в играх: слева наклонная плита с именем,
+     справа гигантский знак, между ними виден сайт. Уходит по нажатию. -->
+<div class="splash" id="splash" hidden aria-label="Заставка">
+  <div class="sp-l">
+    <div class="sp-txt">
+      <b>STACK</b>
+      <span>Команда разработчиков.<br>Сайты, каталоги и телеграм-боты.</span>
+      <i>Нажмите, чтобы открыть сайт</i>
+    </div>
+  </div>
+  <div class="sp-r">
+    <span class="glyph giant" aria-hidden="true"><i></i><i></i><i></i></span>
+  </div>
+</div>
 
 <header class="hdr">
   <div class="wrap in">

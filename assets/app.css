@@ -83,10 +83,44 @@ h3{font-weight:700;font-size:1.08rem}
 .glyph i:nth-child(1){top:1px;left:4px;right:0;background:var(--blue)}
 .glyph i:nth-child(2){top:8px;left:2px;right:2px;opacity:.6}
 .glyph i:nth-child(3){top:15px;left:0;right:4px;opacity:.3}
-.glyph.big{width:34px;height:31px}
-.glyph.big i{height:6px}
-.glyph.big i:nth-child(2){top:12px}
-.glyph.big i:nth-child(3){top:23px}
+.glyph.giant{width:min(24vw,320px);height:min(21vw,280px)}
+.glyph.giant i{height:20%;opacity:1}
+.glyph.giant i:nth-child(2){background:var(--ink)}
+.glyph.giant i:nth-child(3){background:#525A70}
+.glyph.giant i:nth-child(1){top:0;left:12%;right:0}
+.glyph.giant i:nth-child(2){top:41%;left:6%;right:6%}
+.glyph.giant i:nth-child(3){top:82%;left:0;right:12%}
+
+/* ── заставка: две наклонные плиты, между ними виден сайт ── */
+.splash{position:fixed;inset:0;z-index:80;cursor:pointer;overflow:hidden}
+.sp-l,.sp-r{position:absolute;top:0;bottom:0;background:var(--panel);
+  border:0;transition:transform .3s linear}
+.sp-l{left:0;width:56vw;clip-path:polygon(0 0,84% 0,52% 100%,0 100%);
+  display:flex;align-items:center;padding-left:clamp(20px,7vw,110px)}
+.sp-r{right:0;width:56vw;clip-path:polygon(28% 0,100% 0,100% 100%,0 100%);
+  display:grid;place-items:center;padding-left:10vw}
+.sp-l::after{content:"";position:absolute;inset:0;
+  clip-path:polygon(84% 0,87.5% 0,55.5% 100%,52% 100%);background:var(--blue)}
+.sp-r::before{content:"";position:absolute;inset:0;
+  clip-path:polygon(28% 0,31.5% 0,3.5% 100%,0 100%);background:var(--blue)}
+.sp-txt{display:flex;flex-direction:column;gap:14px;max-width:34vw}
+.sp-txt b{font-family:Unbounded,sans-serif;font-weight:600;
+  font-size:clamp(2.4rem,6vw,4.6rem);letter-spacing:.01em;line-height:1}
+.sp-txt span{color:var(--dim);font-size:clamp(.95rem,1.3vw,1.15rem);line-height:1.55}
+.sp-txt i{font-style:normal;color:var(--blue-t);font-weight:700;font-size:12.5px;
+  text-transform:uppercase;letter-spacing:.09em;margin-top:10px}
+.splash.out .sp-l{transform:translateX(-120%)}
+.splash.out .sp-r{transform:translateX(120%)}
+@media(max-width:700px){
+  .sp-l{width:100vw;clip-path:polygon(0 0,100% 0,100% 62%,0 78%)}
+  .sp-txt{max-width:80vw}
+  .sp-r{width:100vw;top:auto;height:46vh;clip-path:polygon(0 100%,100% 84%,100% 100%,0 100%);
+        align-items:end;padding-bottom:3vh}
+  .sp-r::before,.sp-l::after{display:none}
+  .glyph.giant{width:40vw;height:34vw}
+  .splash.out .sp-l{transform:translateY(-120%)}
+  .splash.out .sp-r{transform:translateY(120%)}
+}
 
 /* ── шапка ── */
 .hdr{position:sticky;top:0;z-index:40;background:rgba(8,9,13,.88);
@@ -141,13 +175,16 @@ h3{font-weight:700;font-size:1.08rem}
 
 /* ═══ 3. Работы ═══ */
 .works{padding:clamp(44px,6vw,84px) clamp(18px,4vw,52px);border-top:1px solid var(--line)}
-.wgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(14px,1.8vw,22px);margin-top:30px}
-.w{display:flex;flex-direction:column;gap:11px;min-width:0}
-/* Высота снимка задана явно и не зависит от ширины ячейки: иначе широкая
-   ячейка вдвое выше узкой, ряд разъезжается и под короткой картой пустота.
-   Кадр от верха: у сайта самое узнаваемое это шапка и первый экран. */
+.wgrid{display:flex;gap:clamp(14px,1.6vw,22px);overflow-x:auto;
+  padding:30px 2px 16px;scroll-snap-type:x proximity;scrollbar-width:thin;
+  scrollbar-color:var(--line2) transparent}
+.wgrid::-webkit-scrollbar{height:6px}
+.wgrid::-webkit-scrollbar-thumb{background:var(--line2)}
+.wgrid::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+.w{flex:0 0 clamp(300px,27vw,400px);scroll-snap-align:start;
+   display:flex;flex-direction:column;gap:11px;min-width:0;cursor:pointer}
 .w .ph{border:1px solid var(--line);background:var(--panel);overflow:hidden;
-       height:clamp(150px,17vw,230px);transition:border-color .12s linear}
+       aspect-ratio:3/2;transition:border-color .12s linear}
 .w .ph img{width:100%;height:100%;object-fit:cover;object-position:top;
            filter:saturate(.72);transition:filter .12s linear}
 .w:hover .ph{border-color:var(--blue)}
@@ -156,16 +193,6 @@ h3{font-weight:700;font-size:1.08rem}
 .w .cap b{font-family:Unbounded,sans-serif;font-weight:500;font-size:13.5px;letter-spacing:.02em}
 .w:hover .cap b{color:var(--blue-t)}
 .w .cap span{color:var(--dim);font-size:13px}
-/* Ритм задан руками: 4+2, 2+4, 3+3, 4+2, 2+4. Десять работ, десять ячеек. */
-.w:nth-child(1){grid-column:span 4}
-.w:nth-child(2){grid-column:span 2}
-.w:nth-child(3){grid-column:span 2}
-.w:nth-child(4){grid-column:span 4}
-.w:nth-child(5),.w:nth-child(6){grid-column:span 3}
-.w:nth-child(7){grid-column:span 4}
-.w:nth-child(8){grid-column:span 2}
-.w:nth-child(9){grid-column:span 2}
-.w:nth-child(10){grid-column:span 4}
 
 /* ═══ 4. Как работаем ═══ */
 .how{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
@@ -234,54 +261,6 @@ h3{font-weight:700;font-size:1.08rem}
 .foot .c{color:var(--dim);font-size:13px}
 .foot .mail{margin-left:auto;font-size:13.5px}
 
-/* ── встречающая панель слева: один показ, одно нажатие ── */
-.intro{position:fixed;left:0;top:50%;z-index:60;width:min(340px,calc(100vw - 56px));
-  background:var(--panel);border:1px solid var(--line2);border-left:4px solid var(--blue);
-  padding:26px 26px 24px;cursor:pointer;
-  transform:translate(-105%,-50%);transition:transform .22s linear}
-.intro.in{transform:translate(0,-50%)}
-.intro .intro-h{font-family:Unbounded,sans-serif;font-weight:500;font-size:15.5px;
-  line-height:1.45;margin-top:16px}
-.intro .intro-t{color:var(--dim);font-size:13.5px;line-height:1.6;margin-top:10px}
-.intro .intro-go{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
-  color:var(--blue-t);font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.07em}
-.intro .intro-go svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:square}
-.intro .intro-x{position:absolute;top:10px;right:10px;width:30px;height:30px;
-  display:grid;place-items:center;color:var(--dim);transition:color .12s linear,background .12s linear}
-.intro .intro-x:hover{color:var(--on-blue);background:var(--blue)}
-.intro .intro-x svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:square}
-@media(max-width:560px){.intro{top:auto;bottom:16px;transform:translate(-105%,0)}.intro.in{transform:translate(0,0)}}
-
-/* ── просмотр работы: рассказ слева, макет целиком справа ── */
-.viewer{position:fixed;inset:0;z-index:70;display:grid;place-items:center;
-        background:rgba(4,5,8,.84);padding:2.5dvh 3vw}
-.vbox{position:relative;width:min(1180px,100%);height:95dvh;background:var(--void);
-      border:1px solid var(--line2);display:grid;grid-template-columns:340px minmax(0,1fr)}
-.vinfo{padding:30px 28px;border-right:1px solid var(--line);overflow-y:auto;
-       display:flex;flex-direction:column;align-items:flex-start;gap:14px}
-.vinfo b{font-family:Unbounded,sans-serif;font-weight:500;font-size:1.3rem;letter-spacing:.02em}
-.vsphere{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:.08em;
-         border-left:2px solid var(--blue);padding-left:10px}
-.vstory{display:flex;flex-direction:column;gap:12px}
-.vstory p{color:var(--dim);font-size:14.2px;line-height:1.65}
-.vstory p::first-line{color:var(--ink)}
-.vinfo .btn{margin-top:auto}
-.vshot{overflow-y:auto;background:var(--panel);scrollbar-width:thin}
-.vshot img{width:100%;display:block}
-.vx{position:absolute;top:0;right:0;z-index:2;width:44px;height:44px;
-    display:grid;place-items:center;background:var(--void);border-left:1px solid var(--line2);
-    border-bottom:1px solid var(--line2);color:var(--dim);
-    transition:color .12s linear,background .12s linear}
-.vx:hover{background:var(--blue);color:var(--on-blue)}
-.vx svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:square}
-.w{cursor:pointer}
-@media(max-width:900px){
-  .vbox{grid-template-columns:1fr;height:96dvh;overflow-y:auto;display:block}
-  .vinfo{border-right:0;border-bottom:1px solid var(--line);overflow:visible}
-  .vinfo .btn{margin-top:6px}
-  .vshot{overflow:visible}
-}
-
 /* ── проявление при прокрутке: короткий резкий вход по порядку чтения ── */
 .rv{opacity:0;transform:translateY(10px);transition:opacity .28s linear,transform .28s linear}
 .rv.seen{opacity:1;transform:none}
@@ -292,9 +271,6 @@ h3{font-weight:700;font-size:1.08rem}
   .hero-show{order:-1;aspect-ratio:1/.62}
   .lead{max-width:56ch}
   .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .wgrid{grid-template-columns:repeat(4,1fr)}
-  .w:nth-child(n){grid-column:span 2}
-  .w:nth-child(1),.w:nth-child(4){grid-column:span 4}
   .prow{grid-template-columns:minmax(0,1fr) auto;row-gap:5px}
   .pd{grid-column:1 / -1;order:3}
 }
@@ -303,10 +279,6 @@ h3{font-weight:700;font-size:1.08rem}
   .live-grid{grid-template-columns:1fr}
 }
 @media(max-width:560px){
-  .wgrid{grid-template-columns:1fr}
-  .w:nth-child(n){grid-column:span 1}
-  .w .ph{height:auto}
-  .w .ph img{height:auto}
   .facts{grid-template-columns:1fr}
   .form{grid-template-columns:1fr}
   .hero-show{aspect-ratio:1/.7}

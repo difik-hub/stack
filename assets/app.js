@@ -57,7 +57,7 @@ const WORKS = [
 $('wgrid').innerHTML = WORKS.map(([slug, name, about], i) => `
   <figure class="w rv" role="button" tabindex="0" data-i="${i}"
           aria-haspopup="dialog" aria-label="Открыть макет ${esc(name)} целиком">
-    <span class="ph"><img src="assets/img/${slug}.jpg" width="760" height="507"
+    <span class="ph"><img src="assets/img/${slug}.jpg" width="1140" height="760"
       alt="Макет сайта ${esc(name)}: ${esc(about)}" loading="lazy" decoding="async"></span>
     <figcaption class="cap"><b>${esc(name)}</b><span>${esc(about)}</span></figcaption>
   </figure>`).join('');
@@ -203,36 +203,32 @@ viewer.addEventListener('click', e => { if (e.target === viewer) closeWork(); })
 $('vAsk').addEventListener('click', closeWork);
 addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) closeWork(); });
 
-/* ── встречающая панель: один показ на браузер, закрытие одним нажатием ──
-   Нажатие в любом месте панели закрывает её; ссылка «смотреть работы»
-   сначала уводит к работам, потом панель закрывается так же. */
+/* ── заставка на входе: один показ, уходит по нажатию или Esc ── */
 (() => {
-  const box = $('intro');
+  const sp = $('splash');
   let seen = false;
-  try { seen = localStorage.getItem('stack.introSeen') === '1'; } catch (e) {}
-  if (seen) return;
-
-  const show = setTimeout(() => {
-    box.hidden = false;
-    requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('in')));
-  }, 900);
-
+  try { seen = localStorage.getItem('stack.splashSeen') === '1'; } catch (e) {}
+  if (seen || location.search.includes('selftest')) { sp.remove(); return; }
+  sp.hidden = false;
   function close() {
-    clearTimeout(show);
-    box.classList.remove('in');
-    setTimeout(() => { box.hidden = true; }, 240);
-    try { localStorage.setItem('stack.introSeen', '1'); } catch (e) {}
+    sp.classList.add('out');
+    setTimeout(() => sp.remove(), 320);
+    try { localStorage.setItem('stack.splashSeen', '1'); } catch (e) {}
     removeEventListener('keydown', onKey);
   }
-  function onKey(e) { if (e.key === 'Escape') close(); }
-
-  box.addEventListener('click', e => {
-    if (e.target.closest('.intro-go')) {
-      document.getElementById('works').scrollIntoView({ behavior: 'smooth' });
-    }
-    close();
-  });
+  function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter') close(); }
+  sp.addEventListener('click', close);
   addEventListener('keydown', onKey);
+})();
+
+/* ── лента работ листается обычным колесом мыши ── */
+(() => {
+  const strip = $('wgrid');
+  strip.addEventListener('wheel', e => {
+    if (!e.deltaY || e.shiftKey) return;      // shift+колесо браузер крутит сам
+    e.preventDefault();
+    strip.scrollLeft += e.deltaY;
+  }, { passive: false });
 })();
 
 /* Самопроверка проверок формы и полноты сетки: ?selftest в адресе. */
