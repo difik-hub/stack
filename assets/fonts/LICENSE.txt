@@ -1,0 +1,9 @@
+Шрифты распространяются по SIL Open Font License 1.1.
+
+Rubik — Hubert & Fischer, Meir Sadan, Cyreal
+        https://github.com/google/fonts/tree/main/ofl/rubik
+Onest — Aleksey Chekulaev
+        https://github.com/google/fonts/tree/main/ofl/onest
+
+Урезаны до латиницы и кириллицы, упакованы в woff2 (fontTools).
+Полный текст лицензии: https://openfontlicense.org/

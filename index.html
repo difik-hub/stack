@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack. Сайты, каталоги и телеграм-боты</title>
+<meta name="description" content="Студия Stack собирает сайты под товар, а не по шаблону. Каталог с фильтром, цена сразу, заявка с выбранной моделью. Два работающих продукта можно открыть прямо сейчас.">
+<meta name="theme-color" content="#F6F7F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101215" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Stack. Сайты, каталоги и телеграм-боты">
+<meta property="og:description" content="Собираем сайты под товар, а не по шаблону. Два работающих продукта можно открыть и потрогать.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="preload" href="assets/fonts/Rubik.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Onest.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap in">
+    <a class="brand" href="#top" aria-label="Stack, на начало">
+      <span class="glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>Stack</span>
+    </a>
+    <nav class="nav">
+      <a href="#live">Живые продукты</a>
+      <a href="#works">Работы</a>
+      <a href="#how">Как работаем</a>
+      <a href="#price">Цены</a>
+    </nav>
+    <a class="btn sm" href="#form">Оставить заявку</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ── 1. Герой: асимметричный сплит, справа настоящие снимки работ ── -->
+  <section class="hero wrap">
+    <div class="hero-say">
+      <h1>Собираем сайты <em>под товар</em>, а не по шаблону</h1>
+      <p class="lead">Каталог с фильтром, цена сразу, заявка с выбранной моделью.
+         Два работающих продукта ниже можно открыть и потрогать.</p>
+      <div class="cta">
+        <a class="btn" href="#works">Смотреть работы</a>
+        <a class="btn ghost" href="#form">Оставить заявку</a>
+      </div>
+    </div>
+    <div class="hero-show" aria-hidden="true">
+      <img class="s1" src="assets/img/02-coffee-zerno-big.jpg" width="1100" height="733"
+           alt="" fetchpriority="high" decoding="async">
+      <img class="s2" src="assets/img/10-kopilka-fintech-big.jpg" width="1100" height="733"
+           alt="" loading="lazy" decoding="async">
+    </div>
+  </section>
+
+  <!-- ── Полоса фактов: вынесена из героя, чтобы первый экран остался
+       заголовком и кнопками, а не превратился в справку с ценником ── -->
+  <section class="band">
+    <dl class="facts wrap">
+      <div><dt>от 6 000 ₽</dt><dd>лендинг с адаптивом и формой заявки</dd></div>
+      <div><dt>бесплатно</dt><dd>макет до оплаты, правок сколько нужно</dd></div>
+      <div><dt>1 месяц</dt><dd>поддержки после сдачи входит в цену</dd></div>
+      <div><dt>2 продукта</dt><dd>работают в проде, можно открыть ниже</dd></div>
+    </dl>
+  </section>
+
+  <!-- ── 2. Живые продукты: главное доказательство, поэтому стоит высоко ── -->
+  <section class="live wrap" id="live">
+    <h2>Это работает прямо сейчас, а не лежит картинкой</h2>
+    <p class="say">Два продукта, которые мы сделали для себя целиком: от идеи до прода.
+       Откройте и потыкайте, никакой регистрации не нужно.</p>
+    <div class="live-grid">
+      <a class="prod rv" href="https://difik-hub.github.io/tishe/" target="_blank" rel="noopener">
+        <span class="shot"><img src="assets/img/live-tishe.jpg" width="1000" height="625"
+              alt="Главная страница ТИШЕ: колода карточек со звуками на ночном фоне" loading="lazy" decoding="async"></span>
+        <span class="meta">
+          <b>ТИШЕ</b>
+          <span class="d">Звуки для сна и фокуса. 27 живых записей, микшер слоёв,
+            дыхание по счёту, таймер отрезками. Работает офлайн.</span>
+          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
+      <a class="prod rv" href="https://difik-hub.github.io/pult/" target="_blank" rel="noopener">
+        <span class="shot"><img src="assets/img/live-pult.jpg" width="1000" height="625"
+              alt="Страница ПУЛЬТ: блок «сейчас», список задач и ежедневное по времени дня" loading="lazy" decoding="async"></span>
+        <span class="meta">
+          <b>ПУЛЬТ</b>
+          <span class="d">Стартовая страница браузера. Задачи, отрезок фокуса на конкретной
+            задаче, ежедневное по времени дня. Данные не уходят из браузера.</span>
+          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── 3. Работы: несимметричная сетка, ячеек ровно столько, сколько работ ── -->
+  <section class="works wrap" id="works">
+    <h2>Работы</h2>
+    <p class="say">Каждый проект начинается с нуля: своя типографика, свой цвет, своя
+       структура страницы. Одинаковых среди них нет, и это видно.</p>
+    <div class="wgrid" id="wgrid"></div>
+  </section>
+
+  <!-- ── 4. Как работаем: слева заголовок, справа реальные шаги ── -->
+  <section class="how wrap" id="how">
+    <div class="how-say">
+      <h2>Как работаем</h2>
+      <p class="say">Порядок такой, чтобы вы увидели результат до того, как заплатите.
+         Так спокойнее обеим сторонам.</p>
+      <a class="btn ghost" href="#form">Оставить заявку</a>
+    </div>
+    <ol class="steps">
+      <li>
+        <h3>Разбираем</h3>
+        <p>Спрашиваем, что чаще всего спрашивают ваши покупатели в переписке.
+           Из этих вопросов и складывается структура сайта. Это бесплатно.</p>
+      </li>
+      <li>
+        <h3>Показываем</h3>
+        <p>Собираем макет на ваших товарах и фотографиях. Правок на этом этапе
+           сколько нужно. Дальше идём только если вам нравится.</p>
+      </li>
+      <li>
+        <h3>Собираем</h3>
+        <p>Делаем страницу целиком, проверяем на телефоне и планшете, отдаём вместе
+           с доступами. Месяц после сдачи правим цены и тексты сами.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ── 5. Цены: сгруппированные строки, а не три одинаковые плитки ── -->
+  <section class="price wrap" id="price">
+    <h2>Цены</h2>
+    <p class="say">Это цены на первые заказы, пока мы набираем отзывы. Дальше поднимем,
+       поэтому сейчас выгоднее. Оценку по вашей задаче даём до начала работы.</p>
+
+    <div class="pgroup">
+      <h3>Сайты</h3>
+      <div class="prow">
+        <span class="pn">Лендинг, одна страница</span>
+        <span class="pd">До пяти блоков, адаптив под телефон, форма заявки, месяц поддержки</span>
+        <span class="pp">6 000 ₽</span>
+      </div>
+      <div class="prow">
+        <span class="pn">Лендинг с каталогом</span>
+        <span class="pd">До девяти блоков, каталог до тридцати позиций, фильтр по параметрам</span>
+        <span class="pp">12 000 ₽</span>
+      </div>
+      <div class="prow">
+        <span class="pn">Сайт под ключ</span>
+        <span class="pd">До пяти страниц, каталог, админка для цен и текстов, три месяца поддержки</span>
+        <span class="pp">22 000 ₽</span>
+      </div>
+    </div>
+
+    <div class="pgroup">
+      <h3>Телеграм-боты</h3>
+      <div class="prow">
+        <span class="pn">Бот с заявками</span>
+        <span class="pd">Меню, заявка приходит вам в чат, хостинг на первый месяц</span>
+        <span class="pp">5 000 ₽</span>
+      </div>
+      <div class="prow">
+        <span class="pn">Бот с каталогом и оплатой</span>
+        <span class="pd">Каталог, корзина, приём оплаты, выгрузка заказов таблицей</span>
+        <span class="pp">14 000 ₽</span>
+      </div>
+    </div>
+
+    <div class="pgroup">
+      <h3>Работа с готовым сайтом</h3>
+      <div class="prow">
+        <span class="pn">Правки и доработки</span>
+        <span class="pd">Минимум один час. Сколько уйдёт, говорим до начала, а не после</span>
+        <span class="pp">1 500 ₽ / час</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6. Заявка ── -->
+  <section class="form-sec wrap" id="form">
+    <div class="form-say">
+      <h2>Оставить заявку</h2>
+      <p class="say">Напишите пару слов о задаче. Ответим и покажем макет до того,
+         как вы что-то заплатите.</p>
+      <p class="say small">Можно и без формы: <a class="mail" id="mailLink" href="#">почта</a>.</p>
+    </div>
+
+    <form class="form" id="reqForm" novalidate>
+      <div class="fld">
+        <label for="fName">Как вас зовут</label>
+        <input id="fName" name="name" autocomplete="name" maxlength="60">
+        <span class="hint">Достаточно имени</span>
+        <span class="err" id="eName">Впишите имя, чтобы знать, к кому обращаться</span>
+      </div>
+      <div class="fld">
+        <label for="fContact">Телеграм или почта</label>
+        <input id="fContact" name="contact" autocomplete="email" maxlength="80">
+        <span class="hint">Куда прислать ответ и макет</span>
+        <span class="err" id="eContact">Нужен телеграм через собаку или адрес почты</span>
+      </div>
+      <div class="fld wide">
+        <label for="fTask">Что нужно сделать</label>
+        <textarea id="fTask" name="task" rows="4" maxlength="900"></textarea>
+        <span class="hint">Чем занимаетесь, что продаёте, есть ли уже сайт. Хватит пяти строк</span>
+        <span class="err" id="eTask">Опишите задачу хотя бы в двух словах</span>
+      </div>
+      <div class="fld wide send">
+        <button class="btn" type="submit" id="fSend">Отправить заявку</button>
+        <span class="note" id="fNote">Откроется ваша почтовая программа с готовым письмом</span>
+      </div>
+    </form>
+
+    <div class="ok" id="okBox" hidden>
+      <b>Письмо собрано</b>
+      <span>Если почтовая программа не открылась, скопируйте текст ниже и пришлите
+        его любым удобным способом.</span>
+      <textarea id="okText" rows="7" readonly aria-label="Текст заявки"></textarea>
+      <button class="btn ghost sm" type="button" id="copyBtn">Скопировать текст</button>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap in">
+    <span class="brand">
+      <span class="glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>Stack</span>
+    </span>
+    <span class="c">Сайты, каталоги и телеграм-боты. Работаем по России и Казахстану</span>
+    <a class="mail" id="mailFoot" href="#">почта</a>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
