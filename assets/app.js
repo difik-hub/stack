@@ -203,17 +203,16 @@ viewer.addEventListener('click', e => { if (e.target === viewer) closeWork(); })
 $('vAsk').addEventListener('click', closeWork);
 addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) closeWork(); });
 
-/* ── заставка на входе: один показ, уходит по нажатию или Esc ── */
+/* ── заставка на входе: при каждом заходе, уходит по нажатию плавно ── */
 (() => {
   const sp = $('splash');
-  let seen = false;
-  try { seen = localStorage.getItem('stack.splashSeen') === '1'; } catch (e) {}
-  if (seen || location.search.includes('selftest')) { sp.remove(); return; }
+  if (location.search.includes('selftest')) { sp.remove(); return; }
   sp.hidden = false;
+  let gone = false;
   function close() {
+    if (gone) return; gone = true;
     sp.classList.add('out');
-    setTimeout(() => sp.remove(), 320);
-    try { localStorage.setItem('stack.splashSeen', '1'); } catch (e) {}
+    setTimeout(() => sp.remove(), 750);
     removeEventListener('keydown', onKey);
   }
   function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter') close(); }
@@ -221,13 +220,31 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) clo
   addEventListener('keydown', onKey);
 })();
 
-/* ── лента работ листается обычным колесом мыши ── */
+/* ── лента работ: колесо мыши листает её вбок по всей секции ──
+   Колесо вверх уводит карточки вправо, вниз влево. Прокрутка идёт
+   плавно через кадры, а не рывком. deltaMode учитывается: часть
+   браузеров шлёт колесо строками, а не пикселями. */
 (() => {
   const strip = $('wgrid');
-  strip.addEventListener('wheel', e => {
-    if (!e.deltaY || e.shiftKey) return;      // shift+колесо браузер крутит сам
+  const zone = document.getElementById('works');
+  let target = 0, running = false;
+  function step() {
+    const d = target - strip.scrollLeft;
+    if (Math.abs(d) < 1) { strip.scrollLeft = target; running = false; return; }
+    strip.scrollLeft += d * 0.16;
+    requestAnimationFrame(step);
+  }
+  zone.addEventListener('wheel', e => {
+    if (e.shiftKey || e.ctrlKey) return;
+    const max = strip.scrollWidth - strip.clientWidth;
+    if (max <= 0) return;
+    const px = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? strip.clientWidth : 1);
+    const next = Math.max(0, Math.min(max, (running ? target : strip.scrollLeft) + px * 1.6));
+    // лента кончилась, отдаём колесо странице, чтобы не запирать прокрутку
+    if (next === target && (next === 0 || next === max)) return;
     e.preventDefault();
-    strip.scrollLeft += e.deltaY;
+    target = next;
+    if (!running) { running = true; requestAnimationFrame(step); }
   }, { passive: false });
 })();
 

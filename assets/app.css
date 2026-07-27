@@ -92,9 +92,11 @@ h3{font-weight:700;font-size:1.08rem}
 .glyph.giant i:nth-child(3){top:82%;left:0;right:12%}
 
 /* ── заставка: две наклонные плиты, между ними виден сайт ── */
-.splash{position:fixed;inset:0;z-index:80;cursor:pointer;overflow:hidden}
+.splash{position:fixed;inset:0;z-index:80;cursor:pointer;overflow:hidden;
+  transition:opacity .55s ease .15s}
+.splash.out{opacity:0;pointer-events:none}
 .sp-l,.sp-r{position:absolute;top:0;bottom:0;background:var(--panel);
-  border:0;transition:transform .3s linear}
+  border:0;transition:transform .7s cubic-bezier(.65,0,.35,1)}
 .sp-l{left:0;width:56vw;clip-path:polygon(0 0,84% 0,52% 100%,0 100%);
   display:flex;align-items:center;padding-left:clamp(20px,7vw,110px)}
 .sp-r{right:0;width:56vw;clip-path:polygon(28% 0,100% 0,100% 100%,0 100%);
@@ -178,12 +180,12 @@ h3{font-weight:700;font-size:1.08rem}
 /* ═══ 3. Работы ═══ */
 .works{padding:clamp(44px,6vw,84px) clamp(18px,4vw,52px);border-top:1px solid var(--line)}
 .wgrid{display:flex;gap:clamp(14px,1.6vw,22px);overflow-x:auto;
-  padding:30px 2px 16px;scroll-snap-type:x proximity;scrollbar-width:thin;
+  padding:30px 2px 16px;scrollbar-width:thin;
   scrollbar-color:var(--line2) transparent}
 .wgrid::-webkit-scrollbar{height:6px}
 .wgrid::-webkit-scrollbar-thumb{background:var(--line2)}
 .wgrid::-webkit-scrollbar-thumb:hover{background:var(--blue)}
-.w{flex:0 0 clamp(300px,27vw,400px);scroll-snap-align:start;
+.w{flex:0 0 clamp(300px,27vw,400px);
    display:flex;flex-direction:column;gap:11px;min-width:0;cursor:pointer}
 .w .ph{border:1px solid var(--line);background:var(--panel);overflow:hidden;
        aspect-ratio:3/2;transition:border-color .12s linear}
