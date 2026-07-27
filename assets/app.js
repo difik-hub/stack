@@ -203,7 +203,7 @@ viewer.addEventListener('click', e => { if (e.target === viewer) closeWork(); })
 $('vAsk').addEventListener('click', closeWork);
 addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) closeWork(); });
 
-/* ── заставка на входе: при каждом заходе, уходит по нажатию плавно ── */
+/* ── заставка на входе: при каждом заходе, уходит по нажатию, медленно и с затуханием ── */
 (() => {
   const sp = $('splash');
   if (location.search.includes('selftest')) { sp.remove(); return; }
@@ -212,7 +212,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) clo
   function close() {
     if (gone) return; gone = true;
     sp.classList.add('out');
-    setTimeout(() => sp.remove(), 750);
+    setTimeout(() => sp.remove(), 1250);
     removeEventListener('keydown', onKey);
   }
   function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter') close(); }
@@ -226,7 +226,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) clo
    браузеров шлёт колесо строками, а не пикселями. */
 (() => {
   const strip = $('wgrid');
-  const zone = document.getElementById('works');
+  const zone = strip;
   let target = 0, running = false;
   function step() {
     const d = target - strip.scrollLeft;
