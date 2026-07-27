@@ -103,10 +103,12 @@ h3{font-weight:700;font-size:1.08rem}
   clip-path:polygon(84% 0,87.5% 0,55.5% 100%,52% 100%);background:var(--blue)}
 .sp-r::before{content:"";position:absolute;inset:0;
   clip-path:polygon(28% 0,31.5% 0,3.5% 100%,0 100%);background:var(--blue)}
-.sp-txt{display:flex;flex-direction:column;gap:14px;max-width:34vw}
+.sp-txt{display:flex;flex-direction:column;gap:14px;max-width:29vw}
 .sp-txt b{font-family:Unbounded,sans-serif;font-weight:600;
   font-size:clamp(2.4rem,6vw,4.6rem);letter-spacing:.01em;line-height:1}
-.sp-txt span{color:var(--dim);font-size:clamp(.95rem,1.3vw,1.15rem);line-height:1.55}
+.sp-txt span{color:var(--ink);font-size:clamp(.95rem,1.3vw,1.15rem);line-height:1.55}
+.sp-txt .more{color:var(--dim);font-size:clamp(.85rem,1vw,.95rem);line-height:1.75;
+  border-left:2px solid var(--line2);padding-left:14px}
 .sp-txt i{font-style:normal;color:var(--blue-t);font-weight:700;font-size:12.5px;
   text-transform:uppercase;letter-spacing:.09em;margin-top:10px}
 .splash.out .sp-l{transform:translateX(-120%)}
@@ -260,6 +262,35 @@ h3{font-weight:700;font-size:1.08rem}
 .foot .in{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:26px 0}
 .foot .c{color:var(--dim);font-size:13px}
 .foot .mail{margin-left:auto;font-size:13.5px}
+
+/* ── просмотр работы: рассказ слева, макет целиком справа ── */
+.viewer{position:fixed;inset:0;z-index:70;display:grid;place-items:center;
+        background:rgba(4,5,8,.84);padding:2.5dvh 3vw}
+.vbox{position:relative;width:min(1180px,100%);height:95dvh;background:var(--void);
+      border:1px solid var(--line2);display:grid;grid-template-columns:340px minmax(0,1fr)}
+.vinfo{padding:30px 28px;border-right:1px solid var(--line);overflow-y:auto;
+       display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.vinfo b{font-family:Unbounded,sans-serif;font-weight:500;font-size:1.3rem;letter-spacing:.02em}
+.vsphere{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:.08em;
+         border-left:2px solid var(--blue);padding-left:10px}
+.vstory{display:flex;flex-direction:column;gap:12px}
+.vstory p{color:var(--dim);font-size:14.2px;line-height:1.65}
+.vstory p::first-line{color:var(--ink)}
+.vinfo .btn{margin-top:auto}
+.vshot{overflow-y:auto;background:var(--panel);scrollbar-width:thin}
+.vshot img{width:100%;display:block}
+.vx{position:absolute;top:0;right:0;z-index:2;width:44px;height:44px;
+    display:grid;place-items:center;background:var(--void);border-left:1px solid var(--line2);
+    border-bottom:1px solid var(--line2);color:var(--dim);
+    transition:color .12s linear,background .12s linear}
+.vx:hover{background:var(--blue);color:var(--on-blue)}
+.vx svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:square}
+@media(max-width:900px){
+  .vbox{grid-template-columns:1fr;height:96dvh;overflow-y:auto;display:block}
+  .vinfo{border-right:0;border-bottom:1px solid var(--line);overflow:visible}
+  .vinfo .btn{margin-top:6px}
+  .vshot{overflow:visible}
+}
 
 /* ── проявление при прокрутке: короткий резкий вход по порядку чтения ── */
 .rv{opacity:0;transform:translateY(10px);transition:opacity .28s linear,transform .28s linear}

@@ -253,6 +253,8 @@ if (location.search.includes('selftest')) {
   closeWork();
   eq('просмотр закрывается', viewer.hidden, true);
   eq('картинка выгружена при закрытии', $('vShot').innerHTML, '');
+  eq('стили просмотра подключены', getComputedStyle(viewer).position, 'fixed');
+  eq('стили заставки подключены', true, !!Array.from(document.styleSheets).length);
   window.SELFTEST = t;
   console.log('selftest', t.every(x => x.ок) ? 'пройден' : 'ПРОВАЛЕН', t);
 }
