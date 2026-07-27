@@ -93,10 +93,18 @@ h3{font-weight:700;font-size:1.08rem}
 
 /* ── заставка: две наклонные плиты, между ними виден сайт ── */
 .splash{position:fixed;inset:0;z-index:80;cursor:pointer;overflow:hidden;
-  transition:opacity .8s ease .4s}
+  transition:opacity 1s ease .6s}
 .splash.out{opacity:0;pointer-events:none}
-.sp-l,.sp-r{position:absolute;top:0;bottom:0;background:var(--panel);
-  border:0;transition:transform 1.15s cubic-bezier(.45,0,.15,1)}
+.sp-l,.sp-r{position:absolute;top:0;bottom:0;background:var(--panel);border:0;
+  transition:transform 1.6s cubic-bezier(.5,0,.15,1)}
+/* въезд плит при загрузке страницы */
+.splash:not(.in) .sp-l{transform:translateX(-101%)}
+.splash:not(.in) .sp-r{transform:translateX(101%)}
+/* пока заставка ждёт нажатия, логотип медленно дышит */
+@keyframes plate-drift{from{transform:skewX(-24deg) translateX(0)}to{transform:skewX(-24deg) translateX(9px)}}
+.glyph.giant i{animation:plate-drift 3.4s ease-in-out infinite alternate}
+.glyph.giant i:nth-child(2){animation-delay:.45s}
+.glyph.giant i:nth-child(3){animation-delay:.9s}
 .sp-l{left:0;width:56vw;clip-path:polygon(0 0,84% 0,52% 100%,0 100%);
   display:flex;align-items:center;padding-left:clamp(20px,7vw,110px)}
 .sp-r{right:0;width:56vw;clip-path:polygon(28% 0,100% 0,100% 100%,0 100%);
@@ -113,8 +121,8 @@ h3{font-weight:700;font-size:1.08rem}
   border-left:2px solid var(--line2);padding-left:14px}
 .sp-txt i{font-style:normal;color:var(--blue-t);font-weight:700;font-size:12.5px;
   text-transform:uppercase;letter-spacing:.09em;margin-top:10px}
-.splash.out .sp-l{transform:translateX(-120%)}
-.splash.out .sp-r{transform:translateX(120%)}
+.splash.out .sp-l{transform:translateX(-120%)!important}
+.splash.out .sp-r{transform:translateX(120%)!important}
 @media(max-width:700px){
   .sp-l{width:100vw;clip-path:polygon(0 0,100% 0,100% 62%,0 78%)}
   .sp-txt{max-width:80vw}
@@ -122,8 +130,10 @@ h3{font-weight:700;font-size:1.08rem}
         align-items:end;padding-bottom:3vh}
   .sp-r::before,.sp-l::after{display:none}
   .glyph.giant{width:40vw;height:34vw}
-  .splash.out .sp-l{transform:translateY(-120%)}
-  .splash.out .sp-r{transform:translateY(120%)}
+  .splash:not(.in) .sp-l{transform:translateY(-101%)}
+  .splash:not(.in) .sp-r{transform:translateY(101%)}
+  .splash.out .sp-l{transform:translateY(-120%)!important}
+  .splash.out .sp-r{transform:translateY(120%)!important}
 }
 
 /* ── шапка ── */
@@ -324,4 +334,7 @@ h3{font-weight:700;font-size:1.08rem}
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto}
   .rv{opacity:1;transform:none}
+  .sp-l,.sp-r{transition:transform 1.6s cubic-bezier(.5,0,.15,1)!important}
+  .splash{transition:opacity 1s ease .6s!important}
+  .glyph.giant i{animation:plate-drift 3.4s ease-in-out infinite alternate!important}
 }

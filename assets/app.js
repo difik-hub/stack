@@ -208,11 +208,12 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) clo
   const sp = $('splash');
   if (location.search.includes('selftest')) { sp.remove(); return; }
   sp.hidden = false;
+  requestAnimationFrame(() => requestAnimationFrame(() => sp.classList.add('in')));
   let gone = false;
   function close() {
     if (gone) return; gone = true;
     sp.classList.add('out');
-    setTimeout(() => sp.remove(), 1250);
+    setTimeout(() => sp.remove(), 1700);
     removeEventListener('keydown', onKey);
   }
   function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter') close(); }
