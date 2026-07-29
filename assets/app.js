@@ -99,6 +99,23 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.querySelectorAll('.rv').forEach(e => io.observe(e));
 }
 
+/* ── отзывы ──
+   Пусто, потому что настоящих отзывов пока нет, а выдуманные проверяются
+   одним звонком: Алматы город небольшой. Появится первый, добавляем
+   строку сюда, и секция сама заменит блок гарантий на цитаты. */
+const REVIEWS = [
+  // {текст: 'Собрали каталог за неделю, заявки пошли сразу.', кто: 'Азамат, мебельный цех, Алматы'},
+];
+
+if (REVIEWS.length) {
+  $('trustH').textContent = 'Что говорят заказчики';
+  $('trustP').textContent = 'Каждый отзыв оставлен человеком, для которого мы сделали работу.';
+  $('guards').innerHTML = REVIEWS.map(r =>
+    `<div class="gd rev"><q>${esc(r.текст)}</q><cite>${esc(r.кто)}</cite></div>`).join('');
+  // сетка под число отзывов, чтобы не оставалось пустых клеток
+  $('guards').style.gridTemplateColumns = `repeat(${Math.min(REVIEWS.length, 3)},minmax(0,1fr))`;
+}
+
 /* ── заявка ── */
 const F = {
   name:    { el: $('fName'),    fld: null, test: v => v.trim().length >= 2 },
