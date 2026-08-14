@@ -19,22 +19,6 @@
 
 <!-- Заставка на входе, как в играх: слева наклонная плита с именем,
      справа гигантский знак, между ними виден сайт. Уходит по нажатию. -->
-<div class="splash" id="splash" hidden aria-label="Заставка">
-  <div class="sp-l">
-    <div class="sp-txt">
-      <b>STACK</b>
-      <span>Команда разработчиков.<br>Сайты, каталоги и телеграм-боты.</span>
-      <span class="more">Макет показываем до оплаты, правки на этом этапе без счёта.<br>
-        Два наших продукта работают в проде, их можно открыть и потрогать.<br>
-        Цены открыты и стоят прямо на странице, от 5 000 ₽.</span>
-      <i>Нажмите, чтобы открыть сайт</i>
-    </div>
-  </div>
-  <div class="sp-r">
-    <span class="glyph giant" aria-hidden="true"><i></i><i></i><i></i></span>
-  </div>
-</div>
-
 <header class="hdr">
   <div class="wrap in">
     <a class="brand" href="#top" aria-label="Stack, на начало">
@@ -77,7 +61,7 @@
        заголовком и кнопками, а не превратился в справку с ценником ── -->
   <section class="band">
     <dl class="facts wrap">
-      <div><dt>от 6 000 ₽</dt><dd>лендинг с адаптивом и формой заявки</dd></div>
+      <div><dt>от 60 000 ₽</dt><dd>страница под рекламу, с текстами и запуском</dd></div>
       <div><dt>бесплатно</dt><dd>макет до оплаты, правок сколько нужно</dd></div>
       <div><dt>1 месяц</dt><dd>поддержки после сдачи входит в цену</dd></div>
       <div><dt>4 продукта</dt><dd>работают в проде, можно открыть ниже</dd></div>
@@ -87,9 +71,22 @@
   <!-- ── 2. Живые продукты: главное доказательство, поэтому стоит высоко ── -->
   <section class="live wrap" id="live">
     <h2>Это работает прямо сейчас, а не лежит картинкой</h2>
-    <p class="say">Продукты, которые мы сделали для себя целиком: от идеи до прода.
-       Откройте и потыкайте, никакой регистрации не нужно.</p>
+    <p class="say">Сайт клиента в проде на своём домене и четыре продукта, которые мы
+       сделали для себя целиком, от идеи до прода. Откройте и потыкайте,
+       никакой регистрации не нужно.</p>
     <div class="live-grid">
+      <a class="prod rv" href="https://elena-pedicure.ru" target="_blank" rel="noopener">
+        <span class="shot"><img src="assets/img/live-elena.jpg" width="1000" height="625"
+              alt="Сайт Elena: первый экран с заголовком и палитрой цветов покрытия"
+              loading="lazy" decoding="async"></span>
+        <span class="meta">
+          <b>ELENA</b>
+          <span class="d">Сайт мастера педикюра в Каменске-Шахтинском: цены, палитра
+            покрытий, шторка до и после, запись без звонка. Работает на своём
+            домене.</span>
+          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
       <a class="prod rv" href="https://difik-hub.github.io/tishe/" target="_blank" rel="noopener">
         <span class="shot"><img src="assets/img/live-tishe.jpg" width="1000" height="625"
               alt="Главная страница ТИШЕ: колода карточек со звуками на ночном фоне" loading="lazy" decoding="async"></span>
@@ -174,25 +171,28 @@
   <!-- ── 5. Цены: сгруппированные строки, а не три одинаковые плитки ── -->
   <section class="price wrap" id="price">
     <h2>Цены</h2>
-    <p class="say">Это цены на первые заказы, пока мы набираем отзывы. Дальше поднимем,
-       поэтому сейчас выгоднее. Оценку по вашей задаче даём до начала работы.</p>
+    <p class="say">Цена за работу целиком: дизайн, вёрстка, тексты, запуск. Сумму по вашей
+       задаче называем до начала, и по ходу она не растёт.</p>
 
     <div class="pgroup">
       <h3>Сайты</h3>
       <div class="prow">
-        <span class="pn">Лендинг, одна страница</span>
-        <span class="pd">До пяти блоков, адаптив под телефон, форма заявки, месяц поддержки</span>
-        <span class="pp">6 000 ₽</span>
+        <span class="pn">Страница под рекламу</span>
+        <span class="pd">Первый экран под запрос, с которым к вам приходят. Цены, ваши работы,
+          заявка в мессенджер. Тексты пишем сами</span>
+        <span class="pp">от 60 000 ₽</span>
       </div>
       <div class="prow">
-        <span class="pn">Лендинг с каталогом</span>
-        <span class="pd">До девяти блоков, каталог до тридцати позиций, фильтр по параметрам</span>
-        <span class="pp">12 000 ₽</span>
+        <span class="pn">Сайт с каталогом</span>
+        <span class="pd">Каталог с фильтром под ваш товар, карточка позиции, заявка с выбранной
+          моделью, админка для цен и остатков</span>
+        <span class="pp">от 140 000 ₽</span>
       </div>
       <div class="prow">
         <span class="pn">Сайт под ключ</span>
-        <span class="pd">До пяти страниц, каталог, админка для цен и текстов, три месяца поддержки</span>
-        <span class="pp">22 000 ₽</span>
+        <span class="pd">До пяти разделов, каталог, админка, аналитика с целями,
+          три месяца поддержки после сдачи</span>
+        <span class="pp">от 250 000 ₽</span>
       </div>
     </div>
 
@@ -200,13 +200,14 @@
       <h3>Телеграм-боты</h3>
       <div class="prow">
         <span class="pn">Бот с заявками</span>
-        <span class="pd">Меню, заявка приходит вам в чат, хостинг на первый месяц</span>
-        <span class="pp">5 000 ₽</span>
+        <span class="pd">Меню, анкета, заявка приходит в ваш чат или в рабочую группу,
+          панель для смены текстов, хостинг на первый месяц</span>
+        <span class="pp">от 45 000 ₽</span>
       </div>
       <div class="prow">
         <span class="pn">Бот с каталогом и оплатой</span>
-        <span class="pd">Каталог, корзина, приём оплаты, выгрузка заказов таблицей</span>
-        <span class="pp">14 000 ₽</span>
+        <span class="pd">Каталог с фото и ценами, корзина, приём оплаты, выгрузка заказов таблицей</span>
+        <span class="pp">от 95 000 ₽</span>
       </div>
     </div>
 
@@ -215,7 +216,7 @@
       <div class="prow">
         <span class="pn">Правки и доработки</span>
         <span class="pd">Минимум один час. Сколько уйдёт, говорим до начала, а не после</span>
-        <span class="pp">1 500 ₽ / час</span>
+        <span class="pp">3 500 ₽ / час</span>
       </div>
     </div>
   </section>
@@ -225,10 +226,17 @@
        стоят дороже. Секция сама превратится в отзывы, когда они появятся. ── -->
   <section class="trust wrap" id="trust">
     <div class="trust-say">
-      <h2 id="trustH">Отзывов у нас пока нет</h2>
-      <p class="say" id="trustP">Мы начали в этом году, и вы это видите: под работами нет ни одного
-         имени заказчика. Поэтому первым клиентам мы даём то, что дороже отзывов.</p>
+      <h2 id="trustH">Вы не платите, пока не увидите работу</h2>
+      <p class="say" id="trustP">Мы студия молодая, и понимаем: отдавать деньги вперёд незнакомым
+         людям никто не обязан. Поэтому первым идёт макет, а не счёт.</p>
     </div>
+    <!-- Настоящие отзывы, приходят с сервера уже одобренными. Пока их нет,
+         блок скрыт и работу берут на себя гарантии ниже. С появлением
+         первого скрипт подменяет заголовок и рисует карточки над
+         гарантиями, а гарантии остаются на месте: для чека в сотни тысяч
+         они весят не меньше цитат. -->
+    <div class="otz" id="otzList" hidden></div>
+
     <div class="guards" id="guards">
       <div class="gd">
         <b>Сначала макет, потом деньги</b>
@@ -236,16 +244,34 @@
           разошлись, вы не платите ничего.</span>
       </div>
       <div class="gd">
-        <b>Цена первых заказов</b>
-        <span>Пока набираем отзывы, берём заметно меньше рынка. Когда наберём,
-          цены поднимутся, и это честно.</span>
+        <b>Смета не растёт по ходу</b>
+        <span>Сумму называем до начала и держим её. Что вылезет в процессе &mdash;
+          наша забота, а не ваша доплата.</span>
       </div>
       <div class="gd">
-        <b>Оплата через сервис</b>
-        <span>Если спокойнее, работаем через Kwork: деньги вы переводите не нам,
-          а площадке, и она держит их до сдачи работы.</span>
+        <b>Платите по частям</b>
+        <span>Работу делим на этапы, каждый принимаете отдельно. Не устроил этап &mdash;
+          останавливаемся на нём, остальное вы не оплачиваете.</span>
       </div>
     </div>
+
+    <details class="otz-form" id="otzForm" hidden>
+      <summary>Работали с нами? Оставьте отзыв</summary>
+      <form>
+        <div class="otz-row">
+          <input class="fi" name="имя" maxlength="40" required placeholder="Как вас зовут">
+          <input class="fi" name="компания" maxlength="60" placeholder="Компания, необязательно">
+        </div>
+        <div class="stars" id="stars" role="radiogroup" aria-label="Оценка"></div>
+        <textarea class="fi" name="текст" rows="4" maxlength="600" required
+          placeholder="Что делали, как прошло, что получилось"></textarea>
+        <input name="mail" tabindex="-1" autocomplete="off" aria-hidden="true" class="trap">
+        <div class="otz-foot">
+          <button class="btn" type="submit">Отправить</button>
+          <span class="note" id="otzNote">Появится на сайте после проверки.</span>
+        </div>
+      </form>
+    </details>
   </section>
 
   <!-- ── 6. Заявка ── -->
@@ -285,10 +311,10 @@
         <label for="fBudget">Бюджет</label>
         <select id="fBudget" name="budget">
           <option selected>Пока не определён</option>
-          <option>До 6 000 ₽</option>
-          <option>6 000 до 15 000 ₽</option>
-          <option>15 000 до 30 000 ₽</option>
-          <option>Больше 30 000 ₽</option>
+          <option>До 60 000 ₽</option>
+          <option>60 000 до 150 000 ₽</option>
+          <option>150 000 до 300 000 ₽</option>
+          <option>Больше 300 000 ₽</option>
         </select>
         <span class="hint">Помогает сразу предложить подходящий вариант</span>
       </div>
@@ -337,7 +363,11 @@
       <span>Stack</span>
     </span>
     <span class="c">© 2026 Stack. Сайты, каталоги и телеграм-боты. Работаем по России и Казахстану</span>
-    <a class="mail" id="mailFoot" href="#">почта</a>
+    <nav class="soc" aria-label="Связь с нами">
+      <a href="https://t.me/suptstackbot" target="_blank" rel="noopener">Написать в Telegram</a>
+      <a href="https://t.me/stackcompbot" target="_blank" rel="noopener">Бот-пример</a>
+      <a class="mail" id="mailFoot" href="#">Почта</a>
+    </nav>
   </div>
 </footer>
 

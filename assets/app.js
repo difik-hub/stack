@@ -99,23 +99,6 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.querySelectorAll('.rv').forEach(e => io.observe(e));
 }
 
-/* ── отзывы ──
-   Пусто, потому что настоящих отзывов пока нет, а выдуманные проверяются
-   одним звонком: Алматы город небольшой. Появится первый, добавляем
-   строку сюда, и секция сама заменит блок гарантий на цитаты. */
-const REVIEWS = [
-  // {текст: 'Собрали каталог за неделю, заявки пошли сразу.', кто: 'Азамат, мебельный цех, Алматы'},
-];
-
-if (REVIEWS.length) {
-  $('trustH').textContent = 'Что говорят заказчики';
-  $('trustP').textContent = 'Каждый отзыв оставлен человеком, для которого мы сделали работу.';
-  $('guards').innerHTML = REVIEWS.map(r =>
-    `<div class="gd rev"><q>${esc(r.текст)}</q><cite>${esc(r.кто)}</cite></div>`).join('');
-  // сетка под число отзывов, чтобы не оставалось пустых клеток
-  $('guards').style.gridTemplateColumns = `repeat(${Math.min(REVIEWS.length, 3)},minmax(0,1fr))`;
-}
-
 /* ── заявка ── */
 const F = {
   name:    { el: $('fName'),    fld: null, test: v => v.trim().length >= 2 },
@@ -220,24 +203,6 @@ viewer.addEventListener('click', e => { if (e.target === viewer) closeWork(); })
 $('vAsk').addEventListener('click', closeWork);
 addEventListener('keydown', e => { if (e.key === 'Escape' && !viewer.hidden) closeWork(); });
 
-/* ── заставка на входе: при каждом заходе, уходит по нажатию, медленно и с затуханием ── */
-(() => {
-  const sp = $('splash');
-  if (location.search.includes('selftest')) { sp.remove(); return; }
-  sp.hidden = false;
-  requestAnimationFrame(() => requestAnimationFrame(() => sp.classList.add('in')));
-  let gone = false;
-  function close() {
-    if (gone) return; gone = true;
-    sp.classList.add('out');
-    setTimeout(() => sp.remove(), 1700);
-    removeEventListener('keydown', onKey);
-  }
-  function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter') close(); }
-  sp.addEventListener('click', close);
-  addEventListener('keydown', onKey);
-})();
-
 /* ── лента работ: колесо мыши листает её вбок по всей секции ──
    Колесо вверх уводит карточки вправо, вниз влево. Прокрутка идёт
    плавно через кадры, а не рывком. deltaMode учитывается: часть
@@ -293,3 +258,104 @@ if (location.search.includes('selftest')) {
   window.SELFTEST = t;
   console.log('selftest', t.every(x => x.ок) ? 'пройден' : 'ПРОВАЛЕН', t);
 }
+
+
+/* ── отзывы ──────────────────────────────────────────────────────────
+   Одобренные лежат в otzyvy.json в этом же репозитории, но читаем их
+   через функцию бота: она отдаёт их с любого домена и не зависит от
+   того, откуда открыт сайт, с Pages или с Vercel.
+
+   Пока отзывов нет, секция «Отзывов у нас пока нет» остаётся как была:
+   врать про несуществующих клиентов хуже, чем признать, что их нет. */
+(function () {
+  'use strict';
+  var API = 'https://bot-demo-forka.vercel.app/api/otzyvy';
+  var список = document.getElementById('otzList');
+  var обёртка = document.getElementById('otzForm');
+  if (!список || !обёртка) return;
+  var форма = обёртка.querySelector('form');
+  var метка = document.getElementById('otzNote');
+  var звёзды = document.getElementById('stars');
+
+  var оценка = 5;
+  for (var i = 1; i <= 5; i++) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = '★';
+    b.setAttribute('role', 'radio'); b.setAttribute('aria-label', i + ' из 5');
+    b.dataset.v = i;
+    звёзды.appendChild(b);
+  }
+  function рисуйЗвёзды() {
+    Array.prototype.forEach.call(звёзды.children, function (b) {
+      b.setAttribute('aria-checked', Number(b.dataset.v) <= оценка ? 'true' : 'false');
+    });
+  }
+  звёзды.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    оценка = Number(b.dataset.v); рисуйЗвёзды();
+  });
+  рисуйЗвёзды();
+  обёртка.hidden = false;
+
+  var щит = function (t) {
+    var d = document.createElement('div'); d.textContent = t == null ? '' : t;
+    return d.innerHTML;
+  };
+
+  function рисуй(отзывы) {
+    if (!отзывы.length) return;                  // блок честности остаётся как есть
+    var h = document.getElementById('trustH');
+    var p = document.getElementById('trustP');
+    if (h) h.textContent = отзывы.length === 1 ? 'Первый отзыв' : 'Что говорят заказчики';
+    if (p) p.textContent = 'Каждый отзыв оставлен через форму ниже и проверен нами. ' +
+      'Ниже условия, на которых мы работаем.';
+    список.innerHTML = отзывы.slice(0, 6).map(function (о) {
+      var n = Math.max(1, Math.min(5, Number(о.оценка) || 5));
+      var кто = '<b>' + щит(о.имя || 'Заказчик') + '</b>' +
+                (о.компания ? ', ' + щит(о.компания) : '');
+      return '<article class="card">' +
+        '<div class="st" aria-label="' + n + ' из 5">' +
+          Array(n + 1).join('★') +
+          '<span style="opacity:.25">' + Array(6 - n).join('★') + '</span></div>' +
+        '<blockquote>' + щит(о.текст) + '</blockquote>' +
+        '<div class="who">' + кто + '</div></article>';
+    }).join('');
+    список.hidden = false;
+  }
+
+  fetch(API).then(function (r) { return r.json(); })
+    .then(function (d) { рисуй(Array.isArray(d) ? d : []); })
+    .catch(function () { /* сеть отвалилась: секция остаётся честной */ });
+
+  форма.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = new FormData(форма);
+    var кнопка = форма.querySelector('button[type=submit]');
+    метка.className = 'note'; метка.textContent = 'Отправляем…';
+    кнопка.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        имя: f.get('имя'), компания: f.get('компания'),
+        текст: f.get('текст'), оценка: оценка, mail: f.get('mail')
+      })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d && d.ok) {
+          форма.reset(); оценка = 5; рисуйЗвёзды();
+          метка.className = 'note good';
+          метка.textContent = 'Спасибо. Появится на сайте после проверки.';
+        } else {
+          метка.className = 'note bad';
+          метка.textContent = (d && d.беда) || 'Не отправилось, попробуйте позже.';
+        }
+      })
+      .catch(function () {
+        метка.className = 'note bad'; метка.textContent = 'Нет связи. Попробуйте позже.';
+      })
+      .then(function () { кнопка.disabled = false; });
+  });
+})();
