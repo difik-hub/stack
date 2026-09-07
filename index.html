@@ -2,375 +2,695 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stack. Сайты, каталоги и телеграм-боты</title>
-<meta name="description" content="Студия Stack собирает сайты под товар, а не по шаблону. Каталог с фильтром, цена сразу, заявка с выбранной моделью. Два работающих продукта можно открыть прямо сейчас.">
-<meta name="theme-color" content="#08090D">
-<meta property="og:title" content="Stack. Сайты, каталоги и телеграм-боты">
-<meta property="og:description" content="Собираем сайты под товар, а не по шаблону. Два работающих продукта можно открыть и потрогать.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — сайты и боты для бизнеса</title>
+<meta name="description" content="Лендинги, телеграм-боты, магазины и приложения с фиксированной ценой и сроком. Макет показываем до оплаты.">
+<link rel="canonical" href="https://stackcomp.ru">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1C2029">
 <meta property="og:type" content="website">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
-<link rel="stylesheet" href="assets/app.css">
-<link rel="preload" href="assets/fonts/Unbounded.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/Onest.woff2" as="font" type="font/woff2" crossorigin>
+<meta property="og:title" content="Stack — сайты и боты для бизнеса">
+<meta property="og:description" content="Лендинги, телеграм-боты, магазины и приложения с фиксированной ценой и сроком. Макет показываем до оплаты.">
+<meta property="og:url" content="https://stackcomp.ru">
+<meta property="og:image" content="https://stackcomp.ru/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+@font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/814be3a421.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/bb47fcfcf2.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+:root{
+  --bg:#1C2029; --bg2:#161A22; --ink:#F4F2ED; --mute:#B9B4AC; --dim:#8A909B;
+  --accent:#FF5A1F; --accent-deep:#E24A12; --card:#F4F2ED; --card-ink:#0E1116; --card-dim:#5c6270; --ok:#1a7f4b;
+  --grid:rgba(244,242,237,.075); --line:rgba(244,242,237,.12);
+  --f:Geologica,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+h1{margin:0;text-wrap:balance}
+
+/* ── header ── */
+.hdr{position:relative;z-index:5}
+.hdr .in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.01em}
+.glyph{width:22px;height:22px;display:block}
+.nav{display:flex;gap:26px;font-size:15px;font-weight:500;color:var(--mute)}
+.nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:var(--card-ink);font:700 16px/1 var(--f);padding:16px 24px;border-radius:12px;white-space:nowrap;transition:background .15s}
+.btn:hover{background:var(--accent-deep)}
+.btn.sm{padding:11px 16px;font-size:14px;border-radius:10px}
+.burger{display:none;width:44px;height:44px;border:0;background:transparent;color:var(--ink);cursor:pointer;padding:0;border-radius:10px}
+.burger span{display:block;width:20px;height:2px;background:currentColor;margin:5px auto;border-radius:1px}
+.right{display:flex;align-items:center;gap:10px}
+
+/* ── hero ── */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;background-position:center top}
+.hero .in{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;min-height:660px}
+.say{padding:56px 0 64px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-weight:700;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+h1{font-size:clamp(34px,4.4vw,58px);line-height:1.04;font-weight:700;letter-spacing:-.015em;max-width:15ch}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:18px;font-weight:400;color:var(--mute);max-width:36ch;margin:22px 0 30px}
+.lead b{color:var(--ink);font-weight:500}
+.cta{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.more{font-weight:500;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:2px}
+.more:hover{color:var(--ink);border-color:var(--ink)}
+/* Главное обещание — крупнее капсул, потому что закрывает страх «отдам деньги и пропадут». */
+.promise{margin:22px 0 0;font:600 18px/1.3 var(--f);color:var(--ink);display:flex;align-items:center;gap:12px}
+.promise::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 4px rgba(255,90,31,.18)}
+.caps{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.cap.hot{cursor:pointer}
+.cap{font:500 14px/1 var(--f);padding:12px 16px;border-radius:999px;background:rgba(244,242,237,.08);border:1px solid var(--line);color:var(--ink)}
+.cap.hot{background:var(--accent);border-color:var(--accent);color:var(--card-ink);font-weight:700}
+.cap.hot s{font-weight:500;opacity:.7;margin-left:6px}
+
+.show{position:relative;min-height:520px}
+.glow{position:absolute;z-index:-1;right:-10%;bottom:-20%;width:110%;height:120%;
+  background:radial-gradient(ellipse at 60% 65%,rgba(255,90,31,.42) 0%,rgba(255,90,31,.14) 38%,transparent 66%)}
+/* Полный кадр, не вырез: фото растворяется в фон по трём краям, снизу упирается в край hero. */
+.face{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%;
+  mask-image:linear-gradient(90deg,transparent 0,#000 22%,#000 86%,transparent 100%),linear-gradient(180deg,transparent 0,#000 18%,#000 100%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 22%,#000 86%,transparent 100%),linear-gradient(180deg,transparent 0,#000 18%,#000 100%);
+  mask-composite:intersect;-webkit-mask-composite:source-in}
+/* Оранжевое тепло бренда поверх фото, а не за ним. */
+.glow{z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.5}
+.chip{z-index:2}
+.chip{position:absolute;right:0;bottom:44px;background:var(--accent);color:var(--card-ink);font:700 14px/1 var(--f);padding:12px 16px;border-radius:12px;box-shadow:0 14px 30px rgba(255,90,31,.35);white-space:nowrap}
+.chip::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--card-ink);margin-right:9px;vertical-align:1px;opacity:.8}
+.chip[hidden]{display:none}
+
+/* ротация: услуга + цена + фото */
+.face{opacity:0;transition:opacity .6s ease}
+.face.on{opacity:1}
+.copy{transition:opacity .28s ease}
+.copy.out{opacity:0}
+h1{min-height:2.1em}
+.lead{min-height:3.1em}
+.dots{display:flex;gap:8px;margin-top:28px}
+.dots button{width:36px;height:24px;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.dots button i{display:block;width:100%;height:3px;border-radius:2px;background:rgba(244,242,237,.22);transition:background .2s}
+.dots button[aria-current="true"] i{background:var(--accent)}
+.dots button:hover i{background:var(--mute)}
+.dots button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.show{touch-action:pan-y}
+
+.note{border-top:1px solid var(--line);padding:22px 0 60px;color:var(--dim);font-size:13px}
+
+@media (max-width:960px){
+  .hero .in{grid-template-columns:1fr;min-height:0;gap:0}
+  .say{padding:36px 0 8px}
+  h1{max-width:none}
+  .caps{margin-top:30px}
+  .show{min-height:520px;margin-top:22px}
+  .glow{right:-20%;bottom:-25%}
+  .chip{top:auto;bottom:28px;right:4%}
+  .nav{display:none;position:absolute;left:0;right:0;top:64px;background:var(--bg2);border-block:1px solid var(--line);padding:14px 20px;flex-direction:column;gap:14px}
+  .nav.open{display:flex}
+  .burger{display:block}
+}
+@media (max-width:480px){
+  .wrap{width:min(1180px,100% - 32px)}
+  .hdr .in{height:58px}
+  .hdr .btn.sm{display:none}
+  .say{padding-top:28px}
+  .eyebrow{font-size:11px;margin-bottom:16px}
+  .lead{font-size:16px;margin:16px 0 22px}
+  .btn{width:100%}
+  .cta{gap:14px}
+  .show{min-height:460px;margin-top:18px}
+  .face{mask-image:linear-gradient(180deg,transparent 0,#000 20%,#000 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 20%,#000 100%)}
+  .chip{font-size:13px;padding:11px 14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+
+/* ── тело: спина Linear. Уровни поверхностей, глубина через inset-свет и кольца, ≤400 мс ── */
+.body{--b0:#1C2029;--b1:#222836;--b2:#2A3140;--fg:#F4F2ED;--fg2:#C9CDD6;--fg3:#8A909B;--fg4:#62666D;
+  --hair:rgba(255,255,255,.06);--hair2:rgba(255,255,255,.1);--ease:cubic-bezier(.25,.46,.45,.94);
+  background:transparent;color:var(--fg);position:relative}
+body{background-color:#1C2029}
+.hero{background:transparent}.hero::before{display:none}
+/* стык: полосы всё чаще, потом сплошной глубокий тон без сетки */
+/* полоса-стык: тонкая оранжево-чёрная диагональ, под ней сразу глубокий тон */
+/* Мост hero→тело: сетка растворяется в глубокий тон (приём Linear), поверх — строка обещаний.
+   Движение только от данных: онлайн-точка, доказательство по наведению, линия от прокрутки. */
+.bridge{position:relative;padding:30px 0 0;background:linear-gradient(180deg,rgba(23,26,34,0),#171A22 80%)}
+.facts{display:flex;justify-content:center;gap:6px 30px;flex-wrap:wrap}
+.fact{appearance:none;background:none;border:0;padding:8px 2px;font:500 12px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);cursor:pointer;display:inline-flex;align-items:center;gap:12px;transition:color .15s}
+.fact i{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+.fact.live i{background:#2ECC71;box-shadow:0 0 0 0 rgba(46,204,113,.55);animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{to{box-shadow:0 0 0 9px rgba(46,204,113,0)}}
+.fact:hover,.fact.on,.fact:focus-visible{color:var(--fg)}
+.proof{margin:8px auto 0;min-height:24px;text-align:center;font-size:14.5px;color:var(--fg2);opacity:0;transform:translateY(-4px);transition:opacity .18s,transform .18s}
+.proof.show{opacity:1;transform:none}
+.pline{height:1px;background:var(--hair);margin-top:24px;overflow:hidden}
+.pline i{display:block;height:100%;width:0;background:var(--accent)}
+@media (prefers-reduced-motion:reduce){.fact.live i{animation:none}.proof{transition:none}}
+.deep{background:#171A22}
+.deep .sec:first-child{border-top:0}
+.deep .team{padding-top:0}
+.body button.btn{border:0;font-family:var(--f)}
+.body a{color:inherit;text-decoration:none}
+.sec{padding:120px 0;position:relative}
+.sec + .sec{border-top:1px solid var(--hair)}
+.head{margin-bottom:40px}
+.body h2{font-size:clamp(30px,3.4vw,44px);line-height:1.05;font-weight:590;letter-spacing:-.022em;margin:0;text-wrap:balance}
+.body .sub{font-size:17px;line-height:1.55;font-weight:400;letter-spacing:-.01em;color:var(--fg2);max-width:50ch;margin:14px 0 0}
+.two{display:grid;grid-template-columns:5fr 7fr;gap:48px 72px;align-items:start}
+.more2{display:inline-flex;align-items:center;margin-top:32px;font-size:15px;font-weight:510;color:var(--fg2);transition:color .1s}
+.more2:hover{color:var(--accent)}
+.surface{background:var(--b1);border-radius:16px;
+  box-shadow:rgba(255,255,255,.03) 0 0 0 1px inset,rgba(255,255,255,.05) 0 1px 0 0 inset,rgba(0,0,0,.6) 0 0 0 1px,rgba(0,0,0,.12) 0 4px 4px 0}
+
+/* цены: пять карточек, 3 + 2 широкие, ячеек ровно столько, сколько услуг */
+.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+/* Выделение без обводок: карточка под курсором приближается и разгорается оранжевым снизу,
+   соседние гаснут. Оранжевый — только свет, не текст. */
+.cards{perspective:1200px}
+.card{grid-column:span 2;display:flex;flex-direction:column;gap:8px;padding:26px 26px 22px;border-radius:16px;background:var(--b1);position:relative;isolation:isolate;
+  box-shadow:rgba(255,255,255,.03) 0 0 0 1px inset,rgba(255,255,255,.05) 0 1px 0 0 inset,rgba(0,0,0,.6) 0 0 0 1px;
+  transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s,opacity .32s,filter .32s}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:0;transition:opacity .32s;
+  background:radial-gradient(120% 80% at 50% 110%,rgba(255,90,31,.42),rgba(255,90,31,.10) 45%,transparent 70%)}
+.card.wide{grid-column:span 3}
+.cards:hover .card:not(:hover){opacity:.55;filter:saturate(.7)}
+.card:hover{transform:translateY(-6px) scale(1.035);z-index:2;
+  box-shadow:rgba(255,255,255,.10) 0 0 0 1px inset,rgba(255,255,255,.08) 0 1px 0 0 inset,rgba(0,0,0,.6) 0 0 0 1px,rgba(255,90,31,.32) 0 24px 60px -14px,rgba(0,0,0,.45) 0 20px 40px -18px}
+.card:hover::after{opacity:1}
+.card:hover .cn,.card:hover .cp{color:#fff}
+.card:hover .cd,.card:hover .ct{color:var(--fg2)}
+.card.hot{box-shadow:rgba(255,255,255,.06) 0 0 0 1px inset,rgba(255,255,255,.06) 0 1px 0 0 inset,rgba(0,0,0,.6) 0 0 0 1px,rgba(255,90,31,.22) 0 18px 50px -16px}
+.card.hot::after{opacity:.55}
+@media (prefers-reduced-motion:reduce){.card,.card::after{transition:none}.card:hover{transform:none}}
+.card .cn{font-size:18px;font-weight:590;letter-spacing:-.012em}
+.card .cd{font-size:14px;line-height:1.5;color:var(--fg3);flex:1}
+.card .cp{font-size:26px;font-weight:590;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:10px}
+.card .cp s{font-size:14px;font-weight:400;color:var(--fg4);margin-left:6px}
+.card.hot .cp{color:var(--fg)}
+.card .ct{font-size:13px;font-weight:510;color:var(--fg3)}
+.card .cb{margin-top:14px;font-size:14px;font-weight:510;color:var(--fg2);transition:color .1s}
+.card:hover .cb{color:var(--accent)}
+/* (таблица ниже остаётся для страницы Услуг) */
+.hero .cap.hot{cursor:pointer}
+.list{padding:6px}
+.row{display:grid;grid-template-columns:200px 1fr auto auto;gap:6px 28px;align-items:center;padding:18px 20px;border-radius:11px;transition:background .1s var(--ease)}
+.row + .row{box-shadow:var(--hair) 0 -1px 0 0}
+.row:hover{background:rgba(255,255,255,.04)}
+.row .n{font-size:16px;font-weight:590;letter-spacing:-.01em}
+.row .d{font-size:14.5px;color:var(--fg3);letter-spacing:-.005em}
+.row .p{font-size:16px;font-weight:590;font-variant-numeric:tabular-nums;white-space:nowrap}
+.row .t{font-size:13px;font-weight:510;color:var(--fg3);white-space:nowrap;min-width:56px;text-align:right}
+.row:hover .p{color:var(--accent)}
+
+/* работы: стекло с бликом под курсором и проблеском по диагонали */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.wk{position:relative;overflow:hidden;border-radius:16px;background:var(--b1);isolation:isolate;
+  box-shadow:rgba(255,255,255,.03) 0 0 0 1px inset,rgba(255,255,255,.05) 0 1px 0 0 inset,rgba(0,0,0,.6) 0 0 0 1px;
+  transition:box-shadow .2s var(--ease),transform .2s var(--ease)}
+.wk.big{grid-column:span 2;grid-row:span 2}
+.wk img{display:block;width:100%;height:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform .4s var(--ease);will-change:transform}
+.wk.big img{aspect-ratio:auto;height:100%;min-height:100%;object-position:left top}
+.wk .shot{display:block;overflow:hidden;background:var(--b0)}
+.wk.big{display:flex;flex-direction:column}.wk.big .shot{flex:1;min-height:0}
+.wk .wcap{position:absolute;left:18px;right:18px;bottom:16px;z-index:4;display:flex;flex-direction:column;gap:2px;pointer-events:none;
+  text-shadow:0 1px 2px rgba(0,0,0,.75)}
+.wk.top .wcap{top:16px;bottom:auto}
+.wk.light .wcap{text-shadow:0 1px 2px rgba(255,255,255,.7)}.wk.light .wcap b{color:#0E1116}.wk.light .wcap i{color:rgba(14,17,22,.78)}
+.wk .wcap b{font-size:16px;font-weight:590;letter-spacing:-.01em;color:#fff}.wk.big .wcap b{font-size:20px}
+.wk .wcap i{font-style:normal;font-size:13px;color:rgba(255,255,255,.82)}
+.wk:hover .wcap b{background:linear-gradient(90deg,#fff,var(--accent),#fff);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;animation:shine 2.8s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.wk.soon{cursor:default}.wk.soon .shot{aspect-ratio:16/10;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(244,242,237,.03) 10px 11px)}
+.wk.soon .wcap i{color:var(--fg4)}.wk.soon:hover{transform:none}
+.wk::before{content:"";position:absolute;inset:0;border-radius:16px;z-index:3;pointer-events:none;opacity:0;transition:opacity .25s var(--ease);
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),transparent 60%)}
+.wk::after{content:"";position:absolute;inset:-40% -60%;z-index:3;pointer-events:none;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.10) 50%,transparent 58%);transform:translateX(-70%);opacity:0}
+.wk:hover{box-shadow:rgba(255,255,255,.08) 0 0 0 1px inset,rgba(255,255,255,.08) 0 1px 0 0 inset,rgba(0,0,0,.6) 0 0 0 1px,rgba(0,0,0,.35) 0 16px 40px -12px;transform:translateY(-2px)}
+.wk:hover::before{opacity:1}
+.wk:hover::after{opacity:1;transition:transform .9s var(--ease),opacity .2s;transform:translateX(70%)}
+.wk:hover img{transform:scale(1.03)}
+
+/* команда: целое фото, растворяется к краю, рядом кто я */
+.team{overflow:hidden;min-height:620px;display:flex;align-items:center}
+.tbg{position:absolute;right:0;top:0;height:100%;width:auto;min-width:58%;object-fit:cover;object-position:right center;z-index:0;
+  mask-image:linear-gradient(90deg,transparent 0,#000 34%,#000 100%),linear-gradient(180deg,transparent 0,#000 16%,#000 70%,transparent 100%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 34%,#000 100%),linear-gradient(180deg,transparent 0,#000 16%,#000 70%,transparent 100%);
+  mask-composite:intersect;-webkit-mask-composite:source-in}
+.tsay{position:relative;z-index:1;max-width:none}
+.tsay .sub{max-width:42ch}
+
+/* как работаем: шаги-вкладки, линия заполняется до активного */
+.proc{margin-top:8px}
+.ptrack{height:2px;background:var(--hair2);border-radius:2px;overflow:hidden;margin-bottom:28px}
+.ptrack i{display:block;height:100%;width:100%;background:var(--accent);transform:scaleX(.25);transform-origin:left;transition:transform .4s var(--ease)}
+.psteps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:start}
+.pstep{all:unset;cursor:pointer;display:block;vertical-align:top;text-align:left;padding:4px 0;border-radius:8px;transition:opacity .2s var(--ease)}
+.pstep b{display:block;font-size:17px;font-weight:590;letter-spacing:-.012em;color:var(--fg3);transition:color .2s var(--ease)}
+.pstep p{margin:10px 0 0;font-size:15px;line-height:1.55;color:var(--fg2);max-width:30ch;
+  opacity:0;transform:translateY(6px);transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.pstep[aria-selected="true"] b{color:var(--fg)}
+.pstep[aria-selected="true"] p{opacity:1;transform:none}
+.pstep:hover b{color:var(--fg)}
+.pstep:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+/* формы: подписи над полями, ring внутри, фокус — акцент */
+.form{padding:28px;display:flex;flex-direction:column;gap:18px}
+.ph{margin:0;font-size:17px;font-weight:590;letter-spacing:-.01em}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld > span{font-size:13px;font-weight:510;color:var(--fg2)}
+.fld small{color:var(--fg3);font-weight:400}
+.body input,.body textarea{font:400 15px/1.45 var(--f);letter-spacing:-.005em;color:var(--fg);background:var(--b0);border:0;border-radius:10px;padding:13px 14px;width:100%;min-height:46px;
+  box-shadow:rgba(255,255,255,.06) 0 0 0 1px inset;transition:box-shadow .15s var(--ease)}
+.body textarea{resize:vertical}
+.body input:hover,.body textarea:hover{box-shadow:rgba(255,255,255,.12) 0 0 0 1px inset}
+.body input:focus,.body textarea:focus{outline:0;box-shadow:var(--accent) 0 0 0 1px inset,rgba(255,90,31,.25) 0 0 0 4px}
+.body .fld.bad input,.body .fld.bad textarea{box-shadow:#E5533B 0 0 0 1px inset}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.rate{display:flex;gap:8px}
+.rate button{width:46px;height:42px;border:0;border-radius:10px;background:var(--b0);box-shadow:rgba(255,255,255,.06) 0 0 0 1px inset;font:510 14px var(--f);color:var(--fg3);cursor:pointer;transition:background .1s,color .1s,box-shadow .1s}
+.rate button:hover{color:var(--fg);box-shadow:rgba(255,255,255,.14) 0 0 0 1px inset}
+.rate button[aria-checked="true"]{background:var(--accent);color:var(--card-ink);box-shadow:none}
+.rate button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.fnote{font-size:13.5px;color:var(--fg3)}
+.fnote.good{color:#4CC38A}.fnote.bad{color:#FF7A66}
+.body .btn:active{transform:scale(.98)}
+.revlist{display:grid;gap:14px;margin-top:28px}
+.rcard{box-shadow:var(--hair) 0 -1px 0 0;padding-top:16px}
+.rcard .st{color:var(--accent);letter-spacing:.08em;font-size:13px}
+.rcard blockquote{margin:8px 0 6px;font-size:16px;line-height:1.5}
+.rcard .who{font-size:13.5px;color:var(--fg3)}
+
+/* заявка: один экран-поверхность, слева обещание и прямые контакты, справа форма */
+.contact{display:grid;grid-template-columns:5fr 7fr;gap:0;overflow:hidden}
+.csay{padding:40px;box-shadow:var(--hair) -1px 0 0 0 inset;display:flex;flex-direction:column}
+.csay h2{font-size:clamp(26px,2.6vw,34px)}
+.clinks{margin-top:auto;padding-top:36px;display:flex;flex-direction:column}
+.clinks a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0;box-shadow:var(--hair) 0 -1px 0 0;transition:color .1s}
+.clinks b{font-size:15px;font-weight:510}
+.clinks span{font-size:14px;color:var(--fg3);transition:color .1s}
+.clinks a:hover span{color:var(--accent)}
+.contact .form{padding:40px}
+
+/* подвал по Linear: одна волосяная линия, ничего больше */
+.foot{border-top:1px solid var(--hair);background-image:linear-gradient(rgba(244,242,237,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(244,242,237,.05) 1px,transparent 1px);background-size:56px 56px;padding:56px 0 36px;font-size:15px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+.fbrand{display:grid;grid-template-columns:22px 1fr;column-gap:10px;align-items:center;font-weight:600;font-size:17px;align-self:start}
+.fbrand span{grid-column:2;font-size:14px;font-weight:400;color:var(--fg3);margin-top:2px}
+.fbrand .glyph{width:22px;height:22px}
+.fcol{display:flex;flex-direction:column;gap:12px}
+.fcol b{font-size:13px;font-weight:510;color:var(--fg);margin-bottom:4px}
+.fcol a{font-size:15px;color:var(--fg3);transition:color .1s}
+.fcol a:hover{color:var(--fg)}
+.fbottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;font-size:13px;color:var(--fg4)}
+
+.cookie{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:16px;padding:12px 12px 12px 18px;font-size:14px;color:var(--fg2);max-width:min(560px,100% - 32px)}
+.cookie a{color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+.cookie .btn.sm{flex:none}
+
+.js .rv{opacity:0;transform:translateY(12px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.js .rv.on{opacity:1;transform:none}
+
+@media (max-width:960px){
+  .sec{padding:72px 0}
+  .cards{grid-template-columns:1fr 1fr}.card,.card.wide{grid-column:auto}
+  .two,.contact{grid-template-columns:1fr}
+  .csay{box-shadow:var(--hair) 0 -1px 0 0 inset;padding:28px}.contact .form{padding:28px}
+  .bento{grid-template-columns:1fr 1fr}
+  .wk.big{grid-column:span 2;grid-row:auto}.wk.big img{aspect-ratio:16/10;height:auto}
+  .psteps{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr auto;grid-template-areas:"n p" "d t"}
+  .row .n{grid-area:n}.row .d{grid-area:d}.row .p{grid-area:p}.row .t{grid-area:t}
+  .team{min-height:0;display:block;padding-top:0}
+  .tbg{position:relative;width:100%;min-width:0;height:auto;aspect-ratio:16/10;object-position:70% top;display:block;
+    mask-image:linear-gradient(180deg,#000 55%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 100%)}
+  .tsay{margin-top:-64px}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:480px){
+  .sec{padding:56px 0}
+  .bento,.psteps,.fgrid,.cards{grid-template-columns:1fr}
+  .wk.big{grid-column:auto}
+  .frow{grid-template-columns:1fr}
+  .pstep p{opacity:1;transform:none;max-width:none}
+  .ptrack{display:none}
+  .rate button{width:44px}
+  .cookie{flex-direction:column;align-items:stretch;gap:10px;bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}.wk::after{display:none}.wk:hover img{transform:none}}
+
+canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+/* подписи работ: в покое чистый скрин; при наведении низ темнеет и выходит подпись */
+.wk .wcap{opacity:0;transform:translateY(8px);transition:opacity .25s var(--ease),transform .3s var(--ease);top:auto;bottom:18px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.wk.top .wcap{top:auto;bottom:18px}
+.wk.light .wcap b,.wk .wcap b{color:#fff}.wk.light .wcap i,.wk .wcap i{color:rgba(255,255,255,.85)}
+.wk::before{background:rgba(28,32,41,.66)}
+.wk:hover .wcap,.wk:focus-visible .wcap{opacity:1;transform:none}
+.wk.soon .wcap{opacity:1;transform:none}
+/* при наведении скрин чуть уходит вглубь, подпись остаётся резкой */
+.wk:hover img{transform:scale(1.02);filter:saturate(.85)}
+.wk .wcap{text-shadow:none}
+/* светлые карточки: перелив и чистый подтекст те же, что у тёмных (раньше .light перебивал) */
+.wk.light .wcap,.wk .wcap{text-shadow:none}
+.wk.light:hover .wcap b,.wk:hover .wcap b{background:linear-gradient(90deg,#fff,var(--accent),#fff);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 2.8s linear infinite}
+.wk.light .wcap i,.wk .wcap i{color:rgba(255,255,255,.85)}
+
+</style>
 </head>
 <body>
-
-<!-- Заставка на входе, как в играх: слева наклонная плита с именем,
-     справа гигантский знак, между ними виден сайт. Уходит по нажатию. -->
 <header class="hdr">
   <div class="wrap in">
-    <a class="brand" href="#top" aria-label="Stack, на начало">
-      <span class="glyph" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span>Stack</span>
-    </a>
-    <nav class="nav">
-      <a href="#live">Живые продукты</a>
-      <a href="#works">Работы</a>
-      <a href="#how">Как работаем</a>
-      <a href="#price">Цены</a>
-      <a href="#trust">Доверие</a>
-    </nav>
-    <a class="btn sm" href="#form">Оставить заявку</a>
+    <a class="brand" href="#"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack</a>
+    <nav class="nav" id="nav"><a href="/uslugi">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="/kak-rabotaem">Как работаем</a><a href="#reviews">Отзывы</a></nav>
+    <div class="right">
+      <a class="btn sm" href="#contact">Написать</a>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </header>
 
-<main id="top">
-
-  <!-- ── 1. Герой: асимметричный сплит, справа настоящие снимки работ ── -->
-  <section class="hero wrap">
-    <div class="hero-say">
-      <h1>Сайты <em>под товар</em>, а не по шаблону</h1>
-      <p class="lead">Каталог с фильтром, цена сразу, заявка с выбранной моделью.
-         Наши работающие продукты ниже можно открыть и потрогать.</p>
+<section class="hero">
+  <canvas class="gridfx" aria-hidden="true"></canvas>
+  <div class="wrap in">
+    <div class="say">
+      <div class="eyebrow">Stack / сайты и боты для бизнеса</div>
+      <div class="copy" id="copy" aria-live="polite">
+        <h1 id="h1">Лендинг под ваш товар за <em>23&nbsp;000&nbsp;₽</em></h1>
+        <p class="lead" id="lead">Первый экран с ценой, форма в телеграм, запуск на вашем домене. <b>Макет показываю до оплаты</b> — не зашло, не платите.</p>
+      </div>
       <div class="cta">
-        <a class="btn" href="#works">Смотреть работы</a>
-        <a class="btn ghost" href="#form">Оставить заявку</a>
+        <a class="btn" href="#contact">Заказать</a>
+        <a class="more" href="/raboty">Смотреть работы →</a>
       </div>
+      <p class="promise">Сначала макет, потом деньги</p>
+      <div class="caps copy" id="caps">
+        <span class="cap hot">23&nbsp;000&nbsp;₽ <s>45&nbsp;000</s></span>
+        <span class="cap">7 дней</span>
+        <span class="cap">макет до оплаты</span>
+      </div>
+      <div class="dots" id="dots" role="tablist" aria-label="Услуги"></div>
     </div>
-    <div class="hero-show" aria-hidden="true">
-      <img class="s1" src="assets/img/02-coffee-zerno-big.jpg" width="1100" height="733"
-           alt="" fetchpriority="high" decoding="async">
-      <img class="s2" src="assets/img/10-kopilka-fintech-big.jpg" width="1100" height="733"
-           alt="" loading="lazy" decoding="async">
+    <div class="show">
+      <div class="glow"></div>
+      <img class="face" src="/assets/img/cae03ca23a.webp" alt="Основатель Stack за рабочим столом" width="1200" height="1607">
+      <img class="face" src="/assets/img/2694bb27be.webp" alt="Основатель Stack с телефоном в коворкинге" width="1200" height="1607">
+      <img class="face" src="/assets/img/a7494a2314.webp" alt="Основатель Stack за ноутбуком ночью" width="1200" height="1607">
+      <img class="face" src="/assets/img/28b130e048.webp" alt="Основатель Stack у стены шоурума" width="1200" height="1607">
+      <img class="face" src="/assets/img/fbd90e4fc4.webp" alt="Основатель Stack на крыше вечером" width="1200" height="1607">
+      <div class="chip" id="deadline">Скидка до воскресенья</div>
     </div>
-  </section>
-
-  <!-- ── Полоса фактов: вынесена из героя, чтобы первый экран остался
-       заголовком и кнопками, а не превратился в справку с ценником ── -->
-  <section class="band">
-    <dl class="facts wrap">
-      <div><dt>от 60 000 ₽</dt><dd>страница под рекламу, с текстами и запуском</dd></div>
-      <div><dt>бесплатно</dt><dd>макет до оплаты, правок сколько нужно</dd></div>
-      <div><dt>1 месяц</dt><dd>поддержки после сдачи входит в цену</dd></div>
-      <div><dt>4 продукта</dt><dd>работают в проде, можно открыть ниже</dd></div>
-    </dl>
-  </section>
-
-  <!-- ── 2. Живые продукты: главное доказательство, поэтому стоит высоко ── -->
-  <section class="live wrap" id="live">
-    <h2>Это работает прямо сейчас, а не лежит картинкой</h2>
-    <p class="say">Сайт клиента в проде на своём домене и четыре продукта, которые мы
-       сделали для себя целиком, от идеи до прода. Откройте и потыкайте,
-       никакой регистрации не нужно.</p>
-    <div class="live-grid">
-      <a class="prod rv" href="https://elena-pedicure.ru" target="_blank" rel="noopener">
-        <span class="shot"><img src="assets/img/live-elena.jpg" width="1000" height="625"
-              alt="Сайт Elena: первый экран с заголовком и палитрой цветов покрытия"
-              loading="lazy" decoding="async"></span>
-        <span class="meta">
-          <b>ELENA</b>
-          <span class="d">Сайт мастера педикюра в Каменске-Шахтинском: цены, палитра
-            покрытий, шторка до и после, запись без звонка. Работает на своём
-            домене.</span>
-          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
-        </span>
-      </a>
-      <a class="prod rv" href="https://difik-hub.github.io/tishe/" target="_blank" rel="noopener">
-        <span class="shot"><img src="assets/img/live-tishe.jpg" width="1000" height="625"
-              alt="Главная страница ТИШЕ: колода карточек со звуками на ночном фоне" loading="lazy" decoding="async"></span>
-        <span class="meta">
-          <b>ТИШЕ</b>
-          <span class="d">Звуки для сна и фокуса. 27 живых записей, микшер слоёв,
-            дыхание по счёту, таймер отрезками. Работает офлайн.</span>
-          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
-        </span>
-      </a>
-      <a class="prod rv" href="https://difik-hub.github.io/pult/" target="_blank" rel="noopener">
-        <span class="shot"><img src="assets/img/live-pult.jpg" width="1000" height="625"
-              alt="Страница ПУЛЬТ: блок «сейчас», список задач и ежедневное по времени дня" loading="lazy" decoding="async"></span>
-        <span class="meta">
-          <b>ПУЛЬТ</b>
-          <span class="d">Стартовая страница браузера. Задачи, отрезок фокуса на конкретной
-            задаче, ежедневное по времени дня. Данные не уходят из браузера.</span>
-          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
-        </span>
-      </a>
-      <a class="prod rv" href="https://batchtools-redesign.vercel.app" target="_blank" rel="noopener">
-        <span class="shot"><img src="assets/img/live-multitask.jpg" width="1000" height="625"
-              alt="Multitask: сетка инструментов для работы с файлами в браузере" loading="lazy" decoding="async"></span>
-        <span class="meta">
-          <b>MULTITASK</b>
-          <span class="d">Хаб инструментов для файлов: картинки, видео, PDF. Четырнадцать
-            работающих инструментов, всё считается прямо в браузере, файлы никуда
-            не загружаются.</span>
-          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
-        </span>
-      </a>
-      <a class="prod rv" href="https://tidewatchi.vercel.app" target="_blank" rel="noopener">
-        <span class="shot"><img src="assets/img/live-tidewatch.jpg" width="1000" height="625"
-              alt="TideWatch: крипторынок на одном экране, курсы и сводка" loading="lazy" decoding="async"></span>
-        <span class="meta">
-          <b>TIDEWATCH</b>
-          <span class="d">Крипторынок на одном экране: курсы, графики и автоматическая
-            сводка того, что происходит прямо сейчас. Данные обновляются сами,
-            раз в день выходит дайджест в телеграм-канал.</span>
-          <span class="go">Открыть <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
-        </span>
-      </a>
-      </div>
-  </section>
-
-  <!-- ── 3. Работы: несимметричная сетка, ячеек ровно столько, сколько работ ── -->
-  <section class="works wrap" id="works">
-    <h2>Работы</h2>
-    <p class="say">Каждый проект начинается с нуля: своя типографика, свой цвет, своя
-       структура страницы. Нажмите на любую работу, откроется макет целиком
-       и рассказ, зачем он сделан именно так.</p>
-    <div class="wgrid" id="wgrid"></div>
-  </section>
-
-  <!-- ── 4. Как работаем: слева заголовок, справа реальные шаги ── -->
-  <section class="how wrap" id="how">
-    <div class="how-say">
-      <h2>Как работаем</h2>
-      <p class="say">Порядок такой, чтобы вы увидели результат до того, как заплатите.
-         Так спокойнее обеим сторонам.</p>
-      <a class="btn ghost" href="#form">Оставить заявку</a>
-    </div>
-    <ol class="steps">
-      <li>
-        <h3>Разбираем</h3>
-        <p>Спрашиваем, что чаще всего спрашивают ваши покупатели в переписке.
-           Из этих вопросов и складывается структура сайта. Это бесплатно.</p>
-      </li>
-      <li>
-        <h3>Показываем</h3>
-        <p>Собираем макет на ваших товарах и фотографиях. Правок на этом этапе
-           сколько нужно. Дальше идём только если вам нравится.</p>
-      </li>
-      <li>
-        <h3>Собираем</h3>
-        <p>Делаем страницу целиком, проверяем на телефоне и планшете, отдаём вместе
-           с доступами. Месяц после сдачи правим цены и тексты сами.</p>
-      </li>
-    </ol>
-  </section>
-
-  <!-- ── 5. Цены: сгруппированные строки, а не три одинаковые плитки ── -->
-  <section class="price wrap" id="price">
-    <h2>Цены</h2>
-    <p class="say">Цена за работу целиком: дизайн, вёрстка, тексты, запуск. Сумму по вашей
-       задаче называем до начала, и по ходу она не растёт.</p>
-
-    <div class="pgroup">
-      <h3>Сайты</h3>
-      <div class="prow">
-        <span class="pn">Страница под рекламу</span>
-        <span class="pd">Первый экран под запрос, с которым к вам приходят. Цены, ваши работы,
-          заявка в мессенджер. Тексты пишем сами</span>
-        <span class="pp">от 60 000 ₽</span>
-      </div>
-      <div class="prow">
-        <span class="pn">Сайт с каталогом</span>
-        <span class="pd">Каталог с фильтром под ваш товар, карточка позиции, заявка с выбранной
-          моделью, админка для цен и остатков</span>
-        <span class="pp">от 140 000 ₽</span>
-      </div>
-      <div class="prow">
-        <span class="pn">Сайт под ключ</span>
-        <span class="pd">До пяти разделов, каталог, админка, аналитика с целями,
-          три месяца поддержки после сдачи</span>
-        <span class="pp">от 250 000 ₽</span>
-      </div>
-    </div>
-
-    <div class="pgroup">
-      <h3>Телеграм-боты</h3>
-      <div class="prow">
-        <span class="pn">Бот с заявками</span>
-        <span class="pd">Меню, анкета, заявка приходит в ваш чат или в рабочую группу,
-          панель для смены текстов, хостинг на первый месяц</span>
-        <span class="pp">от 45 000 ₽</span>
-      </div>
-      <div class="prow">
-        <span class="pn">Бот с каталогом и оплатой</span>
-        <span class="pd">Каталог с фото и ценами, корзина, приём оплаты, выгрузка заказов таблицей</span>
-        <span class="pp">от 95 000 ₽</span>
-      </div>
-    </div>
-
-    <div class="pgroup">
-      <h3>Работа с готовым сайтом</h3>
-      <div class="prow">
-        <span class="pn">Правки и доработки</span>
-        <span class="pd">Минимум один час. Сколько уйдёт, говорим до начала, а не после</span>
-        <span class="pp">3 500 ₽ / час</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 6. Доверие. Отзывов пока нет, и врать про них мы не будем:
-       вместо выдуманных цитат честное признание и гарантии, которые
-       стоят дороже. Секция сама превратится в отзывы, когда они появятся. ── -->
-  <section class="trust wrap" id="trust">
-    <div class="trust-say">
-      <h2 id="trustH">Вы не платите, пока не увидите работу</h2>
-      <p class="say" id="trustP">Мы студия молодая, и понимаем: отдавать деньги вперёд незнакомым
-         людям никто не обязан. Поэтому первым идёт макет, а не счёт.</p>
-    </div>
-    <!-- Настоящие отзывы, приходят с сервера уже одобренными. Пока их нет,
-         блок скрыт и работу берут на себя гарантии ниже. С появлением
-         первого скрипт подменяет заголовок и рисует карточки над
-         гарантиями, а гарантии остаются на месте: для чека в сотни тысяч
-         они весят не меньше цитат. -->
-    <div class="otz" id="otzList" hidden></div>
-
-    <div class="guards" id="guards">
-      <div class="gd">
-        <b>Сначала макет, потом деньги</b>
-        <span>Собираем первый экран на ваших товарах и показываем. Не понравилось,
-          разошлись, вы не платите ничего.</span>
-      </div>
-      <div class="gd">
-        <b>Смета не растёт по ходу</b>
-        <span>Сумму называем до начала и держим её. Что вылезет в процессе &mdash;
-          наша забота, а не ваша доплата.</span>
-      </div>
-      <div class="gd">
-        <b>Платите по частям</b>
-        <span>Работу делим на этапы, каждый принимаете отдельно. Не устроил этап &mdash;
-          останавливаемся на нём, остальное вы не оплачиваете.</span>
-      </div>
-    </div>
-
-    <details class="otz-form" id="otzForm" hidden>
-      <summary>Работали с нами? Оставьте отзыв</summary>
-      <form>
-        <div class="otz-row">
-          <input class="fi" name="имя" maxlength="40" required placeholder="Как вас зовут">
-          <input class="fi" name="компания" maxlength="60" placeholder="Компания, необязательно">
-        </div>
-        <div class="stars" id="stars" role="radiogroup" aria-label="Оценка"></div>
-        <textarea class="fi" name="текст" rows="4" maxlength="600" required
-          placeholder="Что делали, как прошло, что получилось"></textarea>
-        <input name="mail" tabindex="-1" autocomplete="off" aria-hidden="true" class="trap">
-        <div class="otz-foot">
-          <button class="btn" type="submit">Отправить</button>
-          <span class="note" id="otzNote">Появится на сайте после проверки.</span>
-        </div>
-      </form>
-    </details>
-  </section>
-
-  <!-- ── 6. Заявка ── -->
-  <section class="form-sec wrap" id="form">
-    <div class="form-say">
-      <h2>Оставить заявку</h2>
-      <p class="say">Напишите пару слов о задаче. Ответим и покажем макет до того,
-         как вы что-то заплатите.</p>
-      <p class="say small">Можно и без формы: <a class="mail" id="mailLink" href="#">почта</a>.</p>
-    </div>
-
-    <form class="form" id="reqForm" novalidate>
-      <div class="fld">
-        <label for="fName">Как вас зовут</label>
-        <input id="fName" name="name" autocomplete="name" maxlength="60">
-        <span class="hint">Достаточно имени</span>
-        <span class="err" id="eName">Впишите имя, чтобы знать, к кому обращаться</span>
-      </div>
-      <div class="fld">
-        <label for="fContact">Телеграм или почта</label>
-        <input id="fContact" name="contact" autocomplete="email" maxlength="80">
-        <span class="hint">Куда прислать ответ и макет</span>
-        <span class="err" id="eContact">Нужен телеграм через собаку или адрес почты</span>
-      </div>
-      <div class="fld">
-        <label for="fType">Что нужно</label>
-        <select id="fType" name="type">
-          <option>Лендинг</option>
-          <option>Сайт с каталогом</option>
-          <option>Телеграм-бот</option>
-          <option>Правки на готовом сайте</option>
-          <option selected>Пока не знаю, нужен совет</option>
-        </select>
-        <span class="hint">Если не уверены, оставьте как есть</span>
-      </div>
-      <div class="fld">
-        <label for="fBudget">Бюджет</label>
-        <select id="fBudget" name="budget">
-          <option selected>Пока не определён</option>
-          <option>До 60 000 ₽</option>
-          <option>60 000 до 150 000 ₽</option>
-          <option>150 000 до 300 000 ₽</option>
-          <option>Больше 300 000 ₽</option>
-        </select>
-        <span class="hint">Помогает сразу предложить подходящий вариант</span>
-      </div>
-      <div class="fld wide">
-        <label for="fTask">Расскажите о задаче</label>
-        <textarea id="fTask" name="task" rows="4" maxlength="900"></textarea>
-        <span class="hint">Чем занимаетесь, что продаёте, есть ли уже сайт и что в нём не устраивает, когда нужен результат. Чем подробнее, тем точнее ответ</span>
-        <span class="err" id="eTask">Опишите задачу хотя бы в двух словах</span>
-      </div>
-      <div class="fld wide send">
-        <button class="btn" type="submit" id="fSend">Отправить заявку</button>
-        <span class="note" id="fNote">Откроется ваша почтовая программа с готовым письмом</span>
-      </div>
-    </form>
-
-    <div class="ok" id="okBox" hidden>
-      <b>Письмо собрано</b>
-      <span>Если почтовая программа не открылась, скопируйте текст ниже и пришлите
-        его любым удобным способом.</span>
-      <textarea id="okText" rows="7" readonly aria-label="Текст заявки"></textarea>
-      <button class="btn ghost sm" type="button" id="copyBtn">Скопировать текст</button>
-    </div>
-  </section>
-</main>
-
-<!-- Просмотр работы: слева рассказ, справа макет во всю длину -->
-<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="vName">
-  <div class="vbox">
-    <button class="vx" id="vX" aria-label="Закрыть просмотр">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    </button>
-    <div class="vinfo">
-      <b id="vName"></b>
-      <span class="vsphere" id="vSphere"></span>
-      <div class="vstory" id="vStory"></div>
-      <a class="btn sm" id="vAsk" href="#form">Хочу похожий</a>
-    </div>
-    <div class="vshot" id="vShot"></div>
   </div>
+</section>
+
+<div class="body">
+
+<div class="bridge" id="bridge">
+  <div class="wrap facts">
+    <button class="fact live" type="button" data-proof="Пишете в телеграм — отвечаю я, не менеджер. Обычно в течение часа, текстом."><i></i>Сейчас онлайн · отвечаю за час</button>
+    <button class="fact" type="button" data-start data-proof="Ближайший свободный старт — понедельник, {date}. Беру столько, сколько успеваю сделать хорошо."><i></i>Свободно 5 мест в сентябре</button>
+    <button class="fact" type="button" data-proof="Первый экран показываю до любой оплаты. Не зашло — расходимся, вы ничего не должны."><i></i>Макет до оплаты</button>
+    <button class="fact" type="button" data-proof="Домен, хостинг и почта оформляются на вас. Доступы у вас, а не у студии."><i></i>Сайт на вашем домене</button>
+  </div>
+  <p class="proof wrap" id="proof" aria-live="polite"></p>
+  <div class="pline wrap" aria-hidden="true"><i id="pfillB"></i></div>
 </div>
+<div class="deep">
+<section class="sec" id="works">
+  <div class="wrap">
+    <div class="head"><h2>Живые работы</h2><p class="sub">Сайт клиента и два продукта, которые сделали для себя. Откройте и потыкайте, ещё два в работе.</p></div>
+    <div class="bento">
+      <a class="wk big light top rv" href="https://elena-pedicure.ru" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/6b2a5bd159.jpg" alt="Сайт Elena" width="960" height="600"></span><span class="wcap"><b>Elena</b><i>Сайт мастера педикюра на своём домене</i></span></a>
+      <a class="wk light rv" href="https://batchtools-redesign.vercel.app" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/172e0de11c.jpg" alt="Multitask" width="960" height="600"></span><span class="wcap"><b>Multitask</b><i>14 инструментов для файлов</i></span></a>
+      <a class="wk rv" href="https://tidewatchi.vercel.app" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/6b051c3804.jpg" alt="TideWatch" width="960" height="600"></span><span class="wcap"><b>TideWatch</b><i>Крипторынок на одном экране</i></span></a>
+      <span class="wk soon rv"><span class="shot"></span><span class="wcap"><b>В работе</b><i>Следующий проект появится здесь</i></span></span>
+      <span class="wk soon rv"><span class="shot"></span><span class="wcap"><b>В работе</b><i>Следующий проект появится здесь</i></span></span>
+    </div>
+    <a class="more2" href="/raboty">Все работы →</a>
+  </div>
+</section>
+
+<section class="sec team" id="team">
+  <img class="tbg" src="/assets/img/49f083e6d9.jpg" alt="" width="1400" height="868" aria-hidden="true">
+  <div class="wrap tsay">
+    <h2>Никита Ковалёв, основатель</h2>
+    <p class="sub">Каждый проект веду лично — от первого макета до запуска на вашем домене. Со мной работает команда, о ней на отдельной странице. Продукты выше мы собрали для себя: от идеи до прода, без заказчика над душой.</p>
+    <a class="more2" href="/komanda">О команде →</a>
+  </div>
+</section>
+
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="head"><h2>Что делаем и почём</h2><p class="sub">Цена и срок фиксированные. Сумму называем до начала и держим.</p></div>
+    <div class="cards">
+      <a class="card hot rv" href="/uslugi?s=landing#landing"><span class="cn">Лендинг под товар</span><span class="cd">Первый экран с ценой, форма в телеграм, запуск на домене</span><span class="cp">23&nbsp;000&nbsp;₽ <s>45&nbsp;000</s></span><span class="ct">7 дней</span><span class="cb">Подробнее и опции</span></a>
+      <a class="card rv" href="/uslugi?s=bot#bot"><span class="cn">Телеграм-бот</span><span class="cd">Отвечает клиентам, записывает, присылает заявки в чат</span><span class="cp">18&nbsp;000&nbsp;₽ <s>25&nbsp;000</s></span><span class="ct">5 дней</span><span class="cb">Подробнее и опции</span></a>
+      <a class="card rv" href="/uslugi?s=audit#audit"><span class="cn">Аудит сайта</span><span class="cd">Прохожу как клиент, отдаю список правок по важности</span><span class="cp">3&nbsp;000&nbsp;₽ <s>5&nbsp;000</s></span><span class="ct">2 дня</span><span class="cb">Подробнее и опции</span></a>
+      <a class="card wide rv" href="/uslugi?s=shop#shop"><span class="cn">Интернет-магазин</span><span class="cd">Каталог с фильтром, корзина, оплата картой и СБП, своя админка</span><span class="cp">85&nbsp;000&nbsp;₽ <s>120&nbsp;000</s></span><span class="ct">14 дней</span><span class="cb">Подробнее и опции</span></a>
+      <a class="card wide rv" href="/uslugi?s=pwa#pwa"><span class="cn">Мобильное приложение</span><span class="cd">Иконка на экране, работает без интернета, ставится по ссылке — без App Store и Google Play</span><span class="cp">40&nbsp;000&nbsp;₽ <s>55&nbsp;000</s></span><span class="ct">10 дней</span><span class="cb">Подробнее и опции</span></a>
+    </div>
+    <a class="more2" href="/uslugi">Что входит в каждую услугу →</a>
+  </div>
+</section>
+
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="head"><h2>Как работаем</h2><p class="sub">Четыре правила. Нажмите на любое.</p></div>
+    <div class="proc rv" id="proc">
+      <div class="ptrack" aria-hidden="true"><i id="pfill"></i></div>
+      <div class="psteps" role="tablist" aria-label="Как работаем">
+        <button class="pstep" role="tab" type="button"><b>Сначала макет</b><p>Собираем первый экран на ваших товарах и показываем. Не понравилось, вы ничего не платите.</p></button>
+        <button class="pstep" role="tab" type="button"><b>Сумма не растёт</b><p>Называем её до начала и держим. Что вылезет в процессе, наша забота, а не ваша доплата.</p></button>
+        <button class="pstep" role="tab" type="button"><b>Платите этапами</b><p>Каждый этап принимаете отдельно. Не устроил, останавливаемся на нём.</p></button>
+        <button class="pstep" role="tab" type="button"><b>Сайт ваш</b><p>Домен, хостинг и почта оформлены на вас, а не арендованы у студии.</p></button>
+      </div>
+    </div>
+    <a class="more2" href="/kak-rabotaem">Подробнее про сроки и оплату →</a>
+  </div>
+</section>
+
+<section class="sec" id="reviews">
+  <div class="wrap two">
+    <div>
+      <h2 id="revH">Отзывы</h2>
+      <p class="sub" id="revP">Стена отзывов живёт на отдельной странице: каждый приходит через форму и появляется после проверки. Работали с нами — напишите пару строк здесь, дальше перекинем вас туда.</p>
+      <a class="more2" href="/otzyvy">Все отзывы →</a>
+    </div>
+    <form class="surface form rv" id="revForm" novalidate data-next="/otzyvy">
+      <p class="ph">Работали с нами? Расскажите, как прошло</p>
+      <div class="frow">
+        <label class="fld"><span>Как вас зовут</span><input name="имя" maxlength="40" required autocomplete="name"></label>
+        <label class="fld"><span>Компания <small>необязательно</small></span><input name="компания" maxlength="60" autocomplete="organization"></label>
+      </div>
+      <label class="fld"><span>Что делали и что получилось</span><textarea name="текст" rows="4" maxlength="600" required></textarea></label>
+      <input name="mail" tabindex="-1" autocomplete="off" aria-hidden="true" class="trap">
+      <div class="fbar"><button class="btn" type="submit">Отправить и посмотреть стену</button><span class="fnote" id="revNote" aria-live="polite">После отправки откроем страницу отзывов.</span></div>
+    </form>
+  </div>
+</section>
+
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="surface contact rv">
+      <div class="csay">
+        <h2>Расскажите о задаче</h2>
+        <p class="sub">Ответим в тот же день и покажем макет до того, как вы что-то заплатите.</p>
+        <div class="clinks">
+          <a href="https://t.me/suptstackbot" target="_blank" rel="noopener"><b>Телеграм</b><span>@suptstackbot</span></a>
+          <a href="mailto:sandrakaran@onet.pl"><b>Почта</b><span>sandrakaran@onet.pl</span></a>
+        </div>
+      </div>
+      <form class="form" id="reqForm" novalidate>
+        <div class="frow">
+          <label class="fld"><span>Имя</span><input name="имя" maxlength="40" required autocomplete="name"></label>
+          <label class="fld"><span>Телефон или телеграм</span><input name="контакт" maxlength="60" required autocomplete="tel"></label>
+        </div>
+        <label class="fld"><span>Что нужно</span><textarea name="задача" rows="4" maxlength="800" required></textarea></label>
+        <div class="fbar"><button class="btn" type="submit">Отправить</button><span class="fnote" id="reqNote" aria-live="polite">Придёт нам в телеграм. Ответим текстом.</span></div>
+      </form>
+    </div>
+  </div>
+</section>
 
 <footer class="foot">
-  <div class="wrap in">
-    <span class="brand">
-      <span class="glyph" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span>Stack</span>
-    </span>
-    <span class="c">© 2026 Stack. Сайты, каталоги и телеграм-боты. Работаем по России и Казахстану</span>
-    <nav class="soc" aria-label="Связь с нами">
-      <a href="https://t.me/suptstackbot" target="_blank" rel="noopener">Написать в Telegram</a>
-      <a href="https://t.me/stackcompbot" target="_blank" rel="noopener">Бот-пример</a>
-      <a class="mail" id="mailFoot" href="#">Почта</a>
-    </nav>
+  <div class="wrap fgrid">
+    <div class="fbrand"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack<span>Сайты и боты для бизнеса</span></div>
+    <div class="fcol"><b>Разделы</b><a href="/uslugi">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="/kak-rabotaem">Как работаем</a><a href="#reviews">Отзывы</a></div>
+    <div class="fcol"><b>Связь</b><a href="https://t.me/suptstackbot" target="_blank" rel="noopener">Телеграм</a><a href="mailto:sandrakaran@onet.pl">Почта</a></div>
+    <div class="fcol"><b>Документы</b><a href="/konfidencialnost">Конфиденциальность</a><a href="/cookies">Cookies</a><a href="/oferta">Оферта</a></div>
   </div>
+  <div class="wrap fbottom"><span>© 2026 Stack</span><span>Москва, работаем по всей России</span></div>
 </footer>
+</div>
 
-<script src="assets/app.js"></script>
+</div>
+
+<div class="cookie surface" id="cookie" hidden>
+  <span>Используем cookies для статистики. <a href="/cookies">Подробнее</a></span>
+  <button class="btn sm" type="button" id="cookieOk">Понятно</button>
+</div>
+
+<script>
+(function(){
+  // Живой дедлайн: ближайшее воскресенье включительно, если сегодня воскресенье — сегодня.
+  var d=new Date(), add=(7-d.getDay())%7; d.setDate(d.getDate()+add);
+  var m=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  // until(день недели 0..6) → «до вс, 6 сентября»; если этот день сегодня — «до конца дня».
+  var wd=['вс','пн','вт','ср','чт','пт','сб'];
+  function until(w){var x=new Date(), a=(w-x.getDay()+7)%7; x.setDate(x.getDate()+a);
+    return (a===0?'до конца дня, ':'до '+wd[w]+', ')+x.getDate()+' '+m[x.getMonth()]}
+  var now=new Date(), deadline='Скидка '+until(0), monthEnd='Скидка до конца '+m[now.getMonth()];
+  var b=document.getElementById('burger'), n=document.getElementById('nav');
+  b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+
+  // Ротация: услуга + цена + фото. Один слайд = одна услуга.
+  var S=[
+    {name:'Лендинг', h:'Лендинг под ваш товар за <em>23&nbsp;000&nbsp;₽</em>', lead:'Первый экран с ценой, форма в телеграм, запуск на вашем домене. <b>Макет показываю до оплаты</b> — не зашло, не платите.', caps:['<span class="cap hot">23&nbsp;000&nbsp;₽ <s>45&nbsp;000</s></span>','<span class="cap">7 дней</span>','<span class="cap">макет до оплаты</span>'], chip:deadline},
+    {name:'Бот', h:'Бот принимает <em>заявки за&nbsp;вас</em>', lead:'Отвечает клиентам, записывает, присылает вам в чат. <b>Без менеджера на телефоне</b> и без пропущенных.', caps:['<span class="cap hot">18&nbsp;000&nbsp;₽ <s>25&nbsp;000</s></span>','<span class="cap">5 дней</span>','<span class="cap">работает 24/7</span>'], chip:'Скидка на неделю'},
+    {name:'Аудит', h:'Разберу, почему с сайта <em>нет заявок</em>', lead:'Прохожу как клиент — с телефона и с компьютера. <b>Отдаю список правок по важности</b>, а не «всё переделать».', caps:['<span class="cap hot">3&nbsp;000&nbsp;₽ <s>5&nbsp;000</s></span>','<span class="cap">2 дня</span>','<span class="cap">отчёт с правками</span>'], chip:'Скидка '+until(5)},
+    {name:'Магазин', h:'Интернет-магазин с оплатой за <em>85&nbsp;000&nbsp;₽</em>', lead:'Каталог с фильтром, корзина, оплата картой и СБП. <b>Админка, где вы сами меняете товары</b> и цены.', caps:['<span class="cap hot">85&nbsp;000&nbsp;₽ <s>120&nbsp;000</s></span>','<span class="cap">14 дней</span>','<span class="cap">своя админка</span>'], chip:monthEnd},
+    {name:'Приложение', h:'Мобильное приложение за <em>40&nbsp;000&nbsp;₽</em>', lead:'Иконка на экране, работает без интернета, ставится по ссылке. <b>Без App Store и Google Play</b> — и без их комиссий.', caps:['<span class="cap hot">40&nbsp;000&nbsp;₽ <s>55&nbsp;000</s></span>','<span class="cap">10 дней</span>','<span class="cap">без сторов</span>'], chip:'Скидка '+until(6)}
+  ];
+  var faces=[].slice.call(document.querySelectorAll('.face')), copy=document.getElementById('copy'),
+      h1=document.getElementById('h1'), lead=document.getElementById('lead'), caps=document.getElementById('caps'),
+      chip=document.getElementById('deadline'), dots=document.getElementById('dots'), show=document.querySelector('.show'), hero=document.querySelector('.hero');
+  var cur=0, timer=null, paused=false, still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  S.forEach(function(s,i){
+    var bt=document.createElement('button'); bt.type='button'; bt.setAttribute('role','tab'); bt.setAttribute('aria-label',s.name);
+    bt.innerHTML='<i></i>'; bt.addEventListener('click',function(){go(i,true)}); dots.appendChild(bt);
+  });
+
+  function render(i){
+    h1.innerHTML=S[i].h; lead.innerHTML=S[i].lead; caps.innerHTML=S[i].caps.join('');
+    chip.textContent=S[i].chip;
+    faces.forEach(function(f,k){f.classList.toggle('on',k===i)});
+    [].forEach.call(dots.children,function(b,k){b.setAttribute('aria-current',k===i?'true':'false')});
+  }
+  function go(i,manual){
+    i=(i+S.length)%S.length; if(i===cur){return}
+    cur=i;
+    if(still){render(i);return}
+    copy.classList.add('out'); caps.classList.add('out');
+    setTimeout(function(){render(i); copy.classList.remove('out'); caps.classList.remove('out')},280);
+    if(manual) restart();
+  }
+  function tick(){ if(!paused && !document.hidden) go(cur+1,false) }
+  function restart(){ clearInterval(timer); if(!still) timer=setInterval(tick,6000) }
+
+  render(0); restart();
+  hero.addEventListener('mouseenter',function(){paused=true});
+  hero.addEventListener('mouseleave',function(){paused=false});
+  hero.addEventListener('focusin',function(){paused=true});
+  hero.addEventListener('focusout',function(){paused=false});
+  // Свайп по фото на телефоне.
+  var x0=null;
+  show.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  show.addEventListener('touchend',function(e){
+    if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; x0=null;
+    if(Math.abs(dx)>40) go(cur+(dx<0?1:-1),true);
+  },{passive:true});
+
+  // ── проявление при скролле: без слушателя scroll, то, что в кадре, видно сразу ──
+  document.documentElement.classList.add('js');
+  var rv=[].slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window && !still){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.1});
+    rv.forEach(function(el){io.observe(el)});
+  } else rv.forEach(function(el){el.classList.add('on')});
+
+  // ── работы: блик идёт за курсором. Только CSS-переменные, никакого layout ──
+  [].forEach.call(document.querySelectorAll('.wk'),function(c){
+    c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')});
+  });
+
+  // ── как работаем: вкладки + линия до активного; стрелки клавиатуры; сами листаются, пока в кадре ──
+  var steps=[].slice.call(document.querySelectorAll('.pstep')), pfill=document.getElementById('pfill'), pcur=0, ptimer=null;
+  function pset(i){pcur=(i+steps.length)%steps.length;steps.forEach(function(s,k){s.setAttribute('aria-selected',k===pcur?'true':'false');s.tabIndex=k===pcur?0:-1});pfill.style.transform='scaleX('+((pcur+1)/steps.length)+')'}
+  steps.forEach(function(s,i){s.addEventListener('click',function(){pset(i);pstop()});s.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){pset(pcur+1);steps[pcur].focus();pstop()}if(e.key==='ArrowLeft'){pset(pcur-1);steps[pcur].focus();pstop()}})});
+  function pstop(){clearInterval(ptimer);ptimer=null}
+  pset(0);
+  if(!still && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!ptimer&&!document.getElementById('proc').dataset.done){ptimer=setInterval(function(){if(pcur===steps.length-1){pstop();document.getElementById('proc').dataset.done=1}else pset(pcur+1)},2600)}else if(!e.isIntersecting)pstop()})},{threshold:.5}).observe(document.getElementById('proc'));
+  }
+
+  // ── отзывы: переходник. Текст не шлём отсюда — уносим на страницу отзывов, там оценка и отправка ──
+  var rf=document.getElementById('revForm'), rnote=document.getElementById('revNote');
+  function validate(form){var ok=true;[].forEach.call(form.querySelectorAll('[required]'),function(f){var bad=!f.value.trim();f.closest('.fld').classList.toggle('bad',bad);if(bad)ok=false});return ok}
+  rf.addEventListener('submit',function(e){
+    e.preventDefault(); if(!validate(rf)){rnote.className='fnote bad';rnote.textContent='Заполните имя и текст отзыва.';return}
+    var f=new FormData(rf);
+    try{sessionStorage.setItem('stack.review',JSON.stringify({имя:f.get('имя'),компания:f.get('компания'),текст:f.get('текст')}))}catch(x){}
+    rnote.className='fnote';rnote.textContent='Открываем страницу отзывов…';
+    location.href=rf.getAttribute('data-next');
+  });
+
+  // ── заявка: в группу владельца в телеграме через функцию на Vercel ──
+  var qf=document.getElementById('reqForm'), qnote=document.getElementById('reqNote');
+  qf.addEventListener('submit',function(e){
+    e.preventDefault(); if(!validate(qf)){qnote.className='fnote bad';qnote.textContent='Заполните имя, контакт и задачу.';return}
+    var f=new FormData(qf), btn=qf.querySelector('button[type=submit]');
+    qnote.className='fnote';qnote.textContent='Отправляем…';btn.disabled=true;
+    fetch('https://bot-demo-forka.vercel.app/api/zayavka',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({имя:f.get('имя'),контакт:f.get('контакт'),задача:f.get('задача')})})
+      .then(function(r){return r.json()}).then(function(d){
+        if(d&&d.ok){qf.reset();qnote.className='fnote good';qnote.textContent='Получили. Ответим в тот же день.'}
+        else{qnote.className='fnote bad';qnote.textContent=(d&&d.беда)||'Не отправилось. Напишите в телеграм.'}
+      }).catch(function(){qnote.className='fnote bad';qnote.textContent='Нет связи с сервером. Напишите в телеграм.'})
+      .then(function(){btn.disabled=false});
+  });
+  [].forEach.call(document.querySelectorAll('.fld input,.fld textarea'),function(f){f.addEventListener('input',function(){f.closest('.fld').classList.remove('bad')})});
+
+  // цена-капсула в hero ведёт к ценам, не к анкете
+  document.getElementById('caps').addEventListener('click',function(e){if(e.target.closest('.cap.hot'))location.hash='#services'});
+
+  // ── cookies ──
+  var ck=document.getElementById('cookie');
+  try{ if(!localStorage.getItem('stack-cookies')) ck.hidden=false }catch(_){ ck.hidden=false }
+  document.getElementById('cookieOk').addEventListener('click',function(){ck.hidden=true;try{localStorage.setItem('stack-cookies','1')}catch(_){}});
+
+/* ── мост под hero ── */
+(function(){
+  var b=document.getElementById('bridge'); if(!b) return;
+  var p=document.getElementById('proof'), fill=document.getElementById('pfillB'), fs=b.querySelectorAll('.fact');
+  function show(f){ fs.forEach(function(x){x.classList.toggle('on',x===f)}); p.textContent=f.getAttribute('data-proof'); p.classList.add('show') }
+  fs.forEach(function(f){ ['mouseenter','focus','click'].forEach(function(ev){ f.addEventListener(ev,function(){show(f)}) }) });
+  b.addEventListener('mouseleave',function(){ p.classList.remove('show'); fs.forEach(function(x){x.classList.remove('on')}) });
+  // ближайший понедельник — следующий свободный старт
+  var mon=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  var d=new Date(); d.setDate(d.getDate()+(((8-d.getDay())%7)||7));
+  var st=b.querySelector('[data-start]'); if(st) st.setAttribute('data-proof', st.getAttribute('data-proof').replace('{date}', d.getDate()+' '+mon[d.getMonth()]));
+  // линия заполняется, пока мост проезжает нижнюю половину экрана
+  function prog(){ var r=b.getBoundingClientRect(), h=innerHeight; var t=Math.min(1,Math.max(0,(h-r.top)/(h*.55))); fill.style.width=(t*100)+'%' }
+  addEventListener('scroll',prog,{passive:true}); addEventListener('resize',prog); prog();
+})();
+
+/* ── сетка сверху страницы: клетки осыпаются к низу неравномерно (canvas, детерминированный шум) ── */
+(function(){
+  var cs=document.querySelectorAll('canvas.gridfx'); if(!cs.length) return;
+  function draw(c){
+    var r=c.parentNode.getBoundingClientRect(), dpr=Math.min(2,devicePixelRatio||1), W=Math.round(r.width), H=Math.round(r.height);
+    c.width=W*dpr; c.height=H*dpr; c.style.width=W+'px'; c.style.height=H+'px';
+    var x=c.getContext('2d'); x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,W,H);
+    var s=56, cols=Math.ceil(W/s)+1, rows=Math.ceil(H/s)+1, seed=7;
+    function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647 }
+    x.strokeStyle='rgba(244,242,237,.075)'; x.lineWidth=1;
+    for(var j=0;j<rows;j++){
+      var p=j/rows, t=Math.min(1,Math.max(0,(p-.28)/.6)); t=Math.pow(t,1.3);   // с трети высоты клетки начинают выпадать, у низа не остаётся ни одной   // ниже 42% высоты клетки начинают выпадать, к низу — почти все
+      for(var i=0;i<cols;i++){ if(rnd()<t) continue; x.strokeRect(i*s+.5, j*s+.5, s, s) }
+    }
+  }
+  function all(){ cs.forEach(draw) } all(); addEventListener('resize',all);
+})();
+document.getElementById('caps').addEventListener('click',function(e){if(!e.target.closest('.cap.hot'))return;var d=document.querySelector('#dots [aria-current=true]'),i=d?[].indexOf.call(document.getElementById('dots').children,d):0;location.href='/uslugi?s='+(['landing','bot','audit','shop','pwa'][i]||'landing')+'#calc'});
+})();
+</script>
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

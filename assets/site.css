@@ -1,0 +1,7 @@
+/* Общее для всех страниц: cookie-плашка. Стили страниц — в самих страницах. */
+.ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:100;display:flex;gap:16px;align-items:center;justify-content:space-between;max-width:640px;margin-inline:auto;padding:14px 16px 14px 18px;border-radius:14px;background:#0E1116;color:#F4F2ED;box-shadow:0 20px 50px rgba(0,0,0,.5),rgba(255,255,255,.06) 0 0 0 1px inset;font:400 14px/1.45 Geologica,"Segoe UI",system-ui,sans-serif}
+.ck p{margin:0}
+.ck a{color:#FF5A1F;text-decoration:none;border-bottom:1px solid rgba(255,90,31,.4)}
+.ck button{flex:none;font:700 14px/1 Geologica,"Segoe UI",system-ui,sans-serif;color:#0E1116;background:#FF5A1F;border:0;border-radius:10px;padding:11px 16px;cursor:pointer}
+.ck button:hover{background:#E24A12}
+@media (max-width:480px){.ck{flex-direction:column;align-items:stretch;text-align:left}}

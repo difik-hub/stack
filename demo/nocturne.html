@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nocturne — демо Stack</title>
+<meta name="description" content="Демо-лендинг студии декора и света. Первый экран, собранный без заказчика.">
+<link rel="canonical" href="https://stackcomp.ru/demo/nocturne">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1C2029">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nocturne — демо Stack">
+<meta property="og:description" content="Демо-лендинг студии декора и света. Первый экран, собранный без заказчика.">
+<meta property="og:url" content="https://stackcomp.ru/demo/nocturne">
+<meta property="og:image" content="https://stackcomp.ru/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  :root{
+    --bg:#0B211C; --bg2:#0E2A22; --cream:#EEE4C9; --gold:#C6A24E; --gold-d:#9C7C33;
+    --dim:#8FA79A; --ink:#0A1712;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{width:1600px;background:var(--bg);color:var(--cream);
+       font:400 17px/1.6 Cambria,Georgia,serif;-webkit-font-smoothing:antialiased}
+  .deco{font-family:"Century Gothic",Bahnschrift,"Segoe UI",sans-serif;text-transform:uppercase;
+        letter-spacing:.28em;font-weight:700}
+  .lab{font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;
+       letter-spacing:.34em;font-size:12px;color:var(--gold)}
+  svg{display:block}
+
+  .frame{border:2px solid var(--gold-d);margin:18px;position:relative}
+  .frame::before{content:"";position:absolute;inset:6px;border:1px solid var(--gold-d);pointer-events:none}
+
+  .top{display:flex;justify-content:space-between;align-items:center;padding:22px 44px}
+  .top .l,.top .r{flex:1}
+  .top .r{text-align:right}
+  .top .brand{flex:0;white-space:nowrap;font-size:20px}
+  .top a{color:var(--cream);text-decoration:none;margin:0 12px;font-family:"Century Gothic",Bahnschrift,sans-serif;
+         text-transform:uppercase;letter-spacing:.18em;font-size:12px}
+
+  /* герой с лучами */
+  .hero{position:relative;text-align:center;padding:86px 0 96px;overflow:hidden}
+  .hero .bg{position:absolute;inset:0;z-index:0}
+  .hero .bg img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.05)}
+  .hero .bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(11,33,28,.90),rgba(11,33,28,.74) 46%,rgba(11,33,28,.96))}
+  .sun{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:900px;height:900px;opacity:.45;z-index:1}
+  .hero .in{position:relative;z-index:2}
+  .hero .lab{margin-bottom:24px}
+  .chev{display:flex;justify-content:center;gap:14px;align-items:center;color:var(--gold);margin:0 auto}
+  .hero h1{font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;text-transform:uppercase;
+           font-size:104px;letter-spacing:.14em;line-height:1;margin:20px 0}
+  .hero .est{font-style:italic;color:var(--gold);font-size:20px}
+  .hero p{max-width:44ch;margin:26px auto 0;color:var(--dim);font-size:18px}
+  .hero .book{display:inline-block;margin-top:34px;border:2px solid var(--gold);color:var(--gold);
+              padding:16px 44px;font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;
+              letter-spacing:.24em;font-size:13px}
+
+  .rule{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 44px}
+  .rule .ln{height:1px;background:var(--gold-d);flex:1}
+  .rule .dia{width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+
+  /* афиша */
+  .prog{padding:60px 80px}
+  .prog h2{text-align:center;font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;
+           text-transform:uppercase;letter-spacing:.2em;font-size:34px;margin-bottom:10px}
+  .prog .sub{text-align:center;color:var(--dim);font-style:italic;margin-bottom:44px}
+  .night{display:grid;grid-template-columns:150px 1fr auto;gap:30px;align-items:center;
+         padding:26px 0;border-top:1px solid var(--gold-d)}
+  .night:last-child{border-bottom:1px solid var(--gold-d)}
+  .night .day{text-align:center}
+  .night .day b{font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;font-size:30px;display:block;color:var(--gold)}
+  .night .day span{font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:var(--dim)}
+  .night .act h3{font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;text-transform:uppercase;
+                 letter-spacing:.08em;font-size:24px}
+  .night .act p{color:var(--dim);font-size:15px;font-style:italic;margin-top:4px}
+  .night .meta{text-align:right}
+  .night .meta .tm{font-family:"Century Gothic",Bahnschrift,sans-serif;font-size:22px;color:var(--cream)}
+  .night .meta .pr{color:var(--gold);font-size:14px;margin-top:4px}
+
+  /* карта бара */
+  .bar{padding:20px 80px 60px}
+  .bar h2{text-align:center;font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;
+          text-transform:uppercase;letter-spacing:.2em;font-size:34px;margin-bottom:10px}
+  .bar .sub{text-align:center;color:var(--dim);font-style:italic;margin-bottom:42px}
+  .bcols{display:grid;grid-template-columns:1fr 1fr;gap:0 70px}
+  .bgrp{margin-bottom:10px}
+  .bgrp + .bgrp{margin-top:40px}
+  .bgrp>h3{font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;
+           letter-spacing:.24em;font-size:11px;color:var(--gold);padding-bottom:12px;
+           border-bottom:1px solid var(--gold-d);margin-bottom:6px}
+  .drink{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:baseline;padding:14px 0}
+  .drink .nm b{font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;
+               text-transform:uppercase;letter-spacing:.04em;font-size:17px;display:block}
+  .drink .nm i{font-style:italic;color:var(--dim);font-size:14px}
+  .drink .ld{border-bottom:1px dotted var(--gold-d);transform:translateY(-5px)}
+  .drink .pz{color:var(--gold);font-size:17px;white-space:nowrap}
+
+  /* цифры в ступенчатых рамках */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;padding:20px 80px 60px}
+  .st{text-align:center;padding:38px 20px;position:relative;border:2px solid var(--gold-d)}
+  .st::before,.st::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--gold)}
+  .st::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+  .st::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+  .st b{font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;font-size:56px;color:var(--gold);display:block}
+  .st span{font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:var(--dim);margin-top:8px;display:block}
+
+  /* форма брони */
+  .form{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:0;max-width:1100px;margin:38px auto 0;
+        border:2px solid var(--gold-d)}
+  .form .f{padding:20px 26px;border-right:1px solid var(--gold-d);text-align:left}
+  .form .f span{display:block;font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;
+                letter-spacing:.2em;font-size:10px;color:var(--gold);margin-bottom:8px}
+  .form .f b{font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:400;font-size:19px;color:var(--cream)}
+  .form .f b i{font-style:normal;color:var(--dim);margin-left:8px;font-size:13px}
+  .form .sub{background:var(--gold);color:var(--ink);display:flex;align-items:center;padding:0 44px;
+             font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;
+             letter-spacing:.2em;font-size:13px;font-weight:700;white-space:nowrap}
+
+  /* подвал */
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--gold-d);
+        border-bottom:1px solid var(--gold-d);margin-top:70px}
+  .cols div{padding:34px 40px;text-align:center;border-right:1px solid var(--gold-d)}
+  .cols div:last-child{border-right:0}
+  .cols h4{font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;
+           letter-spacing:.24em;font-size:11px;color:var(--gold);margin-bottom:14px}
+  .cols p{font-size:15px;line-height:1.8}
+  .cols a{color:var(--cream);text-decoration:none;margin:0 8px}
+
+  /* бронь */
+  .res{text-align:center;padding:70px 0 60px;background:var(--bg2);border-top:1px solid var(--gold-d)}
+  .res .chev{margin-bottom:20px}
+  .res h2{font-family:"Century Gothic",Bahnschrift,sans-serif;font-weight:700;text-transform:uppercase;
+          letter-spacing:.16em;font-size:44px}
+  .res p{color:var(--dim);font-style:italic;margin:14px 0 30px;font-size:18px}
+  .res .book{display:inline-block;background:var(--gold);color:var(--ink);
+             padding:18px 50px;font-family:"Century Gothic",Bahnschrift,sans-serif;text-transform:uppercase;
+             letter-spacing:.22em;font-size:13px;font-weight:700}
+  .res .addr{margin-top:26px}
+
+@media (max-width:1600px){body{zoom:calc(100vw / 1600)}}
+</style>
+</head>
+<body>
+<div class="frame">
+
+<div class="top">
+  <div class="l"><a>Афиша</a><a>Меню</a><a>Бронь</a></div>
+  <div class="brand deco">НОКТЮРН</div>
+  <div class="r lab">Джаз-бар · с 1927</div>
+</div>
+
+<section class="hero">
+  <div class="bg"><img src="/assets/img/cf4751972d.png" alt="Зал джаз-бара"></div>
+  <svg class="sun" viewBox="0 0 900 900" fill="none" stroke="#C6A24E" stroke-width="1.2">
+    <circle cx="450" cy="450" r="150"/><circle cx="450" cy="450" r="230"/>
+    <path d="M450 20V300M450 600v280M20 450h280M600 450h280M158 158l198 198M544 544l198 198M742 158L544 356M356 544 158 742M450 60l40 200-80 0zM450 840l40-200-80 0zM60 450l200 40 0-80zM840 450l-200 40 0-80z"/>
+  </svg>
+  <div class="in">
+    <div class="chev"><span class="lab" style="color:var(--gold)">◆ ◆ ◆</span></div>
+    <div class="lab">Живой джаз каждый вечер</div>
+    <h1>Ноктюрн</h1>
+    <div class="est">Où la nuit chante</div>
+    <p>Бархат, латунь и труба до трёх ночи. Столик у сцены — по брони, за стойкой — по настроению.</p>
+    <div class="book">Забронировать столик</div>
+  </div>
+</section>
+
+<div class="rule"><div class="ln"></div><div class="dia"></div><div class="ln"></div></div>
+
+<section class="prog">
+  <h2>Афиша недели</h2>
+  <p class="sub">Начало в 21:00, вход свободный до первого сета</p>
+  <div class="night">
+    <div class="day"><b>ЧТ</b><span>17 июля</span></div>
+    <div class="act"><h3>Трио Северина</h3><p>Классический бибоп, стандарты Паркера и Гиллеспи</p></div>
+    <div class="meta"><div class="tm">21:00</div><div class="pr">депозит 1 500 ₽</div></div>
+  </div>
+  <div class="night">
+    <div class="day"><b>ПТ</b><span>18 июля</span></div>
+    <div class="act"><h3>Мари Голд и оркестр</h3><p>Вокальный свинг эпохи Эллы Фицджеральд</p></div>
+    <div class="meta"><div class="tm">21:30</div><div class="pr">депозит 2 500 ₽</div></div>
+  </div>
+  <div class="night">
+    <div class="day"><b>СБ</b><span>19 июля</span></div>
+    <div class="act"><h3>Ночной квартет</h3><p>Modal jazz, импровизация до последнего гостя</p></div>
+    <div class="meta"><div class="tm">22:00</div><div class="pr">депозит 2 500 ₽</div></div>
+  </div>
+  <div class="night">
+    <div class="day"><b>ВС</b><span>20 июля</span></div>
+    <div class="act"><h3>Jam Session</h3><p>Открытая сцена, приносите инструмент</p></div>
+    <div class="meta"><div class="tm">20:00</div><div class="pr">вход свободный</div></div>
+  </div>
+</section>
+
+<section class="bar">
+  <h2>Карта бара</h2>
+  <p class="sub">Коктейли по рецептам эпохи сухого закона</p>
+  <div class="bcols">
+    <div>
+      <div class="bgrp">
+        <h3>Классика</h3>
+        <div class="drink"><div class="nm"><b>Олд Фэшн</b><i>бурбон, демерара, ангостура</i></div><span class="ld"></span><span class="pz">890 ₽</span></div>
+        <div class="drink"><div class="nm"><b>Сайдкар</b><i>коньяк, куантро, лимон</i></div><span class="ld"></span><span class="pz">940 ₽</span></div>
+        <div class="drink"><div class="nm"><b>Манхэттен</b><i>ржаной виски, вермут, вишня</i></div><span class="ld"></span><span class="pz">920 ₽</span></div>
+        <div class="drink"><div class="nm"><b>Французский 75</b><i>джин, лимон, игристое</i></div><span class="ld"></span><span class="pz">980 ₽</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="bgrp">
+        <h3>Авторские</h3>
+        <div class="drink"><div class="nm"><b>Ноктюрн</b><i>тёмный ром, кофе, какао-биттер</i></div><span class="ld"></span><span class="pz">1 100 ₽</span></div>
+        <div class="drink"><div class="nm"><b>Латунь</b><i>скотч, мёд, дым яблони</i></div><span class="ld"></span><span class="pz">1 250 ₽</span></div>
+        <div class="drink"><div class="nm"><b>Бархат</b><i>джин, инжир, розовый перец</i></div><span class="ld"></span><span class="pz">1 050 ₽</span></div>
+      </div>
+      <div class="bgrp">
+        <h3>К столу</h3>
+        <div class="drink"><div class="nm"><b>Сырная доска</b><i>четыре сорта, мёд, орехи</i></div><span class="ld"></span><span class="pz">1 400 ₽</span></div>
+        <div class="drink"><div class="nm"><b>Устрицы</b><i>шесть штук, лимон</i></div><span class="ld"></span><span class="pz">1 800 ₽</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="st"><b>1927</b><span>Год основания</span></div>
+  <div class="st"><b>360</b><span>Вечеров живой музыки в год</span></div>
+  <div class="st"><b>48</b><span>Мест у сцены</span></div>
+</section>
+
+<section class="res">
+  <div class="chev lab" style="color:var(--gold)">◆ ◆ ◆</div>
+  <h2>Оставьте себе столик</h2>
+  <p>Пятница и суббота расходятся к среде</p>
+
+  <div class="form">
+    <div class="f"><span>Дата</span><b>19 июля, СБ</b></div>
+    <div class="f"><span>Время</span><b>21:30 <i>первый сет</i></b></div>
+    <div class="f"><span>Гостей</span><b>2 <i>у сцены</i></b></div>
+    <div class="sub">Забронировать</div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h4>Часы</h4>
+      <p>Вт–Чт · 19:00–02:00<br>Пт–Сб · 19:00–04:00<br>Вс · 18:00–00:00</p>
+    </div>
+    <div>
+      <h4>Адрес</h4>
+      <p>Москва, Столешников переулок 9<br>вход со двора, вывеска латунью</p>
+    </div>
+    <div>
+      <h4>Связь</h4>
+      <p>+7 495 000-19-27<br>bron@nocturne.bar</p>
+      <p><a>Telegram</a>·<a>VK</a>·<a>Афиша</a></p>
+    </div>
+  </div>
+</section>
+
+</div>
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kopilka — демо Stack</title>
+<meta name="description" content="Демо-лендинг финансового сервиса. Первый экран, собранный без заказчика.">
+<link rel="canonical" href="https://stackcomp.ru/demo/kopilka">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1C2029">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kopilka — демо Stack">
+<meta property="og:description" content="Демо-лендинг финансового сервиса. Первый экран, собранный без заказчика.">
+<meta property="og:url" content="https://stackcomp.ru/demo/kopilka">
+<meta property="og:image" content="https://stackcomp.ru/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  :root{
+    --bg:#F3F5F7; --card:#FFFFFF; --ink:#131722; --dim:#61697A;
+    --money:#0FA968; --money-d:#0B8A55; --navy:#1B2540; --line:#E4E8EE;
+    --up:#0FA968; --down:#E05252;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{width:1600px;background:var(--bg);color:var(--ink);
+       font:400 16px/1.55 "Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:"Segoe UI",system-ui,sans-serif;letter-spacing:-.02em}
+  .mono{font-family:Consolas,"Courier New",monospace;font-variant-numeric:tabular-nums}
+  svg{display:block}
+
+  nav{display:flex;align-items:center;justify-content:space-between;padding:24px 60px;
+      border-bottom:1px solid var(--line);background:#fff}
+  .brand{display:flex;align-items:center;gap:11px;font-size:22px;font-weight:700}
+  .brand .m{width:34px;height:34px;background:var(--money);border-radius:9px;display:grid;place-items:center;color:#fff;font-weight:800}
+  .menu{display:flex;gap:32px;font-size:15px;color:var(--dim)}
+  .menu a{text-decoration:none;color:var(--dim)}
+  .nav-r{display:flex;gap:14px;align-items:center}
+  .login{color:var(--ink);font-size:15px;text-decoration:none}
+  .start{background:var(--money);color:#fff;border:0;border-radius:10px;padding:12px 22px;font:600 15px "Segoe UI";cursor:pointer}
+
+  .hero{display:grid;grid-template-columns:1fr 720px;gap:48px;align-items:center;padding:70px 60px}
+  .tag{display:inline-flex;align-items:center;gap:9px;background:#E4F5EC;color:var(--money-d);
+       border-radius:100px;padding:8px 16px;font-size:13.5px;font-weight:600;margin-bottom:24px}
+  h1{font-size:60px;line-height:1.05;font-weight:700}
+  .hero p{margin-top:22px;font-size:19px;color:var(--dim);max-width:42ch}
+  .cta{margin-top:32px;display:flex;gap:14px;align-items:center}
+  .cta .p{background:var(--money);color:#fff;border:0;border-radius:11px;padding:16px 30px;font:600 16px "Segoe UI";cursor:pointer}
+  .cta .s{color:var(--ink);font-size:16px;font-weight:600}
+  .under{margin-top:22px;color:var(--dim);font-size:14px}
+
+  /* дашборд как продукт */
+  .dash{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+        box-shadow:0 30px 60px rgba(19,23,34,.10)}
+  .dash-top{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid var(--line)}
+  .dash-top .t{font-weight:600;font-size:16px}
+  .seg{display:flex;background:var(--bg);border-radius:8px;padding:3px}
+  .seg span{font-size:12.5px;color:var(--dim);padding:6px 14px;border-radius:6px}
+  .seg span.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .bal{padding:26px}
+  .bal .lbl{color:var(--dim);font-size:13px}
+  .bal .n{font-size:44px;font-weight:700;letter-spacing:-.02em;margin-top:4px}
+  .bal .n small{font-size:20px;color:var(--dim);font-weight:400}
+  .bal .up{color:var(--up);font-size:14px;font-weight:600;margin-left:12px}
+  .chart{padding:0 26px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:22px 26px 26px}
+  .kpi{background:var(--bg);border-radius:12px;padding:16px}
+  .kpi .k{font-size:12.5px;color:var(--dim)}
+  .kpi .v{font-size:22px;font-weight:700;margin-top:6px}
+  .kpi .d{font-size:12.5px;margin-top:2px}
+  .kpi .d.u{color:var(--up)}.kpi .d.dn{color:var(--down)}
+  .tx{border-top:1px solid var(--line)}
+  .tx .row{display:flex;align-items:center;gap:14px;padding:14px 26px;border-bottom:1px solid var(--line)}
+  .tx .row:last-child{border-bottom:0}
+  .tx .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;font-size:17px}
+  .tx .nm{font-size:14.5px;font-weight:600}
+  .tx .sub{font-size:12.5px;color:var(--dim)}
+  .tx .amt{margin-left:auto;font-weight:700;font-size:15px}
+  .tx .amt.in{color:var(--up)}
+
+  /* фичи — не одинаковые карточки, а строки с превью */
+  .feat{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+        padding:80px 60px}
+  .feat h2{font-size:42px;text-align:center;margin-bottom:12px}
+  .feat .lead{text-align:center;color:var(--dim);font-size:18px;margin-bottom:54px}
+  .f-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .f{padding:30px;border:1px solid var(--line);border-radius:16px}
+  .f .fi{width:48px;height:48px;border-radius:12px;background:#E4F5EC;display:grid;place-items:center;margin-bottom:18px}
+  .f h3{font-size:20px;margin-bottom:8px}
+  .f p{color:var(--dim);font-size:15px}
+
+  /* цены */
+  .pricing{padding:80px 60px}
+  .pricing h2{font-size:42px;text-align:center;margin-bottom:44px}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1100px;margin:0 auto}
+  .plan{background:#fff;border:1px solid var(--line);border-radius:18px;padding:32px}
+  .plan.mid{border:2px solid var(--money);position:relative}
+  .plan .pin{position:absolute;top:-13px;left:32px;background:var(--money);color:#fff;font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px}
+  .plan .nm{font-weight:600;font-size:17px}
+  .plan .pr{font-size:40px;font-weight:700;margin:16px 0 4px}
+  .plan .pr small{font-size:16px;color:var(--dim);font-weight:400}
+  .plan ul{list-style:none;margin:22px 0 26px}
+  .plan li{padding:9px 0 9px 26px;position:relative;font-size:14.5px;color:var(--dim)}
+  .plan li::before{content:"✓";position:absolute;left:0;color:var(--money);font-weight:700}
+  .plan .b{display:block;text-align:center;border:1px solid var(--money);color:var(--money);
+           border-radius:11px;padding:13px;font-weight:600;font-size:15px}
+  .plan.mid .b{background:var(--money);color:#fff}
+
+  footer{background:var(--navy);color:#fff;padding:56px 60px;display:flex;justify-content:space-between;
+         align-items:center}
+  footer h2{font-size:34px;max-width:20ch}
+  footer .big{background:var(--money);color:#fff;border:0;border-radius:12px;padding:18px 36px;font:600 17px "Segoe UI";cursor:pointer}
+
+@media (max-width:1600px){body{zoom:calc(100vw / 1600)}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand"><span class="m">₽</span>KOPILKA</div>
+  <div class="menu"><a>Возможности</a><a>Тарифы</a><a>Интеграции</a><a>Блог</a></div>
+  <div class="nav-r"><a class="login">Войти</a><button class="start">Открыть счёт</button></div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="tag">● Работает с Тинькофф, Сбер и Точкой</div>
+    <h1>Деньги бизнеса —<br>в одном экране</h1>
+    <p>Считаем прибыль автоматически: подтягиваем выписки из банков, раскладываем
+      по категориям и показываем, сколько вы реально заработали за месяц.</p>
+    <div class="cta">
+      <button class="p">Попробовать 14 дней бесплатно</button>
+      <a class="s">Смотреть демо →</a>
+    </div>
+    <div class="under">Без карты. Настройка за 10 минут.</div>
+  </div>
+
+  <div class="dash">
+    <div class="dash-top">
+      <div class="t">Финансы · Июль</div>
+      <div class="seg"><span>Неделя</span><span class="on">Месяц</span><span>Год</span></div>
+    </div>
+    <div class="bal">
+      <div class="lbl">Чистая прибыль за июль</div>
+      <div class="n mono">418 200 <small>₽</small><span class="up">▲ 23%</span></div>
+    </div>
+    <div class="chart">
+      <svg viewBox="0 0 640 180" width="100%" height="150">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0FA968" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#0FA968" stop-opacity="0"/></linearGradient></defs>
+        <line x1="0" y1="45" x2="640" y2="45" stroke="#EEF1F5"/>
+        <line x1="0" y1="95" x2="640" y2="95" stroke="#EEF1F5"/>
+        <line x1="0" y1="145" x2="640" y2="145" stroke="#EEF1F5"/>
+        <path d="M0 130 L80 118 L160 132 L240 96 L320 104 L400 70 L480 82 L560 44 L640 52 L640 180 L0 180 Z" fill="url(#g)"/>
+        <path d="M0 130 L80 118 L160 132 L240 96 L320 104 L400 70 L480 82 L560 44 L640 52" fill="none" stroke="#0FA968" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="560" cy="44" r="5" fill="#fff" stroke="#0FA968" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">Выручка</div><div class="v mono">1,24 М</div><div class="d u">+18% к июню</div></div>
+      <div class="kpi"><div class="k">Расходы</div><div class="v mono">822 К</div><div class="d dn">+9% к июню</div></div>
+      <div class="kpi"><div class="k">Налоги отложено</div><div class="v mono">74 К</div><div class="d">6% УСН</div></div>
+    </div>
+    <div class="tx">
+      <div class="row"><div class="ic" style="background:#E4F5EC">↓</div>
+        <div><div class="nm">Оплата от ООО «Вектор»</div><div class="sub">Выручка · сегодня</div></div>
+        <div class="amt in mono">+96 000 ₽</div></div>
+      <div class="row"><div class="ic" style="background:#FBE9E9">↑</div>
+        <div><div class="nm">Аренда помещения</div><div class="sub">Постоянные · вчера</div></div>
+        <div class="amt mono">−65 000 ₽</div></div>
+      <div class="row"><div class="ic" style="background:#FBE9E9">↑</div>
+        <div><div class="nm">Закупка материалов</div><div class="sub">Себестоимость · вчера</div></div>
+        <div class="amt mono">−31 400 ₽</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="feat">
+  <h2>Не бухгалтерия, а понятные ответы</h2>
+  <p class="lead">Вопросы, на которые предприниматель отвечает раз в месяц вручную</p>
+  <div class="f-row">
+    <div class="f">
+      <div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0B8A55" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+      <h3>Сколько я заработал?</h3>
+      <p>Прибыль, а не оборот. Видно, что осталось после всех расходов и налогов.</p>
+    </div>
+    <div class="f">
+      <div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0B8A55" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      <h3>Хватит ли на налоги?</h3>
+      <p>Откладываем нужную сумму заранее, чтобы квартальный платёж не был сюрпризом.</p>
+    </div>
+    <div class="f">
+      <div class="fi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0B8A55" stroke-width="2" stroke-linecap="round"><path d="M4 4h16v16H4z"/><path d="M4 10h16M10 10v10"/></svg></div>
+      <h3>Куда уходят деньги?</h3>
+      <p>Расходы по категориям. Сразу видно, где утекает больше, чем должно.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <h2>Тарифы под размер бизнеса</h2>
+  <div class="plans">
+    <div class="plan">
+      <div class="nm">Старт</div>
+      <div class="pr mono">0 <small>₽/мес</small></div>
+      <ul><li>1 банковский счёт</li><li>Прибыль и расходы</li><li>До 100 операций в месяц</li></ul>
+      <a class="b">Начать бесплатно</a>
+    </div>
+    <div class="plan mid">
+      <div class="pin">Выбирают чаще</div>
+      <div class="nm">Бизнес</div>
+      <div class="pr mono">1 490 <small>₽/мес</small></div>
+      <ul><li>Все счета и кассы</li><li>Расчёт налогов УСН</li><li>Выгрузка для бухгалтера</li><li>Без лимита операций</li></ul>
+      <a class="b">Попробовать 14 дней</a>
+    </div>
+    <div class="plan">
+      <div class="nm">Команда</div>
+      <div class="pr mono">3 900 <small>₽/мес</small></div>
+      <ul><li>Всё из «Бизнес»</li><li>Доступ для сотрудников</li><li>Интеграция с 1С</li><li>Личный менеджер</li></ul>
+      <a class="b">Обсудить условия</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h2>Узнайте, сколько бизнес заработал на самом деле</h2>
+  <button class="big">Открыть счёт бесплатно</button>
+</footer>
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

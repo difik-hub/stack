@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Отзывы — Stack</title>
+<meta name="description" content="Отзывы клиентов Stack. Каждый приходит через форму и публикуется после проверки.">
+<link rel="canonical" href="https://stackcomp.ru/otzyvy">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1C2029">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Отзывы — Stack">
+<meta property="og:description" content="Отзывы клиентов Stack. Каждый приходит через форму и публикуется после проверки.">
+<meta property="og:url" content="https://stackcomp.ru/otzyvy">
+<meta property="og:image" content="https://stackcomp.ru/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+@font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/814be3a421.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/bb47fcfcf2.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+:root{--bg:#171A22;--b1:#1F232D;--ink:#F4F2ED;--fg2:#D9D6CF;--mute:#B9B4AC;--dim:#8A909B;--accent:#FF5A1F;--line:rgba(244,242,237,.09);--card-ink:#0E1116;--f:Geologica,"Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,100% - 48px);margin-inline:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.topz{position:relative;isolation:isolate;background:linear-gradient(180deg,#1C2029,#171A22)}
+canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+.hdr{border-bottom:1px solid var(--line)}
+.nav{display:flex;gap:26px;font-size:14.5px;color:var(--mute)}.nav a:hover{color:var(--ink)}
+@media (max-width:900px){.nav{display:none}}
+.hdr .in{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px}
+.back{color:var(--mute);font-size:14.5px}.back:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;background:var(--accent);color:var(--card-ink);font:700 15px/1 var(--f);padding:15px 22px;border-radius:12px;border:0;cursor:pointer;transition:background .15s,transform .15s}
+.btn:hover{background:#E24A12}.btn:active{transform:scale(.97)}
+.btn.sm{padding:11px 16px;font-size:14px;border-radius:10px}
+
+.head{padding:72px 0 28px;max-width:640px;margin-inline:auto;text-align:center}
+.eyebrow{font:500 12px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{margin:0;font-size:clamp(34px,4.4vw,52px);line-height:1.06;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+.sub{margin:18px auto 0;color:var(--mute);font-size:17px;max-width:48ch}
+.sub b{color:var(--ink);font-weight:600}
+
+/* Стена: три колонки едут вверх с разной скоростью, края растворяются маской. Стоп под курсором. */
+.wall{display:flex;justify-content:center;gap:22px;max-height:720px;overflow:hidden;padding:12px 0;
+  mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent)}
+.col{width:340px;flex:none}
+.col .run{display:flex;flex-direction:column;gap:22px;padding-bottom:22px;animation:up var(--dur,16s) linear infinite}
+@keyframes up{to{transform:translateY(-50%)}}
+.rv{background:var(--b1);border-radius:22px;padding:28px;box-shadow:rgba(255,255,255,.04) 0 0 0 1px inset,rgba(0,0,0,.5) 0 20px 40px -24px}
+.rv p{margin:0;font-size:15.5px;line-height:1.6;color:var(--fg2)}
+.rv .who{display:flex;align-items:center;gap:12px;margin-top:20px}
+.rv .av{width:40px;height:40px;border-radius:50%;background:rgba(244,242,237,.08);display:grid;place-items:center;font:700 13px/1 var(--f);color:var(--mute);flex:none}
+.rv .who b{display:block;font-size:14.5px;font-weight:600}
+.rv .who i{display:block;font-style:normal;font-size:13px;color:var(--dim)}
+.rv .tag{margin-left:auto;font:600 11px/1 var(--f);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:rgba(255,90,31,.12);padding:6px 9px;border-radius:999px}
+.stars{display:flex;gap:3px;margin-bottom:12px}
+.stars i{width:14px;height:14px;background:var(--accent);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+@media (max-width:1100px){.col:nth-child(3){display:none}}
+@media (max-width:720px){.col:nth-child(2){display:none}.col{width:min(100%,360px)}.wall{max-height:560px}}
+@media (prefers-reduced-motion:reduce){.col .run{animation:none}.wall{max-height:none;mask-image:none;-webkit-mask-image:none}}
+
+/* форма */
+.formwrap{padding:56px 0 96px}
+.surface{background:var(--b1);border-radius:22px;padding:34px;box-shadow:rgba(255,255,255,.04) 0 0 0 1px inset;max-width:760px;margin-inline:auto}
+.ph{margin:0 0 20px;font-size:20px;font-weight:700;letter-spacing:-.01em}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fld{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;font-size:14px;font-weight:600}
+.fld small{font-weight:400;color:var(--dim)}
+.fld input,.fld textarea{font:400 16px/1.4 var(--f);color:var(--ink);background:rgba(244,242,237,.05);border:1px solid var(--line);border-radius:12px;padding:13px 14px;min-height:48px;transition:border-color .15s,background .15s}
+.fld input:focus,.fld textarea:focus{outline:0;border-color:var(--accent);background:rgba(244,242,237,.07)}
+.rate{display:flex;gap:8px}
+.rate button{width:48px;height:48px;border-radius:12px;border:1px solid var(--line);background:rgba(244,242,237,.05);color:var(--mute);font:600 15px var(--f);cursor:pointer;transition:all .15s}
+.rate button[aria-checked="true"]{background:var(--accent);border-color:var(--accent);color:var(--card-ink)}
+.fbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:6px}
+.fnote{font-size:14px;color:var(--dim)}
+.trap{position:absolute;left:-9999px}
+@media (max-width:640px){.frow{grid-template-columns:1fr}.surface{padding:24px}.head{padding-top:48px}}
+
+/* подвал — как на главной, с сеткой */
+.foot{border-top:1px solid var(--line);background-image:linear-gradient(rgba(244,242,237,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(244,242,237,.05) 1px,transparent 1px);background-size:56px 56px;padding:56px 0 36px;font-size:15px;color:var(--mute);text-align:left}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+.fbrand{display:grid;grid-template-columns:22px 1fr;column-gap:10px;align-items:center;font-weight:600;font-size:17px;align-self:start;color:var(--ink)}
+.fbrand span{grid-column:2;font-size:14px;font-weight:400;color:var(--mute);margin-top:2px}
+.fbrand svg{width:22px;height:22px}
+.fcol{display:flex;flex-direction:column;gap:12px}
+.fcol b{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.fcol a{font-size:15px;color:var(--mute);transition:color .1s}
+.fcol a:hover{color:var(--ink)}
+.fbottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;font-size:13px;color:var(--dim)}
+@media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="topz">
+<canvas class="gridfx" aria-hidden="true"></canvas>
+<header class="hdr"><div class="wrap in">
+  <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack</a>
+  <nav class="nav"><a href="/uslugi">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="/kak-rabotaem">Как работаем</a><a href="#" aria-current="page" style="color:var(--ink)">Отзывы</a></nav>
+  <a class="btn sm" href="/#contact">Написать</a>
+</div></header>
+
+<section class="head wrap">
+  <div class="eyebrow">Stack / отзывы</div>
+  <h1>Что говорят те, с кем мы работали</h1>
+  <p class="sub">Каждый отзыв приходит через форму ниже и появляется здесь после проверки. <b>Сейчас на стене примеры</b> — чтобы было видно, как она заживёт с первого настоящего.</p>
+</section>
+</div>
+
+<section class="wall wrap" aria-label="Отзывы">
+  <div class="col" style="--dur:17s"><div class="run" id="c1"></div></div>
+  <div class="col" style="--dur:22s"><div class="run" id="c2"></div></div>
+  <div class="col" style="--dur:19s"><div class="run" id="c3"></div></div>
+</section>
+
+<section class="formwrap wrap">
+  <form class="surface" id="revForm" novalidate>
+    <p class="ph">Работали с нами? Расскажите, как прошло</p>
+    <div class="frow">
+      <label class="fld"><span>Как вас зовут</span><input name="имя" maxlength="40" required autocomplete="name"></label>
+      <label class="fld"><span>Компания <small>необязательно</small></span><input name="компания" maxlength="60" autocomplete="organization"></label>
+    </div>
+    <div class="fld"><span id="rateL">Оценка</span><div class="rate" role="radiogroup" aria-labelledby="rateL" id="rate"></div></div>
+    <label class="fld"><span>Что делали и что получилось</span><textarea name="текст" rows="4" maxlength="600" required></textarea></label>
+    <input name="mail" tabindex="-1" autocomplete="off" aria-hidden="true" class="trap">
+    <div class="fbar"><button class="btn" type="submit">Отправить отзыв</button><span class="fnote" id="revNote" aria-live="polite">Появится на стене после проверки.</span></div>
+  </form>
+</section>
+
+<footer class="foot">
+  <div class="wrap fgrid">
+    <div class="fbrand"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack<span>Сайты и боты для бизнеса</span></div>
+    <div class="fcol"><b>Разделы</b><a href="/uslugi">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="/kak-rabotaem">Как работаем</a><a href="#">Отзывы</a></div>
+    <div class="fcol"><b>Связь</b><a href="https://t.me/suptstackbot" target="_blank" rel="noopener">Телеграм</a><a href="mailto:sandrakaran@onet.pl">Почта</a></div>
+    <div class="fcol"><b>Документы</b><a href="/konfidencialnost">Конфиденциальность</a><a href="/cookies">Cookies</a><a href="/oferta">Оферта</a></div>
+  </div>
+  <div class="wrap fbottom"><span>© 2026 Stack</span><span>Москва, работаем по всей России</span></div>
+</footer>
+
+<script>
+(function(){
+  // Примеры — только чтобы показать механику. Реальные приходят с сервера и заменяют этот массив целиком.
+  var samples=[
+    ['Заказывали лендинг под новую линейку. Макет показали до оплаты, поправили два раза — и в среду уже был на нашем домене.','клиент · лендинг'],
+    ['Бот отвечает ночью и записывает сам. Раньше половину заявок теряли, пока спали.','клиент · телеграм-бот'],
+    ['Цену назвали до начала и не двигали, хотя мы добавили страницу по ходу. Непривычно.','клиент · доработка'],
+    ['Просили сайт, который открывается с телефона за секунду. Открывается.','клиент · лендинг'],
+    ['Аудит за два дня: список из 11 правок по важности, без воды. Половину сделали сами по нему.','клиент · аудит'],
+    ['Магазин с оплатой и админкой за две недели. Товары теперь добавляем сами.','клиент · магазин'],
+    ['Форму сделали в один шаг — заявки стали приходить в телеграм сразу, без «перезвоните».','клиент · лендинг'],
+    ['Домен и хостинг оформили на нас. Впервые сайт реально наш, а не «у студии».','клиент · лендинг'],
+    ['Отвечает сам, текстом, в течение часа. Это дороже любого портфолио.','клиент · бот']
+  ];
+  function card(s){return '<article class="rv"><div class="stars"><i></i><i></i><i></i><i></i><i></i></div><p>'+s[0]+'</p><div class="who"><span class="av">?</span><span><b>Имя появится с первым отзывом</b><i>'+s[1]+'</i></span><span class="tag">Пример</span></div></article>'}
+  [[0,3],[3,6],[6,9]].forEach(function(r,i){var h=samples.slice(r[0],r[1]).map(card).join('');document.getElementById('c'+(i+1)).innerHTML=h+h});
+
+  // настоящие отзывы: пришли — примеры и пометка про них убираются
+  fetch(API).then(function(r){return r.json()}).then(function(list){if(!Array.isArray(list)||!list.length)return;function esc(t){var d=document.createElement('div');d.textContent=t==null?'':t;return d.innerHTML}function real(o){var k=Math.max(1,Math.min(5,+o.оценка||5)),st='';for(var i=0;i<5;i++)st+='<i'+(i<k?'':' style="opacity:.25"')+'></i>';return '<article class="rv"><div class="stars">'+st+'</div><p>'+esc(o.текст)+'</p><div class="who"><span class="av">'+esc((o.имя||'?').charAt(0).toUpperCase())+'</span><span><b>'+esc(o.имя||'Заказчик')+'</b><i>'+esc(o.компания||'клиент')+'</i></span></div></article>'}var cols=[[],[],[]];list.forEach(function(o,i){cols[i%3].push(real(o))});cols.forEach(function(c,i){var el=document.getElementById('c'+(i+1));var h=c.join('')||cols[0].join('');el.innerHTML=h+h});var sub=document.querySelector('.head .sub');if(sub)sub.innerHTML='Каждый отзыв приходит через форму ниже и появляется здесь после проверки.'}).catch(function(){});
+  // оценка
+  var rate=document.getElementById('rate'),val=5;
+  for(var i=1;i<=5;i++){var b=document.createElement('button');b.type='button';b.role='radio';b.textContent=i;b.setAttribute('aria-checked',i===val);b.addEventListener('click',function(e){val=+e.target.textContent;[].forEach.call(rate.children,function(x){x.setAttribute('aria-checked',+x.textContent===val)})});rate.appendChild(b)}
+  var f=document.getElementById('revForm'),n=document.getElementById('revNote');
+  var API='https://bot-demo-forka.vercel.app/api/otzyvy';  // тот же сервер, что у старого сайта
+  // пришли с главной с текстом — подставляем, просим поставить оценку
+  try{var pre=JSON.parse(sessionStorage.getItem('stack.review')||'null');if(pre){f.elements['имя'].value=pre.имя||'';f.elements['компания'].value=pre.компания||'';f.elements['текст'].value=pre.текст||'';
+    n.textContent='Проверьте текст, поставьте оценку и отправьте.';sessionStorage.removeItem('stack.review');setTimeout(function(){f.scrollIntoView({behavior:'smooth',block:'center'})},300)}}catch(x){}
+  f.addEventListener('submit',function(e){e.preventDefault();if(!f.checkValidity()){f.reportValidity();return}
+    var d=new FormData(f),b=f.querySelector('button[type=submit]');b.disabled=true;n.textContent='Отправляем…';
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({имя:d.get('имя'),компания:d.get('компания'),текст:d.get('текст'),оценка:val,mail:d.get('mail')})})
+      .then(function(r){return r.json()}).then(function(r){
+        if(r&&r.ok){n.textContent='Спасибо. Отзыв ушёл на проверку — появится на стене, как только посмотрим.';f.reset();val=5;[].forEach.call(rate.children,function(x){x.setAttribute('aria-checked',x.textContent==='5')})}
+        else n.textContent='Не отправилось. Попробуйте ещё раз или напишите в телеграм.'})
+      .catch(function(){n.textContent='Нет связи с сервером. Попробуйте позже.'}).then(function(){b.disabled=false})});
+})();
+</script>
+<script>
+/* ── сетка сверху страницы: клетки осыпаются к низу неравномерно (canvas, детерминированный шум) ── */
+(function(){
+  var cs=document.querySelectorAll('canvas.gridfx'); if(!cs.length) return;
+  function draw(c){
+    var r=c.parentNode.getBoundingClientRect(), dpr=Math.min(2,devicePixelRatio||1), W=Math.round(r.width), H=Math.round(r.height);
+    c.width=W*dpr; c.height=H*dpr; c.style.width=W+'px'; c.style.height=H+'px';
+    var x=c.getContext('2d'); x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,W,H);
+    var s=56, cols=Math.ceil(W/s)+1, rows=Math.ceil(H/s)+1, seed=7;
+    function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647 }
+    x.strokeStyle='rgba(244,242,237,.075)'; x.lineWidth=1;
+    for(var j=0;j<rows;j++){
+      var p=j/rows, t=Math.min(1,Math.max(0,(p-.28)/.6)); t=Math.pow(t,1.3);   // с трети высоты клетки начинают выпадать, у низа не остаётся ни одной   // ниже 42% высоты клетки начинают выпадать, к низу — почти все
+      for(var i=0;i<cols;i++){ if(rnd()<t) continue; x.strokeRect(i*s+.5, j*s+.5, s, s) }
+    }
+  }
+  function all(){ cs.forEach(draw) } all(); addEventListener('resize',all);
+})();
+</script>
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

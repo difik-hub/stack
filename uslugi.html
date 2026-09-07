@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Услуги и цены — Stack</title>
+<meta name="description" content="Пять услуг с фиксированной ценой и сроком: лендинг, бот, аудит, магазин, приложение. Что входит, опции, калькулятор.">
+<link rel="canonical" href="https://stackcomp.ru/uslugi">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1C2029">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Услуги и цены — Stack">
+<meta property="og:description" content="Пять услуг с фиксированной ценой и сроком: лендинг, бот, аудит, магазин, приложение. Что входит, опции, калькулятор.">
+<meta property="og:url" content="https://stackcomp.ru/uslugi">
+<meta property="og:image" content="https://stackcomp.ru/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+@font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/814be3a421.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/bb47fcfcf2.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+:root{--bg:#171A22;--b1:#1F232D;--b2:#262B37;--ink:#F4F2ED;--fg2:#D9D6CF;--mute:#B9B4AC;--dim:#8A909B;--accent:#FF5A1F;--line:rgba(244,242,237,.09);--card-ink:#0E1116;--ok:#2ECC71;--f:Geologica,"Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--f)}
+.wrap{width:min(1180px,100% - 48px);margin-inline:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.topz{position:relative;isolation:isolate;background:linear-gradient(180deg,#1C2029,#171A22)}
+canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+.hdr{border-bottom:1px solid var(--line)}
+.hdr .in{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px}
+.nav{display:flex;gap:26px;font-size:14.5px;color:var(--mute)}.nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:var(--card-ink);font:700 15px/1 var(--f);padding:15px 22px;border-radius:12px;border:0;cursor:pointer;transition:background .15s,transform .15s}
+.btn:hover{background:#E24A12}.btn:active{transform:scale(.97)}
+.btn.sm{padding:11px 16px;font-size:14px;border-radius:10px}
+.head{padding:72px 0 64px;max-width:760px}
+.eyebrow{font:500 12px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{margin:0;font-size:clamp(34px,4.6vw,56px);line-height:1.04;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+.sub{margin:18px 0 0;color:var(--mute);font-size:17px;max-width:52ch}
+.sub b{color:var(--ink);font-weight:600}
+.jump{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.jump a{font:500 13px/1 var(--f);padding:11px 14px;border-radius:999px;background:rgba(244,242,237,.06);border:1px solid var(--line);color:var(--fg2)}
+.jump a:hover{border-color:rgba(244,242,237,.25);color:var(--ink)}
+.sec{padding:96px 0}.sec+.sec{border-top:1px solid var(--line)}
+h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;letter-spacing:-.02em}
+.lead{margin:14px 0 0;color:var(--mute);font-size:16.5px;max-width:56ch}
+
+/* услуги подробно */
+.svc{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px 64px;padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:24px}
+.svc:first-of-type{border-top:0;padding-top:0}
+.svc h3{margin:0;font-size:28px;font-weight:700;letter-spacing:-.018em}
+.svc .p{margin:14px 0 0;font-size:15.5px;color:var(--mute);max-width:44ch}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.meta span{font:600 14px/1 var(--f);padding:11px 14px;border-radius:999px;background:rgba(244,242,237,.07);border:1px solid var(--line)}
+.meta .price{background:var(--accent);border-color:var(--accent);color:var(--card-ink);font-weight:700;font-variant-numeric:tabular-nums}
+.meta .price s{font-weight:500;opacity:.7;margin-left:6px}
+.svc .cta{margin-top:24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.svc .cta a.more{color:var(--mute);font-size:14.5px;border-bottom:1px solid var(--line)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px 32px}
+.cols h4{margin:0 0 12px;font:600 13px/1 var(--f);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.cols ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px;color:var(--fg2)}
+.cols li{display:flex;gap:10px;align-items:flex-start}
+.cols li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:9px}
+.cols .no li::before{background:var(--dim)}
+.cols .no li{color:var(--mute)}
+.need{grid-column:1/-1;background:var(--b1);border-radius:16px;padding:20px 22px;font-size:15px;color:var(--fg2)}
+.need b{display:block;font-weight:600;color:var(--ink);margin-bottom:6px}
+.faq{grid-column:1/-1;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:600;font-size:15.5px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--accent);font-weight:500;font-size:20px;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{margin:0 0 16px;color:var(--mute);font-size:15px;max-width:66ch}
+
+/* таблица */
+.tbl{overflow-x:auto;margin-top:36px;border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:14.5px}
+th,td{padding:14px 16px;text-align:center;border-bottom:1px solid var(--line)}
+th{font-weight:600;background:var(--b1)}
+th:first-child,td:first-child{text-align:left;color:var(--fg2);width:26%}
+tr:last-child td{border-bottom:0}
+td .y{display:inline-block;width:18px;height:18px;border-radius:50%;background:rgba(46,204,113,.16);position:relative}
+td .y::after{content:"";position:absolute;left:6px;top:3px;width:4px;height:8px;border:solid var(--ok);border-width:0 2px 2px 0;transform:rotate(45deg)}
+td .n{color:var(--dim)}
+td .o{font-size:12.5px;color:var(--mute)}
+td b{font-variant-numeric:tabular-nums}
+
+/* калькулятор */
+.calc{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px;margin-top:36px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{appearance:none;border:1px solid var(--line);background:rgba(244,242,237,.05);color:var(--mute);font:600 14px/1 var(--f);padding:12px 16px;border-radius:999px;cursor:pointer;transition:all .15s}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--card-ink)}
+.opts{margin-top:22px;display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:22px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:12px;background:var(--b1);cursor:pointer;transition:background .15s}
+.opt:hover{background:var(--b2)}
+.opt input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent);cursor:pointer}
+.opt b{display:block;font-weight:600;font-size:15px}
+.opt small{display:block;color:var(--mute);font-size:13.5px;margin-top:2px}
+.opt em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.sum{position:sticky;top:24px;background:var(--b1);border-radius:20px;padding:28px;box-shadow:rgba(255,255,255,.04) 0 0 0 1px inset,rgba(255,90,31,.18) 0 24px 60px -30px}
+.sum .n{font-weight:600;font-size:17px}
+.sum .t{font:700 44px/1 var(--f);letter-spacing:-.03em;margin:16px 0 4px;font-variant-numeric:tabular-nums}
+.sum .d{color:var(--mute);font-size:15px}
+.sum ul{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:6px;font-size:14px;color:var(--fg2)}
+.sum li{display:flex;justify-content:space-between;gap:12px}
+.sum li span:last-child{font-variant-numeric:tabular-nums;color:var(--mute)}
+.sum .btn{width:100%;margin-top:22px}
+.sum .note{margin:12px 0 0;font-size:13px;color:var(--dim)}
+
+/* форма */
+.surface{background:var(--b1);border-radius:22px;padding:34px;box-shadow:rgba(255,255,255,.04) 0 0 0 1px inset}
+.fwrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px 56px;align-items:start}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fld{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;font-size:14px;font-weight:600}
+.fld input,.fld textarea,.fld select{font:400 16px/1.4 var(--f);color:var(--ink);background:rgba(244,242,237,.05);border:1px solid var(--line);border-radius:12px;padding:13px 14px;min-height:48px;transition:border-color .15s}
+.fld select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
+.fld select option{background:#1F232D;color:#F4F2ED}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:0;border-color:var(--accent)}
+.fbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.fnote{font-size:14px;color:var(--dim)}
+.trap{position:absolute;left:-9999px}
+.clinks{display:grid;gap:12px;margin-top:22px}
+.clinks a{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.clinks a span{color:var(--mute)}
+
+/* подвал */
+.foot{border-top:1px solid var(--line);background-image:linear-gradient(rgba(244,242,237,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(244,242,237,.05) 1px,transparent 1px);background-size:56px 56px;padding:56px 0 36px;font-size:15px;color:var(--mute)}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+.fbrand{display:grid;grid-template-columns:22px 1fr;column-gap:10px;align-items:center;font-weight:600;font-size:17px;align-self:start;color:var(--ink)}
+.fbrand span{grid-column:2;font-size:14px;font-weight:400;color:var(--mute);margin-top:2px}
+.fbrand svg{width:22px;height:22px}
+.fcol{display:flex;flex-direction:column;gap:12px}
+.fcol b{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.fcol a{font-size:15px;color:var(--mute);transition:color .1s}.fcol a:hover{color:var(--ink)}
+.fbottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;font-size:13px;color:var(--dim)}
+.draft{margin:0;padding:14px 18px;border-radius:12px;background:rgba(255,90,31,.08);color:var(--fg2);font-size:13.5px}
+@media (max-width:960px){.svc,.calc,.fwrap{grid-template-columns:1fr}.sum{position:static}.nav{display:none}.fgrid{grid-template-columns:1fr 1fr}.sec{padding:72px 0}}
+@media (max-width:640px){.cols,.frow{grid-template-columns:1fr}.surface{padding:24px}.head{padding:48px 0 40px}.fgrid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* раскрывашки: закрыты, открываются по клику, счётчик пунктов */
+.grps{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;align-items:start;border-top:1px solid var(--line)}
+.grp{border-bottom:1px solid var(--line)}
+.grp.wide{grid-column:1/-1}
+.grps .need{grid-column:1/-1;margin:24px 0 0;background:var(--b1);border-radius:16px;padding:18px 22px;font-size:15px;color:var(--fg2)}
+.grps .need b{display:block;font-weight:600;color:var(--ink);margin-bottom:6px}
+@media (max-width:640px){.grps{grid-template-columns:1fr}}
+.grp>summary{list-style:none;cursor:pointer;padding:18px 0;font-weight:600;font-size:17px;display:flex;align-items:center;gap:12px}
+.grp>summary::-webkit-details-marker{display:none}
+.grp>summary i{font-style:normal;font:600 12px/1 var(--f);color:var(--mute);background:rgba(244,242,237,.08);padding:5px 8px;border-radius:999px}
+.grp>summary::after{content:"+";margin-left:auto;color:var(--accent);font-weight:500;font-size:22px;line-height:1;transition:transform .2s}
+.grp[open]>summary::after{transform:rotate(45deg)}
+.grp ul{list-style:none;margin:0;padding:0 0 20px;display:grid;gap:9px;font-size:15px;color:var(--fg2)}
+.grp li{display:flex;gap:10px;align-items:flex-start}
+.grp li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:9px}
+.grp.no li::before{background:var(--dim)}.grp.no li{color:var(--mute)}
+.grp .faq{border-top:0;padding-bottom:8px}
+.grp .faq details:last-child{border-bottom:0}
+</style>
+</head>
+<body>
+<div class="topz">
+<canvas class="gridfx" aria-hidden="true"></canvas>
+<header class="hdr"><div class="wrap in">
+  <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack</a>
+  <nav class="nav"><a href="#" aria-current="page" style="color:var(--ink)">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="/kak-rabotaem">Как работаем</a><a href="/otzyvy">Отзывы</a></nav>
+  <a class="btn sm" href="#order">Написать</a>
+</div></header>
+<section class="head wrap">
+  <div class="eyebrow">Stack / услуги</div>
+  <h1>Пять услуг. Цена и срок фиксированные</h1>
+  <p class="sub">Сумму называем до начала и держим. Что вылезет в процессе — наша забота, не ваша доплата. <b>Сначала макет, потом деньги.</b></p>
+  <div class="jump" id="jump"></div>
+</section>
+</div>
+
+<section class="sec"><div class="wrap" id="svc"></div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>Что в какой услуге</h2>
+  <p class="lead">Одна таблица вместо пяти описаний, если нужно сравнить быстро.</p>
+  <div class="tbl"><table id="cmp"></table></div>
+</div></section>
+
+<section class="sec" id="calc"><div class="wrap">
+  <h2>Посчитайте сами</h2>
+  <p class="lead">Выберите услугу, отметьте, что нужно сверх базы. Цена и срок пересчитываются сразу. Ничего не отметили — платите базу.</p>
+  <div class="calc">
+    <div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <aside class="sum" aria-live="polite">
+      <div class="n" id="sumN"></div>
+      <div class="t" id="sumT"></div>
+      <div class="d" id="sumD"></div>
+      <ul id="sumL"></ul>
+      <a class="btn" href="#order" id="sumBtn">Заказать</a>
+      <p class="note">Итог уйдёт в форму ниже вместе с выбранными опциями.</p>
+    </aside>
+  </div>
+</div></section>
+
+<section class="sec" id="order"><div class="wrap fwrap">
+  <div>
+    <h2>Заказать</h2>
+    <p class="lead">Ответим в тот же день и покажем макет до того, как вы что-то заплатите.</p>
+    <div class="clinks">
+      <a href="https://t.me/suptstackbot" target="_blank" rel="noopener"><b>Телеграм</b><span>@suptstackbot</span></a>
+      <a href="mailto:sandrakaran@onet.pl"><b>Почта</b><span>sandrakaran@onet.pl</span></a>
+    </div>
+  </div>
+  <form class="surface" id="reqForm" novalidate>
+    <label class="fld"><span>Что нужно</span><select name="услуга" id="fSvc"></select></label>
+    <div class="frow">
+      <label class="fld"><span>Имя</span><input name="имя" maxlength="40" required autocomplete="name"></label>
+      <label class="fld"><span>Телефон или телеграм</span><input name="контакт" maxlength="60" required autocomplete="tel"></label>
+    </div>
+    <label class="fld"><span>Пара слов о задаче</span><textarea name="задача" id="fTask" rows="4" maxlength="800"></textarea></label>
+    <input name="mail" tabindex="-1" autocomplete="off" aria-hidden="true" class="trap">
+    <div class="fbar"><button class="btn" type="submit">Отправить</button><span class="fnote" id="reqNote" aria-live="polite">Придёт нам в телеграм. Ответим текстом.</span></div>
+  </form>
+</div></section>
+
+<footer class="foot">
+  <div class="wrap fgrid">
+    <div class="fbrand"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack<span>Сайты и боты для бизнеса</span></div>
+    <div class="fcol"><b>Разделы</b><a href="#">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="/kak-rabotaem">Как работаем</a><a href="/otzyvy">Отзывы</a></div>
+    <div class="fcol"><b>Связь</b><a href="https://t.me/suptstackbot" target="_blank" rel="noopener">Телеграм</a><a href="mailto:sandrakaran@onet.pl">Почта</a></div>
+    <div class="fcol"><b>Документы</b><a href="/konfidencialnost">Конфиденциальность</a><a href="/cookies">Cookies</a><a href="/oferta">Оферта</a></div>
+  </div>
+  <div class="wrap fbottom"><span>© 2026 Stack</span><span>Москва, работаем по всей России</span></div>
+</footer>
+
+<script>
+(function(){
+  // Данные услуг. Лендинг, магазин и бот — из текстов кворков. Аудит и приложение, а также опции
+  // остальных четырёх — ЧЕРНОВИК (помечено draft:true), Никитос правит цены и формулировки.
+  var S=[
+    {id:'landing',name:'Лендинг под товар',price:23000,old:45000,days:7,
+     p:'Страница, чтобы человек с рекламы оставил заявку, а не закрыл вкладку. Первый экран отвечает на то, что он искал, а не рассказывает, с какого года компания на рынке.',
+     inc:['Первый экран под конкретный запрос, с ценой','Блок с ценами, чтобы не уходили спрашивать в переписку','Ваши работы или товар — не картинки со стока','Форма заявки в телеграм или WhatsApp','Адаптив на настоящих размерах экранов','Код, не конструктор: грузится за секунду','Файлы и домен ваши','Месяц после сдачи правим цены и тексты бесплатно'],
+     exc:['Настройка рекламы','Фотосъёмка товара','Домен и хостинг — оплата провайдеру, ~200 ₽/год и от 100 ₽/мес'],
+     need:'Пару строк о деле: чем занимаетесь, что продаёте, кто покупатель. Если есть — 5–10 фотографий товара, логотип хоть с визитки, тексты из рекламы. Нет ничего — зададим вопросы и напишем сами.',
+     faq:[['Сайт будет мой или ваш?','Ваш. Отдаём все файлы и доступы, домен регистрируем на вас. Не держим сайт в заложниках.'],['А если не понравится дизайн?','Сначала показываем первый экран, потом делаем остальное. Не понравился — разошлись, вы не платите.'],['На чём делаете, на Тильде?','Нет, пишем код. Страница грузится быстрее, ничего не ломается при обновлении конструктора, и нет подписки каждый месяц.'],['У меня нет фотографий товара.','Соберём страницу на текстах и графике, под фото оставим места и скажем, какие снимки нужны. Сток не ставим — его узнают.'],['Сколько заявок будет приносить?','Честно: зависит от рекламы и цены товара, не только от страницы. Мы отвечаем за то, чтобы дошедший понял предложение и оставил заявку в два поля.']],
+     opts:[['Тексты для всей страницы',2500,'Напишем по вашим ответам, не придётся формулировать самому'],['Подключим домен и хостинг',1500,'Настроим адрес и защищённое соединение'],['Заявки в WhatsApp',1200,'Заявка придёт в мессенджер, а не потеряется на почте'],['Квиз с расчётом цены',3500,'Человек отвечает на вопросы и сразу видит примерную стоимость'],['Вторая версия первого экрана',2000,'Другой вариант подачи — сравните и выберете'],['Ещё один блок',1500,'Раздел сверх тех, что входят'],['Подключим аналитику',900,'Метрика и цели: видно, откуда заявки'],['Правки три месяца',3000,'Меняем цены и тексты по просьбе, без почасовой оплаты'],['Срочно, за 4 дня',3000,'Берём вне очереди',{days:4}]]},
+    {id:'bot',name:'Телеграм-бот',price:18000,old:25000,days:5,
+     p:'Клиенты задают одни и те же вопросы, а заявки теряются между сообщениями. Бот задаёт вопросы по очереди, собирает ответы и присылает готовую заявку: кто, что, когда, как связаться.',
+     inc:['Бот на вашем аккаунте, с вашим именем и аватаркой','Меню с кнопками, без команд, которые никто не помнит','Заявки в ваш чат или рабочую группу','Ответы на частые вопросы: цены, сроки, адрес','Панель, чтобы менять тексты без программиста','Хостинг настроен, первый месяц включён','Исходный код — бот остаётся ваш'],
+     exc:['Оплата внутри бота — опция','Каталог с фото — опция','Интеграция с CRM'],
+     need:'Что бот должен делать: собирать заявки, записывать, отвечать на вопросы. Какие вопросы задавать — если не знаете, скажите, что обычно спрашиваете в переписке. Куда слать заявки. Токен получать не нужно, подскажем.',
+     faq:[['Можно посмотреть, как работает, до заказа?','Да. Наш бот @stackcompbot собран нами же — зайдите и пройдите заявку. Увидите ровно ту механику, которую получите.'],['Нужен ли мне сервер?','Нет. Хостинг настраиваем мы, первый месяц включён, дальше около 300 ₽ в месяц провайдеру.'],['А если захочу поменять вопросы?','Панель для этого в комплекте: тексты и порядок вопросов меняете сами.']],
+     draft:true,
+     opts:[['Каталог с фото в боте',6000,'Товары или услуги с ценами прямо в чате'],['Оплата внутри бота',8000,'Карта и СБП, чек клиенту'],['Запись по расписанию',5000,'Свободные слоты, напоминание за час'],['Рассылка по базе',4000,'Одна кнопка — сообщение всем, кто писал'],['Правки три месяца',3000,'Тексты и вопросы меняем по просьбе'],['Срочно, за 3 дня',3000,'Берём вне очереди',{days:3}]]},
+    {id:'audit',name:'Аудит сайта',price:3000,old:5000,days:2,
+     p:'Реклама идёт, заявок нет. Прохожу ваш сайт как клиент — с телефона и с компьютера — и отдаю список правок по важности: что чинить первым, что можно потом.',
+     inc:['Прохожу путь клиента с телефона и с компьютера','Что мешает заявке: форма, кнопка, скорость, текст','Список правок по важности, а не «всё плохо»','Скорость загрузки с цифрами','Отчёт за два дня, текстом, без созвона'],
+     exc:['Сами правки — отдельная услуга или опция ниже','Аудит рекламы и ставок'],
+     need:'Ссылку на сайт и, если есть, куда ведёт реклама. Пару слов, что продаёте и кому.',
+     faq:[['Что я получу на руки?','Документ: список правок по важности, к каждой — что и почему. Половину обычно можно сделать самому.'],['А сделать правки вы можете?','Да, отметьте опцию ниже или закажите доработку после отчёта.'],['Сайт на Тильде — смотрите?','Да, платформа не важна. Смотрим то, что видит клиент.']],
+     draft:true,
+     opts:[['Сделаю правки из отчёта сам',6000,'Всё, что можно поправить без переделки, за 3 дня',{days:5}],['Срочно, за день',1500,'Отчёт завтра',{days:1}]]},
+    {id:'shop',name:'Интернет-магазин',price:85000,old:120000,days:14,
+     p:'Когда в магазине сорок товаров и нет фильтра, человек уходит. Делаем каталоги, где покупатель сужает список в два клика, а заказ приходит вам уже с выбранной моделью.',
+     inc:['Каталог с фильтрами под ваш товар, не общими по цене','Карточка товара: фото, характеристики, цена','Корзина и оформление — или заявка без корзины','Оплата картой и СБП','Админка: добавить товар, поменять цену, отметить, что кончилось','Работает с телефона — с него заходит больше половины','Заказы на почту и в телеграм','Месяц после сдачи правим цены и тексты бесплатно'],
+     exc:['Занесение товаров сверх 30 — опция','Онлайн-касса — ваша, подключить поможем','Фото товаров'],
+     need:'Что продаёте и сколько позиций. Список товаров — таблица, выгрузка из 1С или перечень в сообщении. По каким параметрам выбирают: размер, цвет, мощность — по ним и сделаем фильтр. Нужна ли оплата на сайте.',
+     faq:[['Сколько товаров можно загрузить?','В базе — до 30 руками. Есть выгрузка таблицей — загрузим быстро, посчитаем отдельно.'],['Смогу сам добавлять товары?','Да. Админка: добавить товар — заполнить пять полей и сохранить. Покажем на видео.'],['Нужна ли онлайн-касса?','Если принимаете оплату на сайте — по закону да. Платёжную систему подключим, с кассой поможем разобраться.'],['А если у меня всего десять товаров?','Тогда магазин не нужен, хватит каталога на лендинге, и это дешевле. Напишите до заказа, скажем честно.']],
+     draft:true,
+     opts:[['Загрузка до 100 товаров',5000,'Занесём по вашей таблице'],['Импорт из 1С или таблицы',6000,'Выгрузка — и каталог заполнен'],['Расчёт доставки СДЭК и Почта',8000,'Стоимость считается в корзине'],['Правки три месяца',5000,'Тексты, цены, разделы по просьбе'],['Срочно, за 10 дней',12000,'Берём вне очереди',{days:10}]]},
+    {id:'pwa',name:'Мобильное приложение',price:40000,old:55000,days:10,
+     p:'Иконка на экране телефона, работает без интернета, открывается за секунду. Ставится по ссылке — без App Store, Google Play, их комиссий и модерации. Так собраны TideWatch и Multitask.',
+     inc:['Ставится на экран телефона как обычное приложение','Работает без интернета: то, что открывали, остаётся','Открывается за секунду, без загрузки из магазина','Обновляется сам, без модерации сторов','Один код для телефона и компьютера','Домен и файлы ваши'],
+     exc:['Публикация в App Store и Google Play — опция ниже','Пуш-уведомления — опция','Аккаунты разработчика Apple и Google и их оплата'],
+     need:'Что приложение должно делать: показать, записать, посчитать. Есть сайт — ссылку, соберём на его основе. Нет — начнём с первого экрана, как с лендингом.',
+     faq:[['Это настоящее приложение?','Для человека — да: иконка, полный экран, работает офлайн, обновляется сам. Под капотом веб-технологии, поэтому нет сторов, комиссий и модерации.'],['А в App Store и Google Play попадёт?','Да, через сборку в нативную оболочку — это опция. Аккаунт разработчика оформляете вы: у Apple 99 $ в год, у Google 25 $ разово. Как это сделать из России — отдельная консультация, там есть нюансы.'],['Будет в RuStore?','Можно опубликовать — опция ниже. Но и без стора ставится с любой ссылки.'],['Чем это лучше обычного сайта?','Иконка на экране возвращает людей без рекламы. И работает там, где интернет плохой.']],
+     draft:true,
+     opts:[['Пуш-уведомления',6000,'Сообщение на телефон тем, кто установил'],['Консультация: как попасть в App Store и Google Play',3000,'Час текстом или голосом: аккаунты разработчика, что потребуют, подводные камни для России'],['Сборка под App Store и Google Play',15000,'Оборачиваем в нативную оболочку и готовим сборки; аккаунты разработчика и их оплата — ваши'],['Публикация в RuStore',8000,'Страница в магазине и сборка под него'],['Правки три месяца',4000,'Экраны и тексты по просьбе'],['Срочно, за 6 дней',6000,'Берём вне очереди',{days:6}]]}
+  ];
+  var MAIN='/';
+  function fmt(n){return n.toLocaleString('ru-RU').replace(/ /g,' ')+' ₽'}
+  function pl(n){return n+' '+(n%10==1&&n%100!=11?'день':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'дня':'дней'))}
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+
+  // якоря
+  document.getElementById('jump').innerHTML=S.map(function(s){return '<a href="#'+s.id+'">'+esc(s.name)+' · '+fmt(s.price)+'</a>'}).join('');
+
+  // услуги подробно
+  document.getElementById('svc').innerHTML=S.map(function(s){
+    return '<article class="svc" id="'+s.id+'"><div><h3>'+esc(s.name)+'</h3><p class="p">'+esc(s.p)+'</p>'+
+      '<div class="meta"><span class="price">'+fmt(s.price)+(s.old?'<s>'+fmt(s.old)+'</s>':'')+'</span><span>'+pl(s.days)+'</span><span>макет до оплаты</span></div>'+
+      '<div class="cta"><a class="btn" href="#calc" data-pick="'+s.id+'">Посчитать с опциями</a><a class="more" href="#order" data-pick="'+s.id+'">Сразу заказать</a></div>'+
+      (s.draft?'<p class="draft" style="margin-top:22px">Черновик: список и цены опций проверяет Никитос.</p>':'')+'</div>'+
+      '<div class="grps">'+
+      '<details class="grp"><summary>Что входит<i>'+s.inc.length+'</i></summary><ul>'+s.inc.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></details>'+
+      '<details class="grp no"><summary>Что не входит<i>'+s.exc.length+'</i></summary><ul>'+s.exc.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></details>'+
+      '<div class="need"><b>Что нужно от вас</b>'+esc(s.need)+'</div>'+
+      '<details class="grp wide"><summary>Вопросы и ответы<i>'+s.faq.length+'</i></summary><div class="faq">'+s.faq.map(function(q){return '<details><summary>'+esc(q[0])+'</summary><p>'+esc(q[1])+'</p></details>'}).join('')+'</div></details>'+
+      '</div></article>'}).join('');
+
+  // таблица
+  var rows=[['Первый экран с ценой',[1,0,0,1,1]],['Каталог с фильтром',[0,'опция',0,1,0]],['Форма заявки',[1,1,0,1,1]],['Админка',[0,1,0,1,0]],['Оплата картой и СБП',[0,'опция',0,1,0]],['Иконка на телефоне и офлайн',[0,0,0,0,1]],['Отчёт с правками по важности',[0,0,1,0,0]],['Домен и файлы ваши',[1,1,'—',1,1]],['Месяц правок после сдачи',[1,1,0,1,1]]];
+  var t='<thead><tr><th></th>'+S.map(function(s){return '<th>'+esc(s.name)+'</th>'}).join('')+'</tr></thead><tbody>';
+  rows.forEach(function(r){t+='<tr><td>'+r[0]+'</td>'+r[1].map(function(v){return '<td>'+(v===1?'<span class="y" aria-label="да"></span>':v===0?'<span class="n">—</span>':'<span class="o">'+v+'</span>')+'</td>'}).join('')+'</tr>'});
+  t+='<tr><td>Срок</td>'+S.map(function(s){return '<td><b>'+pl(s.days)+'</b></td>'}).join('')+'</tr><tr><td>Цена</td>'+S.map(function(s){return '<td><b>'+fmt(s.price)+'</b></td>'}).join('')+'</tr></tbody>';
+  document.getElementById('cmp').innerHTML=t;
+
+  // калькулятор
+  var cur=0, chosen={}, tabs=document.getElementById('tabs'), opts=document.getElementById('opts');
+  tabs.innerHTML=S.map(function(s,i){return '<button class="tab" role="tab" type="button" data-i="'+i+'" aria-selected="'+(i===0)+'">'+esc(s.name)+'</button>'}).join('');
+  function pick(i){cur=i;chosen={};[].forEach.call(tabs.children,function(b,k){b.setAttribute('aria-selected',k===i)});
+    opts.innerHTML=S[i].opts.map(function(o,k){return '<label class="opt"><input type="checkbox" data-k="'+k+'"><span><b>'+esc(o[0])+'</b><small>'+esc(o[2])+'</small></span><em>+'+fmt(o[1])+'</em></label>'}).join('');
+    sum()}
+  function sum(){var s=S[cur],total=s.price,days=s.days,list=[];
+    Object.keys(chosen).forEach(function(k){if(!chosen[k])return;var o=s.opts[k];total+=o[1];list.push(o);if(o[3]&&o[3].days)days=o[3].days});
+    document.getElementById('sumN').textContent=s.name;document.getElementById('sumT').textContent=fmt(total);
+    document.getElementById('sumD').textContent=pl(days)+(list.length?' · база '+fmt(s.price)+' + '+list.length+' опц.':' · без опций');
+    document.getElementById('sumL').innerHTML=list.map(function(o){return '<li><span>'+esc(o[0])+'</span><span>+'+fmt(o[1])+'</span></li>'}).join('');
+    document.getElementById('sumBtn').textContent='Заказать за '+fmt(total);
+    fill(s,list,total,days)}
+  tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b)pick(+b.dataset.i)});
+  opts.addEventListener('change',function(e){chosen[e.target.dataset.k]=e.target.checked;sum()});
+  document.addEventListener('click',function(e){var a=e.target.closest('[data-pick]');if(!a)return;var i=S.findIndex(function(s){return s.id===a.dataset.pick});if(i>=0)pick(i)});
+
+  // форма: услуга и опции подставляются сами
+  var sel=document.getElementById('fSvc'),task=document.getElementById('fTask');
+  sel.innerHTML=S.map(function(s){return '<option value="'+s.id+'">'+esc(s.name)+' — '+fmt(s.price)+'</option>'}).join('');
+  var touched=false; task.addEventListener('input',function(){touched=true});
+  function fill(s,list,total,days){sel.value=s.id;if(touched)return;task.value=s.name+(list.length?' + '+list.map(function(o){return o[0].toLowerCase()}).join(', '):'')+' — '+fmt(total)+', '+pl(days)+'.\n'}
+  sel.addEventListener('change',function(){var i=S.findIndex(function(s){return s.id===sel.value});touched=false;pick(i)});
+  var q=new URLSearchParams(location.search).get('s'); var qi=S.findIndex(function(s){return s.id===q}); pick(qi>=0?qi:0);
+
+  var f=document.getElementById('reqForm'),n=document.getElementById('reqNote');
+  f.addEventListener('submit',function(e){e.preventDefault();
+    var ok=true;[].forEach.call(f.querySelectorAll('[required]'),function(x){if(!x.value.trim())ok=false});
+    if(!ok){n.textContent='Заполните имя и контакт.';return}
+    var d=new FormData(f),b=f.querySelector('button[type=submit]');b.disabled=true;n.textContent='Отправляем…';
+    fetch('https://bot-demo-forka.vercel.app/api/zayavka',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({имя:d.get('имя'),контакт:d.get('контакт'),задача:d.get('задача'),услуга:S[cur].name,mail:d.get('mail')})})
+      .then(function(r){return r.json()}).then(function(r){n.textContent=r&&r.ok?'Спасибо. Ответим в тот же день.':'Не отправилось. Напишите в телеграм.';if(r&&r.ok){f.reset();touched=false;sum()}})
+      .catch(function(){n.textContent='Нет связи с сервером. Напишите в телеграм.'}).then(function(){b.disabled=false})});
+})();
+</script>
+<script>
+/* ── сетка сверху страницы: клетки осыпаются к низу неравномерно ── */
+(function(){
+  var cs=document.querySelectorAll('canvas.gridfx'); if(!cs.length) return;
+  function draw(c){
+    var r=c.parentNode.getBoundingClientRect(), dpr=Math.min(2,devicePixelRatio||1), W=Math.round(r.width), H=Math.round(r.height);
+    c.width=W*dpr; c.height=H*dpr; c.style.width=W+'px'; c.style.height=H+'px';
+    var x=c.getContext('2d'); x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,W,H);
+    var s=56, cols=Math.ceil(W/s)+1, rows=Math.ceil(H/s)+1, seed=7;
+    function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647 }
+    x.strokeStyle='rgba(244,242,237,.075)'; x.lineWidth=1;
+    for(var j=0;j<rows;j++){ var p=j/rows, t=Math.min(1,Math.max(0,(p-.28)/.6)); t=Math.pow(t,1.3);
+      for(var i=0;i<cols;i++){ if(rnd()<t) continue; x.strokeRect(i*s+.5, j*s+.5, s, s) } }
+  }
+  function all(){ cs.forEach(draw) } all(); addEventListener('resize',all);
+})();
+</script>
+<script src="/assets/site.js" defer></script>
+</body>
+</html>
