@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /oferta
 Sitemap: https://stackcomp.ru/sitemap.xml

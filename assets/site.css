@@ -18,3 +18,10 @@
   .ck-b{display:grid;grid-template-columns:1fr 1fr}
   .ck button{width:100%}
 }
+@media (max-width:480px){
+  .ck{left:10px;right:10px;bottom:10px;padding:10px 12px;gap:8px;font-size:13px}
+  .ck button{padding:10px 12px;font-size:13px}
+}
+/* Ячейки сеток и полей не распирают колонку на узких экранах: у grid-элементов min-width по умолчанию auto. */
+.two>*,.fwrap>*,.frow>*,.form>*,.surface>*{min-width:0}
+input,select,textarea{min-width:0}

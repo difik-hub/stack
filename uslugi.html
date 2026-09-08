@@ -139,7 +139,13 @@ td b{font-variant-numeric:tabular-nums}
 .fbottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;font-size:13px;color:var(--dim)}
 .draft{margin:0;padding:14px 18px;border-radius:12px;background:rgba(255,90,31,.08);color:var(--fg2);font-size:13.5px}
 @media (max-width:960px){.svc,.calc,.fwrap{grid-template-columns:1fr}.sum{position:static}.nav{display:none}.fgrid{grid-template-columns:1fr 1fr}.sec{padding:72px 0}}
-@media (max-width:640px){.cols,.frow{grid-template-columns:1fr}.surface{padding:24px}.head{padding:48px 0 40px}.fgrid{grid-template-columns:1fr}}
+@media (max-width:640px){.cols,.frow{grid-template-columns:1fr}.surface{padding:24px}.head{padding:48px 0 40px}.fgrid{grid-template-columns:1fr}
+  /* таблица шире экрана: первая колонка липнет, остальное листается вбок */
+  .tbl{margin-top:24px}
+  th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:var(--bg);width:150px;min-width:150px;max-width:150px;box-shadow:1px 0 0 var(--line)}
+  th:first-child{background:var(--b1)}
+  p.tbl-hint{display:block}}
+.tbl-hint{display:none;margin:28px 0 -14px;font-size:13px;color:var(--mute)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* раскрывашки: закрыты, открываются по клику, счётчик пунктов */
@@ -183,6 +189,7 @@ td b{font-variant-numeric:tabular-nums}
 <section class="sec"><div class="wrap">
   <h2>Что в какой услуге</h2>
   <p class="lead">Одна таблица вместо пяти описаний, если нужно сравнить быстро.</p>
+  <p class="tbl-hint">Таблица шире экрана — листайте её вбок →</p>
   <div class="tbl"><table id="cmp"></table></div>
 </div></section>
 
