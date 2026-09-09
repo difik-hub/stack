@@ -127,6 +127,37 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
 @media (max-width:640px){.rules{grid-template-columns:1fr}.rule+.rule{padding-left:0;border-left:0}.steps{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr}.surface{padding:24px}.head{padding:48px 0 40px}.fgrid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.step:hover,.step[aria-selected="true"]{transform:none}}
 .legal{max-width:72ch}.legal h1{font-size:clamp(30px,4vw,44px);margin:0 0 8px;letter-spacing:-.02em}.legal .upd{color:var(--dim);font-size:14px;margin:0 0 28px}.legal h2{font-size:20px;margin:32px 0 10px}.legal p,.legal li{font-size:16px;color:var(--fg2);line-height:1.65}.legal ul{padding-left:20px}.legal a{color:var(--accent);border-bottom:1px solid rgba(255,90,31,.4)}
+</style><style>
+@media (max-width:960px){
+  .hdr{position:sticky;top:0;z-index:60;background:rgba(23,26,34,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:transform .25s ease}
+  .hdr.up{transform:translateY(-100%)}
+  .hdr .in{height:56px}
+  .hdr .right{display:flex;align-items:center;gap:8px}
+  .hdr .btn.sm{display:inline-flex;padding:10px 14px;font-size:13.5px}
+  .burger{display:block;width:44px;height:44px;padding:0;border:0;border-radius:10px;background:transparent;color:var(--ink);cursor:pointer}
+  .burger span{display:block;width:20px;height:2px;margin:5px auto;border-radius:1px;background:currentColor;transition:transform .2s,opacity .2s}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .hdr .nav{position:fixed;left:0;right:0;top:56px;z-index:59;display:flex;flex-direction:column;gap:0;
+    padding:6px 20px calc(12px + env(safe-area-inset-bottom));background:var(--bg);border-bottom:1px solid var(--line);
+    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s}
+  .hdr .nav.open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+  .hdr .nav a{padding:14px 2px;font-size:16px;color:var(--ink);border-bottom:1px solid var(--line)}
+  .hdr .nav a:last-child{border-bottom:0}
+}
+@media (max-width:640px){
+  .fgrid{grid-template-columns:1fr 1fr;gap:26px 18px}
+  .fbrand{grid-column:1/-1}
+  .fcol{gap:10px}
+  .fcol a{font-size:14px}
+  .fbottom{margin-top:30px;gap:4px}
+}
+@media (hover:none){
+  .person:hover{transform:none;box-shadow:none}
+  .person:hover img.a{opacity:1;transform:none}
+  .people:hover .person:not(:hover){opacity:1;filter:none}
+}
 </style>
 </head>
 <body>
@@ -135,7 +166,7 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
 <header class="hdr"><div class="wrap in">
   <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack</a>
   <nav class="nav"><a href="/uslugi">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="#" >Как работаем</a><a href="/otzyvy">Отзывы</a></nav>
-  <a class="btn sm" href="#order">Написать</a>
+  <div class="right"><a class="btn sm" href="#order">Написать</a><button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button></div>
 </div></header>
 <section class="head wrap" hidden>
   <div class="eyebrow">Stack / как работаем</div>
@@ -163,6 +194,6 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
   </div>
   <div class="wrap fbottom"><span>© 2026 Stack</span><span>Москва, работаем по всей России</span></div>
 </footer>
-<script src="/assets/site.js?v=3844ef87" defer></script>
+<script src="/assets/site.js?v=0cd61090" defer></script>
 </body>
 </html>
