@@ -67,7 +67,10 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
 .wk.big .shot{aspect-ratio:auto;height:100%;min-height:100%}.wk.big img{object-position:left top}
 .wk.big{display:flex;flex-direction:column}.wk.big .shot{flex:1;min-height:0}
 .wk.big b{font-size:20px}
-.grid.demos{grid-template-columns:repeat(4,1fr)}
+/* примеры: 3 в первом ряду, 2 широких под ними, ряды всегда полные */
+.grid.demos{grid-template-columns:repeat(6,1fr)}
+.grid.demos .wk{grid-column:span 2}
+.grid.demos .wk:nth-child(n+4){grid-column:span 3}
 .grid.demos .wk b{font-size:15px}.grid.demos .wk i{font-size:13px}
 
 /* кейс по дням */
@@ -159,6 +162,12 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
 .wk .want{position:static;opacity:1;grid-column:2;justify-self:end;margin:0;background:rgba(255,90,31,.14);color:var(--accent)}
 .wk img{transition:none}.wk:hover img{transform:none}
 @media (max-width:640px){.wk .cap{grid-template-columns:1fr}.wk .cap>span:first-child{grid-row:auto}.wk .cap .tag,.wk .want{grid-column:1;justify-self:start}}
+/* в узких карточках примеров плашка и кнопка не влезают сбоку: подпись в столбик */
+.grid.demos .wk .cap{grid-template-columns:1fr}
+.grid.demos .wk .cap>span:first-child{grid-row:auto}
+.grid.demos .wk .cap .tag,.grid.demos .wk .want{grid-column:1;justify-self:start}
+@media (max-width:960px){.grid.demos{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:640px){.grid.demos{grid-template-columns:1fr}.grid.demos .wk,.grid.demos .wk:nth-child(n+4){grid-column:auto}}
 </style><style>
 @media (max-width:960px){
   .hdr{position:sticky;top:0;z-index:60;background:rgba(23,26,34,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:transform .25s ease}
@@ -202,20 +211,17 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
 </div></header>
 <section class="head wrap">
   <div class="eyebrow">Stack / работы</div>
-  <h1>Один клиентский сайт и два продукта. Все открываются</h1>
+  <h1>Сайт клиента и примеры под ниши</h1>
   <p class="sub">Не картинки в портфолио, а страницы, на которые можно зайти и потыкать. Ниже — как клиентский сайт делался по дням, <b>с настоящими датами и макетами того вечера.</b></p>
-  <div class="jump"><a href="#live">Живые</a><a href="#case">Кейс Elena по дням</a><a href="#demos">Демо под ниши</a></div>
+  <div class="jump"><a href="#live">Клиент</a><a href="#case">Кейс Elena по дням</a><a href="#demos">Примеры под ниши</a></div>
 </section>
 </div>
 
 <section class="sec" id="live"><div class="wrap">
-  <h2>Живые</h2>
-  <div class="filt" id="filt"><button class="tab" aria-selected="true" data-f="all">Все</button><button class="tab" data-f="landing">Лендинги</button><button class="tab" data-f="app">Приложения</button></div>
-  <p class="lead">Сайт клиента на своём домене и два продукта, которые собрали для себя — от идеи до прода.</p>
+  <h2>Сайт клиента</h2>
+  <p class="lead">Мастер педикюра, сайт на её собственном домене. Как он делался по дням, показано сразу ниже.</p>
   <div class="grid">
     <a class="wk big" data-svc="landing" href="https://elena-pedicure.ru" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/6b2a5bd159.jpg" alt="Сайт Elena" width="960" height="600"></span><span class="cap"><span><b>Elena — педикюр на дому</b><i>Лендинг: цены, палитра покрытий, шторка «до/после», запись без звонка. Свой домен.</i></span><span class="tag">клиент</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="app" href="https://batchtools-redesign.vercel.app" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/172e0de11c.jpg" alt="Multitask" width="960" height="600"></span><span class="cap"><span><b>Multitask</b><i>14 инструментов для файлов, всё считается в браузере</i></span><span class="tag">продукт</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="app" href="https://tidewatchi.vercel.app" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/6b051c3804.jpg" alt="TideWatch" width="960" height="600"></span><span class="cap"><span><b>TideWatch</b><i>Крипторынок на одном экране, сводка пишется сама</i></span><span class="tag">продукт</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
   </div>
 </div></section>
 
@@ -242,17 +248,14 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
 </div></section>
 
 <section class="sec" id="demos"><div class="wrap">
-  <h2>Демо под ниши</h2>
-  <p class="lead">Первые экраны, которые собрали без заказчика — чтобы показать, как выглядит подход в разных сферах. Это демо, не клиенты. Любой можно взять за основу.</p>
+  <h2>Примеры под ниши</h2>
+  <p class="lead">Первые экраны, собранные как примеры, а не готовые сайты клиентов. Показывают подход в разных сферах. Расскажите, чем занимаетесь, и такой же первый экран соберём под вас до оплаты.</p>
   <div class="grid demos">
-    <a class="wk" data-svc="landing" href="#order"><span class="shot"><img src="/assets/img/42db0f47b0.jpg" alt="Zerno — кофейня" width="900" height="562"></span><span class="cap"><span><b>Zerno</b><i>Кофейня</i></span><span class="tag demo">демо</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="landing" href="#order"><span class="shot"><img src="/assets/img/0f65355d2d.jpg" alt="Kuznya — зал" width="900" height="562"></span><span class="cap"><span><b>Kuznya</b><i>Тренажёрный зал</i></span><span class="tag demo">демо</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="landing" href="#order"><span class="shot"><img src="/assets/img/601184c59f.jpg" alt="Myata — стоматология" width="900" height="562"></span><span class="cap"><span><b>Myata</b><i>Стоматология</i></span><span class="tag demo">демо</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="landing" href="#order"><span class="shot"><img src="/assets/img/7e398503b8.jpg" alt="Ton — салон" width="900" height="562"></span><span class="cap"><span><b>Ton</b><i>Салон красоты</i></span><span class="tag demo">демо</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="landing" href="#order"><span class="shot"><img src="/assets/img/06b3b2a755.jpg" alt="Flora — цветы" width="900" height="562"></span><span class="cap"><span><b>Flora</b><i>Цветочная мастерская</i></span><span class="tag demo">демо</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="landing" href="/demo/tseh" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/5051334a6b.jpg" alt="Tseh — бургерная" width="900" height="562"></span><span class="cap"><span><b>Tseh</b><i>Бургерная</i></span><span class="tag demo">демо · открыть</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="landing" href="/demo/kopilka" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/b4526eb930.jpg" alt="Kopilka — финтех" width="900" height="562"></span><span class="cap"><span><b>Kopilka</b><i>Финансовый сервис</i></span><span class="tag demo">демо · открыть</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
-    <a class="wk" data-svc="landing" href="/demo/nocturne" target="_blank" rel="noopener"><span class="shot"><img src="/assets/img/ee63d3c20f.jpg" alt="Nocturne — декор" width="900" height="562"></span><span class="cap"><span><b>Nocturne</b><i>Декор и свет</i></span><span class="tag demo">демо · открыть</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></a>
+    <div class="wk" data-svc="landing"><span class="shot"><img src="/assets/img/kw-yunistok.jpg" alt="Юнисток, септики в Подольске" width="960" height="600" loading="lazy"></span><span class="cap"><span><b>Юнисток</b><i>Септики и автономная канализация: цена на первом экране, четыре шага работ</i></span><span class="tag demo">пример</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></div>
+    <div class="wk" data-svc="landing"><span class="shot"><img src="/assets/img/kw-skat.jpg" alt="Скат, кровельные работы в Твери" width="960" height="600" loading="lazy"></span><span class="cap"><span><b>Скат</b><i>Кровля под ключ: квиз считает смету за пять шагов</i></span><span class="tag demo">пример</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></div>
+    <div class="wk" data-svc="landing"><span class="shot"><img src="/assets/img/kw-sylvant.jpg" alt="Sylvant, участок и строительство дома" width="960" height="600" loading="lazy"></span><span class="cap"><span><b>Sylvant</b><i>Участок, ипотека и дом под ключ: цифры компании и шесть этапов</i></span><span class="tag demo">пример</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></div>
+    <div class="wk" data-svc="landing"><span class="shot"><img src="/assets/img/kw-vektra.jpg" alt="Vektra, перевозка автомобилей" width="960" height="600" loading="lazy"></span><span class="cap"><span><b>Vektra</b><i>Перевозка авто автовозами: свой парк, страховка и расчёт маршрута</i></span><span class="tag demo">пример</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></div>
+    <div class="wk" data-svc="landing"><span class="shot"><img src="/assets/img/kw-kepler.jpg" alt="Kepler, техника Apple из Дубая" width="960" height="600" loading="lazy"></span><span class="cap"><span><b>Kepler</b><i>Магазин техники Apple: каталог с ценами, от витрины до брони в два клика</i></span><span class="tag demo">пример</span><span class="want" role="link" tabindex="0">Хочу так же →</span></span></div>
   </div>
 </div></section>
 
@@ -321,7 +324,7 @@ h2{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:700;le
   
   // фильтр по услуге — на обе сетки
   var filt=document.getElementById('filt');
-  filt.addEventListener('click',function(e){var b=e.target.closest('.tab');if(!b)return;var f=b.dataset.f;
+  if(filt)filt.addEventListener('click',function(e){var b=e.target.closest('.tab');if(!b)return;var f=b.dataset.f;
     [].forEach.call(filt.children,function(x){x.setAttribute('aria-selected',x===b)});
     document.querySelectorAll('.wk[data-svc]').forEach(function(c){c.hidden=(f!=='all'&&c.dataset.svc!==f)})});
   // «Хочу так же» — в услуги с уже выбранной услугой, не открывая саму работу
