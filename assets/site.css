@@ -1,26 +1,28 @@
-/* Общее для всех страниц: плашка выбора cookies. Стили страниц — в самих страницах. */
-.ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:100;display:flex;gap:18px;align-items:center;justify-content:space-between;
-  max-width:680px;margin-inline:auto;padding:14px 16px 14px 20px;border-radius:14px;
-  background:#0E1116;color:#F4F2ED;box-shadow:0 20px 50px rgba(0,0,0,.5),rgba(255,255,255,.06) 0 0 0 1px inset;
+/* Общее для всех страниц: полоса выбора cookies. Стили страниц — в самих страницах. */
+.ck{position:fixed;left:0;right:0;bottom:0;z-index:100;display:flex;gap:14px;align-items:center;justify-content:center;
+  flex-wrap:wrap;padding:12px 20px;
+  background:#0E1116;color:#F4F2ED;box-shadow:0 -8px 30px rgba(0,0,0,.4),rgba(255,255,255,.06) 0 1px 0 0 inset;
   font:400 14px/1.45 Geologica,"Segoe UI",system-ui,sans-serif}
 .ck p{margin:0}
 .ck a{color:#FF5A1F;text-decoration:none;border-bottom:1px solid rgba(255,90,31,.4)}
 .ck a:hover{border-bottom-color:#FF5A1F}
 .ck-b{display:flex;gap:8px;flex:none}
-.ck button{font:700 14px/1 Geologica,"Segoe UI",system-ui,sans-serif;border:0;border-radius:10px;padding:12px 16px;cursor:pointer;white-space:nowrap;transition:background .15s}
-.ck button[data-a="necessary"]{background:rgba(244,242,237,.10);color:#F4F2ED}
-.ck button[data-a="necessary"]:hover{background:rgba(244,242,237,.16)}
-.ck .ck-yes{background:#FF5A1F;color:#0E1116}
-.ck .ck-yes:hover{background:#E24A12}
+/* Заливка акцентом на сайте закреплена за «Заказать»: у согласия кнопки нейтральные. */
+.ck button{font:700 13.5px/1 Geologica,"Segoe UI",system-ui,sans-serif;border:0;border-radius:9px;padding:11px 15px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.ck button[data-a="necessary"]{background:transparent;color:#B9B4AC;box-shadow:inset 0 0 0 1px rgba(244,242,237,.16)}
+.ck button[data-a="necessary"]:hover{background:rgba(244,242,237,.06);color:#F4F2ED}
+.ck .ck-yes{background:rgba(244,242,237,.14);color:#F4F2ED}
+.ck .ck-yes:hover{background:rgba(244,242,237,.22)}
 .ck button:focus-visible{outline:2px solid #FF5A1F;outline-offset:3px}
+/* Пока полоса висит, низ страницы не уходит под неё. */
+html.ck-on{scroll-padding-bottom:80px}
+html.ck-on body{padding-bottom:64px}
 @media (max-width:620px){
-  .ck{flex-direction:column;align-items:stretch;gap:12px}
-  .ck-b{display:grid;grid-template-columns:1fr 1fr}
+  .ck{gap:10px;padding:11px 14px;font-size:13px}
+  .ck p{flex:1 1 100%;text-align:center}
+  .ck-b{width:100%;display:grid;grid-template-columns:1fr 1fr}
   .ck button{width:100%}
-}
-@media (max-width:480px){
-  .ck{left:10px;right:10px;bottom:10px;padding:10px 12px;gap:8px;font-size:13px}
-  .ck button{padding:10px 12px;font-size:13px}
+  html.ck-on body{padding-bottom:104px}
 }
 /* Ячейки сеток и полей не распирают колонку на узких экранах: у grid-элементов min-width по умолчанию auto. */
 .two>*,.fwrap>*,.frow>*,.form>*,.surface>*{min-width:0}

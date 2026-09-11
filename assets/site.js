@@ -14,8 +14,7 @@
   el.setAttribute('role', 'dialog');
   el.setAttribute('aria-label', 'Использование cookies');
   el.innerHTML =
-    '<p>Используем cookies, чтобы запоминать ваш выбор и считать посещения. ' +
-    '<a href="/cookies">Подробнее</a></p>' +
+    '<p>Используем cookies для статистики. <a href="/cookies">Подробнее</a></p>' +
     '<div class="ck-b">' +
       '<button type="button" data-a="' + NO + '">Только необходимые</button>' +
       '<button type="button" class="ck-yes" data-a="' + YES + '">Принять</button>' +
@@ -26,9 +25,11 @@
     if (!b) return;
     try { localStorage.setItem(KEY, b.getAttribute('data-a')); } catch (_) {}
     el.remove();
+    document.documentElement.classList.remove('ck-on');
     // согласие на статистику: сюда подключить счётчик, когда он появится
   });
 
+  document.documentElement.classList.add('ck-on');
   document.body.appendChild(el);
 })();
 

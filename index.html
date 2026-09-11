@@ -43,6 +43,9 @@ h1{margin:0;text-wrap:balance}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:var(--card-ink);font:700 16px/1 var(--f);padding:16px 24px;border-radius:12px;white-space:nowrap;transition:background .15s}
 .btn:hover{background:var(--accent-deep)}
 .btn.sm{padding:11px 16px;font-size:14px;border-radius:10px}
+/* В шапке кнопка вторичная: рядом с ней в первом экране стоит главная «Заказать». */
+.hdr .btn.sm{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1px var(--hair2)}
+.hdr .btn.sm:hover{background:rgba(244,242,237,.06);box-shadow:inset 0 0 0 1px rgba(244,242,237,.28)}
 .burger{display:none;width:44px;height:44px;border:0;background:transparent;color:var(--ink);cursor:pointer;padding:0;border-radius:10px}
 .burger span{display:block;width:20px;height:2px;background:currentColor;margin:5px auto;border-radius:1px}
 .right{display:flex;align-items:center;gap:10px}
@@ -64,12 +67,22 @@ h1 em{font-style:normal;color:var(--accent)}
 .more:hover{color:var(--ink);border-color:var(--ink)}
 /* Главное обещание — крупнее капсул, потому что закрывает страх «отдам деньги и пропадут». */
 .promise{margin:22px 0 0;font:600 18px/1.3 var(--f);color:var(--ink);display:flex;align-items:center;gap:12px}
-.promise::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 4px rgba(255,90,31,.18)}
+.promise::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--fg3);flex:none}
 .caps{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+/* Срок скидки — тихой строкой, без плашки: цена уже сказала главное. */
+.term{margin:14px 0 0;font-size:13.5px;color:var(--fg3)}
+/* Кнопка на месте бывшей ссылки: тот же отступ от сетки, иначе карточка наезжает при наведении. */
+#services .btn.ghost{margin-top:32px}
+.fact-line{margin:26px 0 0;font-size:15px;color:var(--fg3);max-width:56ch}
+.fact-line a{color:var(--fg);text-decoration:none;border-bottom:1px solid var(--hair2)}
+.fact-line a:hover{border-bottom-color:var(--fg3)}
+.revside{display:flex;flex-direction:column;align-items:flex-start;gap:16px;justify-content:center}
+.btn.ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1px var(--hair2)}
+.btn.ghost:hover{background:rgba(244,242,237,.06);box-shadow:inset 0 0 0 1px rgba(244,242,237,.28)}
 .cap.hot{cursor:pointer}
 .cap{font:500 14px/1 var(--f);padding:12px 16px;border-radius:999px;background:rgba(244,242,237,.08);border:1px solid var(--line);color:var(--ink)}
-.cap.hot{background:var(--accent);border-color:var(--accent);color:var(--card-ink);font-weight:700}
-.cap.hot s{font-weight:500;opacity:.7;margin-left:6px}
+.cap.hot{background:rgba(255,90,31,.10);border-color:rgba(255,90,31,.32);color:var(--accent);font-weight:700}
+.cap.hot s{color:var(--fg3);font-weight:500;margin-left:6px}
 
 .show{position:relative;min-height:520px}
 .glow{position:absolute;z-index:-1;right:-10%;bottom:-20%;width:110%;height:120%;
@@ -81,22 +94,19 @@ h1 em{font-style:normal;color:var(--accent)}
   mask-composite:intersect;-webkit-mask-composite:source-in}
 /* Оранжевое тепло бренда поверх фото, а не за ним. */
 .glow{z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.5}
-.chip{z-index:2}
-.chip{position:absolute;right:0;bottom:44px;background:var(--accent);color:var(--card-ink);font:700 14px/1 var(--f);padding:12px 16px;border-radius:12px;box-shadow:0 14px 30px rgba(255,90,31,.35);white-space:nowrap}
-.chip::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--card-ink);margin-right:9px;vertical-align:1px;opacity:.8}
-.chip[hidden]{display:none}
 
 /* ротация: услуга + цена + фото */
 .face{opacity:0;transition:opacity .6s ease}
 .face.on{opacity:1}
 .copy{transition:opacity .28s ease}
 .copy.out{opacity:0}
-h1{min-height:2.1em}
+/* Высота по самому длинному слайду: при смене оффера кнопка не уезжает из-под курсора. */
+h1{min-height:3.2em}
 .lead{min-height:3.1em}
 .dots{display:flex;gap:8px;margin-top:28px}
 .dots button{width:36px;height:24px;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:center}
 .dots button i{display:block;width:100%;height:3px;border-radius:2px;background:rgba(244,242,237,.22);transition:background .2s}
-.dots button[aria-current="true"] i{background:var(--accent)}
+.dots button[aria-current="true"] i{background:var(--fg2)}
 .dots button:hover i{background:var(--mute)}
 .dots button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .show{touch-action:pan-y}
@@ -110,7 +120,7 @@ h1{min-height:2.1em}
   .caps{margin-top:30px}
   .show{min-height:520px;margin-top:22px}
   .glow{right:-20%;bottom:-25%}
-  .chip{top:auto;bottom:28px;right:4%}
+  
   .nav{display:none;position:absolute;left:0;right:0;top:64px;background:var(--bg2);border-block:1px solid var(--line);padding:14px 20px;flex-direction:column;gap:14px}
   .nav.open{display:flex}
   .burger{display:block}
@@ -126,14 +136,15 @@ h1{min-height:2.1em}
   .cta{gap:14px}
   .show{min-height:460px;margin-top:18px}
   .face{mask-image:linear-gradient(180deg,transparent 0,#000 20%,#000 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 20%,#000 100%)}
-  .chip{font-size:13px;padding:11px 14px}
+  
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
 
 /* ── тело: спина Linear. Уровни поверхностей, глубина через inset-свет и кольца, ≤400 мс ── */
-.body{--b0:#1C2029;--b1:#222836;--b2:#2A3140;--fg:#F4F2ED;--fg2:#C9CDD6;--fg3:#8A909B;--fg4:#62666D;
-  --hair:rgba(255,255,255,.06);--hair2:rgba(255,255,255,.1);--ease:cubic-bezier(.25,.46,.45,.94);
-  background:transparent;color:var(--fg);position:relative}
+/* Токены на :root, а не на .body: шапка и хиро лежат снаружи .body и без них теряли рамки, точки и серый текст. */
+:root{--b0:#1C2029;--b1:#222836;--b2:#2A3140;--fg:#F4F2ED;--fg2:#C9CDD6;--fg3:#8A909B;--fg4:#62666D;
+  --hair:rgba(255,255,255,.06);--hair2:rgba(255,255,255,.1);--ease:cubic-bezier(.25,.46,.45,.94)}
+.body{background:transparent;color:var(--fg);position:relative}
 body{background-color:#1C2029}
 .hero{background:transparent}.hero::before{display:none}
 /* стык: полосы всё чаще, потом сплошной глубокий тон без сетки */
@@ -143,7 +154,7 @@ body{background-color:#1C2029}
 .bridge{position:relative;padding:30px 0 0;background:linear-gradient(180deg,rgba(23,26,34,0),#171A22 80%)}
 .facts{display:flex;justify-content:center;gap:6px 30px;flex-wrap:wrap}
 .fact{appearance:none;background:none;border:0;padding:8px 2px;font:500 12px/1 var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);cursor:pointer;display:inline-flex;align-items:center;gap:12px;transition:color .15s}
-.fact i{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+.fact i{width:6px;height:6px;border-radius:50%;background:var(--fg4);flex:none}
 .fact.live i{background:#2ECC71;box-shadow:0 0 0 0 rgba(46,204,113,.55);animation:pulse 2.2s ease-out infinite}
 @keyframes pulse{to{box-shadow:0 0 0 9px rgba(46,204,113,0)}}
 .fact:hover,.fact.on,.fact:focus-visible{color:var(--fg)}
@@ -158,6 +169,12 @@ body{background-color:#1C2029}
 .body button.btn{border:0;font-family:var(--f)}
 .body a{color:inherit;text-decoration:none}
 .sec{padding:120px 0;position:relative}
+/* Ритм вместо метронома: доказательства (работы → команда) идут плотнее,
+   услуги и процесс читаются парой, перед формой пауза короче — это ускоряет. */
+#team{padding-top:64px}
+#process{padding-top:80px}
+#reviews{padding:96px 0 72px}
+#contact{padding-top:80px}
 .sec + .sec{border-top:1px solid var(--hair)}
 .head{margin-bottom:40px}
 .body h2{font-size:clamp(30px,3.4vw,44px);line-height:1.05;font-weight:590;letter-spacing:-.022em;margin:0;text-wrap:balance}
@@ -427,6 +444,7 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
         <span class="cap">7 дней</span>
         <span class="cap">макет до оплаты</span>
       </div>
+      <p class="term copy" id="deadline"></p>
       <div class="dots" id="dots" role="tablist" aria-label="Услуги"></div>
     </div>
     <div class="show">
@@ -436,7 +454,6 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
       <img class="face" src="/assets/img/a7494a2314.webp" alt="Основатель Stack за ноутбуком ночью" width="1200" height="1607">
       <img class="face" src="/assets/img/28b130e048.webp" alt="Основатель Stack у стены шоурума" width="1200" height="1607">
       <img class="face" src="/assets/img/fbd90e4fc4.webp" alt="Основатель Stack на крыше вечером" width="1200" height="1607">
-      <div class="chip" id="deadline">Скидка до воскресенья</div>
     </div>
   </div>
 </section>
@@ -445,7 +462,7 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
 
 <div class="bridge" id="bridge">
   <div class="wrap facts">
-    <button class="fact live" type="button" data-proof="Пишете в телеграм — отвечаю я, не менеджер. Обычно в течение часа, текстом."><i></i>Сейчас онлайн · отвечаю за час</button>
+    <button class="fact live" id="status" type="button" data-proof="Пишете в телеграм — отвечаю я, не менеджер. Работаю с 9 до 22, обычно отвечаю в течение часа."><i></i>Отвечаю за час</button>
     <button class="fact" type="button" data-start data-proof="Ближайший свободный старт — понедельник, {date}. Беру столько, сколько успеваю сделать хорошо."><i></i>Свободно 5 мест в сентябре</button>
     <button class="fact" type="button" data-proof="Первый экран показываю до любой оплаты. Не зашло — расходимся, вы ничего не должны."><i></i>Макет до оплаты</button>
     <button class="fact" type="button" data-proof="Домен, хостинг и почта оформляются на вас. Доступы у вас, а не у студии."><i></i>Сайт на вашем домене</button>
@@ -473,7 +490,7 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
   <div class="wrap tsay">
     <h2>Никита Ковалёв, основатель</h2>
     <p class="sub">Каждый проект веду лично — от первого макета до запуска на вашем домене. Со мной работает команда, о ней на отдельной странице. Продукты выше мы собрали для себя: от идеи до прода, без заказчика над душой.</p>
-    <a class="more2" href="/komanda">О команде →</a>
+    <p class="fact-line">Пишете — отвечаю я. Дизайн и тексты делает команда, <a href="/komanda">её состав здесь</a>.</p>
   </div>
 </section>
 
@@ -487,7 +504,7 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
       <a class="card wide rv" href="/uslugi?s=shop#shop"><span class="cn">Интернет-магазин</span><span class="cd">Каталог с фильтром, корзина, оплата картой и СБП, своя админка</span><span class="cp">85&nbsp;000&nbsp;₽ <s>120&nbsp;000</s></span><span class="ct">14 дней</span><span class="cb">Подробнее и опции</span></a>
       <a class="card wide rv" href="/uslugi?s=pwa#pwa"><span class="cn">Мобильное приложение</span><span class="cd">Иконка на экране, работает без интернета, ставится по ссылке — без App Store и Google Play</span><span class="cp">40&nbsp;000&nbsp;₽ <s>55&nbsp;000</s></span><span class="ct">10 дней</span><span class="cb">Подробнее и опции</span></a>
     </div>
-    <a class="more2" href="/uslugi">Что входит в каждую услугу →</a>
+    <a class="btn ghost" href="/uslugi">Цены и что входит</a>
   </div>
 </section>
 
@@ -503,7 +520,7 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
         <button class="pstep" role="tab" type="button"><b>Сайт ваш</b><p>Домен, хостинг и почта оформлены на вас, а не арендованы у студии.</p></button>
       </div>
     </div>
-    <a class="more2" href="/kak-rabotaem">Подробнее про сроки и оплату →</a>
+    <a class="more2" href="/kak-rabotaem">Сроки и оплата →</a>
   </div>
 </section>
 
@@ -511,19 +528,12 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
   <div class="wrap two">
     <div>
       <h2 id="revH">Отзывы</h2>
-      <p class="sub" id="revP">Стена отзывов живёт на отдельной странице: каждый приходит через форму и появляется после проверки. Работали с нами — напишите пару строк здесь, дальше перекинем вас туда.</p>
-      <a class="more2" href="/otzyvy">Все отзывы →</a>
+      <p class="sub" id="revP">Каждый отзыв приходит через форму и появляется после проверки. Работали с нами — расскажите, как прошло.</p>
     </div>
-    <form class="surface form rv" id="revForm" novalidate data-next="/otzyvy">
-      <p class="ph">Работали с нами? Расскажите, как прошло</p>
-      <div class="frow">
-        <label class="fld"><span>Как вас зовут</span><input name="имя" maxlength="40" required autocomplete="name"></label>
-        <label class="fld"><span>Компания <small>необязательно</small></span><input name="компания" maxlength="60" autocomplete="organization"></label>
-      </div>
-      <label class="fld"><span>Что делали и что получилось</span><textarea name="текст" rows="4" maxlength="600" required></textarea></label>
-      <input name="mail" tabindex="-1" autocomplete="off" aria-hidden="true" class="trap">
-      <div class="fbar"><button class="btn" type="submit">Отправить и посмотреть стену</button><span class="fnote" id="revNote" aria-live="polite">После отправки откроем страницу отзывов.</span></div>
-    </form>
+    <div class="revside">
+      <a class="btn ghost" href="/otzyvy">Оставить отзыв</a>
+      <a class="more2" href="/otzyvy">Читать отзывы →</a>
+    </div>
   </div>
 </section>
 
@@ -535,7 +545,6 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
         <p class="sub">Ответим в тот же день и покажем макет до того, как вы что-то заплатите.</p>
         <div class="clinks">
           <a href="https://t.me/suptstackbot" target="_blank" rel="noopener"><b>Телеграм</b><span>@suptstackbot</span></a>
-          <a href="mailto:sandrakaran@onet.pl"><b>Почта</b><span>sandrakaran@onet.pl</span></a>
         </div>
       </div>
       <form class="form" id="reqForm" novalidate>
@@ -554,7 +563,7 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
   <div class="wrap fgrid">
     <div class="fbrand"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".35"/><rect x="5.5" y="6.5" width="13" height="9" rx="2" fill="#F4F2ED" opacity=".65"/><rect x="8" y="3" width="13" height="9" rx="2" fill="#FF5A1F"/></svg>Stack<span>Сайты и боты для бизнеса</span></div>
     <div class="fcol"><b>Разделы</b><a href="/uslugi">Услуги</a><a href="/raboty">Работы</a><a href="/komanda">Команда</a><a href="/kak-rabotaem">Как работаем</a><a href="#reviews">Отзывы</a></div>
-    <div class="fcol"><b>Связь</b><a href="https://t.me/suptstackbot" target="_blank" rel="noopener">Телеграм</a><a href="mailto:sandrakaran@onet.pl">Почта</a></div>
+    <div class="fcol"><b>Связь</b><a href="https://t.me/suptstackbot" target="_blank" rel="noopener">Телеграм</a></div>
     <div class="fcol"><b>Документы</b><a href="/konfidencialnost">Конфиденциальность</a><a href="/cookies">Cookies</a></div>
   </div>
   <div class="wrap fbottom"><span>© 2026 Stack</span><span>Москва, работаем по всей России</span></div>
@@ -572,19 +581,27 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
   var wd=['вс','пн','вт','ср','чт','пт','сб'];
   function until(w){var x=new Date(), a=(w-x.getDay()+7)%7; x.setDate(x.getDate()+a);
     return (a===0?'до конца дня, ':'до '+wd[w]+', ')+x.getDate()+' '+m[x.getMonth()]}
-  var now=new Date(), deadline='Скидка '+until(0), monthEnd='Скидка до конца '+m[now.getMonth()];
+  var now=new Date(), deadline='Цена действует '+until(0), monthEnd='Цена действует до конца '+m[now.getMonth()];
 
   // Ротация: услуга + цена + фото. Один слайд = одна услуга.
   var S=[
     {name:'Лендинг', h:'Лендинг под ваш товар за <em>23&nbsp;000&nbsp;₽</em>', lead:'Первый экран с ценой, форма в телеграм, запуск на вашем домене. <b>Макет показываю до оплаты</b> — не зашло, не платите.', caps:['<span class="cap hot">23&nbsp;000&nbsp;₽ <s>45&nbsp;000</s></span>','<span class="cap">7 дней</span>','<span class="cap">макет до оплаты</span>'], chip:deadline},
-    {name:'Бот', h:'Бот принимает <em>заявки за&nbsp;вас</em>', lead:'Отвечает клиентам, записывает, присылает вам в чат. <b>Без менеджера на телефоне</b> и без пропущенных.', caps:['<span class="cap hot">18&nbsp;000&nbsp;₽ <s>25&nbsp;000</s></span>','<span class="cap">5 дней</span>','<span class="cap">работает 24/7</span>'], chip:'Скидка на неделю'},
-    {name:'Аудит', h:'Разберу, почему с сайта <em>нет заявок</em>', lead:'Прохожу как клиент — с телефона и с компьютера. <b>Отдаю список правок по важности</b>, а не «всё переделать».', caps:['<span class="cap hot">3&nbsp;000&nbsp;₽ <s>5&nbsp;000</s></span>','<span class="cap">2 дня</span>','<span class="cap">отчёт с правками</span>'], chip:'Скидка '+until(5)},
+    {name:'Бот', h:'Бот принимает <em>заявки за&nbsp;вас</em>', lead:'Отвечает клиентам, записывает, присылает вам в чат. <b>Без менеджера на телефоне</b> и без пропущенных.', caps:['<span class="cap hot">18&nbsp;000&nbsp;₽ <s>25&nbsp;000</s></span>','<span class="cap">5 дней</span>','<span class="cap">работает 24/7</span>'], chip:'Цена действует неделю'},
+    {name:'Аудит', h:'Разберу, почему с сайта <em>нет заявок</em>', lead:'Прохожу как клиент — с телефона и с компьютера. <b>Отдаю список правок по важности</b>, а не «всё переделать».', caps:['<span class="cap hot">3&nbsp;000&nbsp;₽ <s>5&nbsp;000</s></span>','<span class="cap">2 дня</span>','<span class="cap">отчёт с правками</span>'], chip:'Цена действует '+until(5)},
     {name:'Магазин', h:'Интернет-магазин с оплатой за <em>85&nbsp;000&nbsp;₽</em>', lead:'Каталог с фильтром, корзина, оплата картой и СБП. <b>Админка, где вы сами меняете товары</b> и цены.', caps:['<span class="cap hot">85&nbsp;000&nbsp;₽ <s>120&nbsp;000</s></span>','<span class="cap">14 дней</span>','<span class="cap">своя админка</span>'], chip:monthEnd},
-    {name:'Приложение', h:'Мобильное приложение за <em>40&nbsp;000&nbsp;₽</em>', lead:'Иконка на экране, работает без интернета, ставится по ссылке. <b>Без App Store и Google Play</b> — и без их комиссий.', caps:['<span class="cap hot">40&nbsp;000&nbsp;₽ <s>55&nbsp;000</s></span>','<span class="cap">10 дней</span>','<span class="cap">без сторов</span>'], chip:'Скидка '+until(6)}
+    {name:'Приложение', h:'Мобильное приложение за <em>40&nbsp;000&nbsp;₽</em>', lead:'Иконка на экране, работает без интернета, ставится по ссылке. <b>Без App Store и Google Play</b> — и без их комиссий.', caps:['<span class="cap hot">40&nbsp;000&nbsp;₽ <s>55&nbsp;000</s></span>','<span class="cap">10 дней</span>','<span class="cap">без сторов</span>'], chip:'Цена действует '+until(6)}
   ];
   var faces=[].slice.call(document.querySelectorAll('.face')), copy=document.getElementById('copy'),
       h1=document.getElementById('h1'), lead=document.getElementById('lead'), caps=document.getElementById('caps'),
       chip=document.getElementById('deadline'), dots=document.getElementById('dots'), show=document.querySelector('.show'), hero=document.querySelector('.hero');
+  /* Статус в мосте: в рабочие часы горит, вне их — честно говорит, когда ответим. */
+  (function(){
+    var el=document.getElementById('status'); if(!el) return;
+    var h=new Date().getHours(), open=h>=9&&h<22;
+    el.lastChild.nodeValue = open ? 'Отвечаю за час' : 'Отвечу утром, работаю с 9:00';
+    if(!open) el.classList.remove('live');
+  })();
+
   var cur=0, timer=null, paused=false, still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   S.forEach(function(s,i){
@@ -645,16 +662,7 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
     new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!ptimer&&!document.getElementById('proc').dataset.done){ptimer=setInterval(function(){if(pcur===steps.length-1){pstop();document.getElementById('proc').dataset.done=1}else pset(pcur+1)},2600)}else if(!e.isIntersecting)pstop()})},{threshold:.5}).observe(document.getElementById('proc'));
   }
 
-  // ── отзывы: переходник. Текст не шлём отсюда — уносим на страницу отзывов, там оценка и отправка ──
-  var rf=document.getElementById('revForm'), rnote=document.getElementById('revNote');
   function validate(form){var ok=true;[].forEach.call(form.querySelectorAll('[required]'),function(f){var bad=!f.value.trim();f.closest('.fld').classList.toggle('bad',bad);if(bad)ok=false});return ok}
-  rf.addEventListener('submit',function(e){
-    e.preventDefault(); if(!validate(rf)){rnote.className='fnote bad';rnote.textContent='Заполните имя и текст отзыва.';return}
-    var f=new FormData(rf);
-    try{sessionStorage.setItem('stack.review',JSON.stringify({имя:f.get('имя'),компания:f.get('компания'),текст:f.get('текст')}))}catch(x){}
-    rnote.className='fnote';rnote.textContent='Открываем страницу отзывов…';
-    location.href=rf.getAttribute('data-next');
-  });
 
   // ── заявка: в группу владельца в телеграме через функцию на Vercel ──
   var qf=document.getElementById('reqForm'), qnote=document.getElementById('reqNote');
