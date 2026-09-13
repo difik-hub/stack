@@ -1,3 +1,5 @@
+/* Бургер скрыт по умолчанию; на узких экранах страницы включают его своим медиазапросом. */
+.burger{display:none}
 /* Общее для всех страниц: полоса выбора cookies. Стили страниц — в самих страницах. */
 .ck{position:fixed;left:0;right:0;bottom:0;z-index:100;display:flex;gap:14px;align-items:center;justify-content:center;
   flex-wrap:wrap;padding:12px 20px;
