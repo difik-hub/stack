@@ -1,0 +1,11 @@
+/* сгенерировано pick_genes.py — палитру правь здесь, не в index.html */
+@font-face{font-family:'Unbounded';src:url(fonts/unbounded-cyrillic-500.woff2) format('woff2');font-weight:500;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Unbounded';src:url(fonts/unbounded-latin-500.woff2) format('woff2');font-weight:500;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:'Unbounded';src:url(fonts/unbounded-cyrillic-700.woff2) format('woff2');font-weight:700;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Unbounded';src:url(fonts/unbounded-latin-700.woff2) format('woff2');font-weight:700;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:'Onest';src:url(fonts/onest-cyrillic-400.woff2) format('woff2');font-weight:400;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Onest';src:url(fonts/onest-latin-400.woff2) format('woff2');font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:'Onest';src:url(fonts/onest-cyrillic-600.woff2) format('woff2');font-weight:600;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Onest';src:url(fonts/onest-latin-600.woff2) format('woff2');font-weight:600;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+:root{--bg:#EEF2F4;--surface:#FFFFFF;--ink:#12212B;--muted:#4D5F6A;--accent:#0E6E8C;--accent-ink:#FFFFFF;--font-display:'Unbounded', system-ui, sans-serif;--font-text:'Onest', system-ui, sans-serif;--radius:4px;--radius-sm:2px}
+@media (prefers-color-scheme: dark){:root{--bg:#0D161B;--surface:#152129;--ink:#E4EDF1;--muted:#94A7B1;--accent:#5CC3E0;--accent-ink:#0D161B}}

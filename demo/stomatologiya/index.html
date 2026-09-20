@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Clarid: стоматология в Москве (демо-макет студии Stack)</title>
+<meta name="description" content="Демо-макет сайта стоматологии в Москве: направления лечения, как проходит первый приём, ответы на частые вопросы и запись. Все данные вымышленные.">
+<meta property="og:title" content="Clarid: стоматология в Москве (демо-макет)">
+<meta property="og:description" content="Демо-макет студии Stack для ниши «стоматология». Вымышленная клиника, не реклама медицинских услуг.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stackcomp.ru/demo/stomatologiya/">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="tokens.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Clarid: демо-макет сайта стоматологии","description":"Демо-макет студии Stack. Вымышленная клиника, реальных адресов и контактов нет.","inLanguage":"ru","url":"https://stackcomp.ru/demo/stomatologiya/","publisher":{"@type":"Organization","name":"Stack","url":"https://stackcomp.ru"}}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-text);font-size:clamp(1rem,.95rem + .2vw,1.125rem);line-height:1.55;overflow-wrap:break-word;padding-bottom:0}
+h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.15;margin:0;letter-spacing:-.01em;text-wrap:balance}
+p{margin:0;hyphens:auto}
+a{color:inherit}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+.tint{background:color-mix(in srgb,var(--accent) 9%,var(--bg))}
+.sh{box-shadow:0 1px 2px color-mix(in srgb,var(--ink) 10%,transparent),0 12px 32px -12px color-mix(in srgb,var(--ink) 22%,transparent)}
+
+/* верхняя полоска */
+.demo{background:var(--ink);color:var(--bg);font-size:.8125rem;text-align:center}
+.demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;text-decoration:underline;text-underline-offset:3px;text-wrap:balance}
+
+/* шапка */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+.logo{font-family:var(--font-display);font-weight:700;font-size:1.25rem;text-decoration:none;display:inline-flex;align-items:center;gap:10px;min-height:44px}
+.logo i{display:block;width:14px;height:14px;border-radius:50%;background:var(--accent)}
+.nav{display:none;gap:4px}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;text-decoration:none;color:var(--muted);border-radius:var(--radius)}
+.nav a:hover{color:var(--ink)}
+
+/* кнопки */
+.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:52px;padding:12px clamp(16px,4vw,28px);background:var(--accent);color:var(--accent-ink);border:0;border-radius:var(--radius);font:600 1rem/1.25 var(--font-text);text-decoration:none;cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.2,1),opacity .2s;max-width:100%}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0);opacity:.9}
+.btn.s{min-height:44px;padding:8px 18px}
+.link{display:inline-flex;align-items:center;min-height:44px;color:var(--ink);font-weight:600;text-underline-offset:4px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;min-height:min(88dvh,720px);display:flex;flex-direction:column}
+.hero .disc{position:absolute;right:-12vw;top:-14vw;width:min(60vw,640px);aspect-ratio:1;border-radius:50%;background:color-mix(in srgb,var(--accent) 14%,transparent);pointer-events:none}
+.hero .disc::after{content:"";position:absolute;inset:18%;border-radius:50%;background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.hero-in{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,5vw,56px);padding-block:clamp(32px,6vw,72px)}
+.hero h1{font-size:clamp(1.5rem,.55rem + 2.9vw,3.1rem);font-weight:700;max-width:30ch}
+.lead{hyphens:manual;font-size:clamp(1.0625rem,1rem + .5vw,1.3125rem);max-width:34em;color:var(--muted)}
+.route{hyphens:none;font:500 clamp(1.05rem,.9rem + .7vw,1.4rem)/1.3 var(--font-display);padding-top:18px;border-top:2px solid var(--ink);max-width:34em}
+.legal{font-size:1rem;font-weight:600;max-width:34em}
+.err{background:color-mix(in srgb,var(--ink) 8%,var(--surface));padding:12px 14px;font-weight:600;border-radius:var(--radius-sm)}
+input[aria-invalid=true]{border-bottom:4px solid var(--ink)}
+.cta{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;margin-top:24px}
+
+/* секции */
+section{padding-block:clamp(56px,9vw,120px)}
+.grid{display:grid;gap:clamp(24px,4vw,48px)}
+.h2{font-size:clamp(1.25rem,.8rem + 2vw,2.25rem)}
+.sub{margin-top:16px;color:var(--muted);max-width:30em}
+
+/* направления */
+.dirs details{border-top:1px solid color-mix(in srgb,var(--ink) 16%,transparent)}
+.dirs details:last-child{border-bottom:1px solid color-mix(in srgb,var(--ink) 16%,transparent)}
+.dirs summary{list-style:none;cursor:pointer;display:flex;align-items:center;min-height:56px;padding-block:12px;font:500 clamp(1.0625rem,.9rem + .8vw,1.375rem)/1.25 var(--font-display);color:var(--muted);transition:color .2s}
+.dirs summary::-webkit-details-marker{display:none}
+.dirs summary:hover{color:var(--ink)}
+.dirs details[open] summary{color:var(--ink);font-size:clamp(1.3rem,1rem + 1.6vw,2.25rem);font-weight:700;padding-block:22px 10px}
+.dirs .body{padding-bottom:26px;max-width:36em;font-size:clamp(1.0625rem,1rem + .3vw,1.1875rem)}
+.dirs details[open] .body{animation:fade .4s cubic-bezier(.2,.7,.2,1)}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* шаги */
+.steps{display:grid;grid-template-columns:1fr;gap:0;margin:0;padding:0;list-style:none;position:relative}
+.steps li{position:relative;padding:0 0 32px 44px}
+.steps li::before{content:"";position:absolute;left:8px;top:18px;bottom:-4px;width:2px;background:color-mix(in srgb,var(--accent) 35%,transparent)}
+.steps li:last-child::before{display:none}
+.steps li::after{content:"";position:absolute;left:0;top:6px;width:18px;height:18px;border-radius:50%;background:var(--accent)}
+.steps h3{font-size:clamp(1.125rem,1rem + .8vw,1.5rem);margin-bottom:8px;font-weight:700}
+.steps p{color:var(--muted);max-width:26em}
+
+/* смета */
+.quote{background:var(--ink);color:var(--bg)}
+.quote .h2{font-size:clamp(1.3rem,.8rem + 2.6vw,2.75rem);font-weight:700;max-width:20ch}
+.list{margin:0;padding:0;list-style:none;display:grid;gap:0}
+.list li{padding:18px 0;border-top:1px solid color-mix(in srgb,var(--bg) 22%,transparent);font-size:clamp(1.0625rem,1rem + .3vw,1.1875rem)}
+.list li:last-child{border-bottom:1px solid color-mix(in srgb,var(--bg) 22%,transparent)}
+
+/* вопросы */
+.faq{display:grid;gap:clamp(28px,4vw,44px) clamp(24px,5vw,72px)}
+.faq div{padding-top:16px;border-top:1px solid color-mix(in srgb,var(--ink) 16%,transparent)}
+.faq h3{font-size:clamp(1.0625rem,1rem + .5vw,1.3125rem);font-weight:600;font-family:var(--font-text);line-height:1.3;margin-bottom:10px}
+.faq p{color:var(--muted);max-width:32em}
+
+/* запись */
+form{display:grid;gap:22px;background:var(--surface);padding:clamp(20px,4vw,40px);border-radius:var(--radius);min-width:0}
+.field{display:grid;gap:8px}
+.field label,.field legend{font-weight:600}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+input[type=text],input[type=tel]{width:100%;min-height:52px;padding:12px 14px;font:inherit;color:var(--ink);background:color-mix(in srgb,var(--accent) 8%,var(--bg));border:0;border-bottom:2px solid color-mix(in srgb,var(--ink) 30%,transparent);border-radius:var(--radius-sm)}
+input::placeholder{color:var(--muted);opacity:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:8px}
+.chips label{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;background:color-mix(in srgb,var(--accent) 8%,var(--bg));color:var(--muted);border-radius:var(--radius);cursor:pointer;font-weight:400;transition:transform .25s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.chips input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chips label:has(input:checked){background:var(--accent);color:var(--accent-ink);font-weight:600;transform:scale(1.1);transform-origin:left center;margin-right:6px}
+.chips label:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:3px}
+.note{font-size:.875rem;color:var(--muted)}
+.done{display:none;background:var(--accent);color:var(--accent-ink);padding:clamp(20px,4vw,32px);border-radius:var(--radius);margin-top:0}
+.done p{font:700 clamp(1.15rem,1rem + 1vw,1.6rem)/1.3 var(--font-display);margin-bottom:20px}
+.done a{display:inline-flex;align-items:center;min-height:52px;padding:12px 22px;background:var(--accent-ink);color:var(--accent);border-radius:var(--radius);font-weight:600;text-decoration:none;max-width:100%;text-align:center}
+.sent form{display:none}
+.sent .done{display:block;animation:fade .4s cubic-bezier(.2,.7,.2,1)}
+
+/* футер */
+footer{padding-block:48px 32px;background:var(--surface)}
+.law{font-size:clamp(1rem,.95rem + .3vw,1.1875rem);font-weight:600;max-width:40em;line-height:1.5}
+.sig{margin-top:40px;padding-top:20px;border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent);color:var(--muted);font-size:.875rem;max-width:40em}
+.sig a{display:inline-block;padding-block:12px}
+
+/* липкая плашка */
+.sticky{position:fixed;inset:auto 0 0 0;z-index:10;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 94%,transparent);box-shadow:0 -1px 0 color-mix(in srgb,var(--ink) 12%,transparent)}
+.sticky .btn{width:100%}
+.sticky{transition:transform .3s cubic-bezier(.2,.7,.2,1),opacity .3s,visibility 0s}
+.sticky.off{transform:translateY(100%);opacity:0;visibility:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),opacity .3s,visibility 0s .3s}
+
+/* reveal */
+.js .rv{opacity:0;transform:translateY(16px);transition:opacity .48s cubic-bezier(.2,.7,.2,1),transform .48s cubic-bezier(.2,.7,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv.d1{transition-delay:.06s}.js .rv.d2{transition-delay:.12s}.js .rv.d3{transition-delay:.18s}
+
+@media (max-width:719px){.hero{min-height:0}}
+@media (min-width:720px){
+  .nav{display:flex}
+  .steps{grid-template-columns:repeat(4,1fr);gap:24px}
+  .steps li{padding:44px 0 0 0}
+  .steps li::before{left:26px;right:-24px;top:8px;bottom:auto;width:auto;height:2px}
+  .steps li::after{left:0;top:0}
+  .steps li:last-child::before{display:block;right:0;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 35%,transparent),transparent)}
+  .faq{grid-template-columns:1fr 1fr}
+}
+@media (min-width:960px){
+  .grid.two{grid-template-columns:4fr 8fr}
+  .grid.two>:first-child{position:sticky;top:24px;align-self:start}
+  .sticky{display:none}
+  body{padding-bottom:0}
+}
+@media (max-width:359px){
+  .top .btn.s{padding:8px 10px;font-size:.875rem}
+  .logo{font-size:1.05rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .rv{opacity:1;transform:none}
+}
+@media (prefers-color-scheme:dark){
+  .quote{background:var(--surface);color:var(--ink)}
+  .list li,.list li:last-child{border-color:color-mix(in srgb,var(--ink) 22%,transparent)}
+  .sticky{background:color-mix(in srgb,var(--bg) 94%,transparent)}
+  .demo{background:var(--accent);color:var(--accent-ink)}
+}
+</style>
+</head>
+<body>
+<div class="demo"><a href="https://stackcomp.ru/nishi/stomatologiya" target="_blank" rel="noopener">Демо-макет студии Stack. Вернуться к нише «стоматология»</a></div>
+
+<header class="wrap top">
+  <a class="logo" href="#top"><i></i>Clarid</a>
+  <nav class="nav" aria-label="Разделы">
+    <a href="#napravleniya">Направления</a>
+    <a href="#priem">Первый приём</a>
+    <a href="#smeta">Стоимость</a>
+    <a href="#voprosy">Вопросы</a>
+  </nav>
+  <a class="btn s" href="#zapis">Записаться</a>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="disc" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div class="rv">
+      <h1>Стоматология в&nbsp;Москве: сначала осмотр, потом смета</h1>
+      <p class="lead" style="margin-top:20px">Врач показывает снимок, объясняет варианты и только потом даёт письменную смету на руки.</p>
+      <div class="cta">
+        <a class="btn" href="#zapis">Записаться на консультацию</a>
+        <a class="link" href="#priem">Как проходит первый приём</a>
+      </div>
+    </div>
+    <p class="route rv d1">Первый приём: разговор, осмотр, план, смета</p>
+    <p class="legal rv d1">Имеются противопоказания, необходима консультация специалиста.</p>
+  </div>
+</div>
+
+<section id="napravleniya" aria-labelledby="h-nap">
+  <div class="wrap grid two">
+    <div class="rv">
+      <h2 class="h2" id="h-nap">Чем занимаемся</h2>
+      <p class="sub">Выберите направление, коротко расскажем, что это. Что подойдёт именно вам, выясняется после осмотра.</p>
+    </div>
+    <div class="dirs rv d1">
+      <details name="dir" open><summary>Консультация и диагностика</summary><p class="body">Осмотр, разговор о жалобах и, если врач считает нужным, снимок. На выходе понятный план лечения и письменная смета.</p></details>
+      <details name="dir"><summary>Профессиональная гигиена</summary><p class="body">Удаление налёта и камня, полировка, советы по домашнему уходу. Как часто приходить, подскажут на осмотре.</p></details>
+      <details name="dir"><summary>Лечение кариеса</summary><p class="body">Удаление поражённых тканей и восстановление зуба пломбой. Какой материал подходит и почему, объяснят до начала.</p></details>
+      <details name="dir"><summary>Лечение каналов</summary><p class="body">Нужно, когда воспаление добралось внутрь зуба. Проводится под обезболиванием, число визитов зависит от случая.</p></details>
+      <details name="dir"><summary>Удаление зубов</summary><p class="body">Рассматривается, когда сохранить зуб нельзя или нецелесообразно. Сначала обсуждаем альтернативы.</p></details>
+      <details name="dir"><summary>Протезирование</summary><p class="body">Коронки, мосты и съёмные конструкции. Варианты, сроки и материалы обсуждаем на консультации.</p></details>
+      <details name="dir"><summary>Имплантация</summary><p class="body">Один из способов заменить отсутствующий зуб. Подходит не всем: нужны обследование и оценка противопоказаний.</p></details>
+      <details name="dir"><summary>Детская стоматология</summary><p class="body">Можно прийти просто познакомиться с кабинетом, без процедур. Ребёнка сопровождает родитель.</p></details>
+      <details name="dir"><summary>Исправление прикуса</summary><p class="body">Брекеты и элайнеры. Начинается с диагностики, срок лечения зависит от случая.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="priem" class="tint" aria-labelledby="h-pr">
+  <div class="wrap">
+    <div class="rv" style="max-width:40em;margin-bottom:clamp(32px,5vw,56px)">
+      <h2 class="h2" id="h-pr">Первый приём: четыре шага</h2>
+      <p class="sub">Лечение начинается после вашего согласия. Можно уйти с планом и подумать.</p>
+    </div>
+    <ol class="steps rv d1">
+      <li><h3>Разговор</h3><p>Врач спрашивает, что беспокоит и чего вы боитесь. Сказать «мне страшно» можно и нужно, это рабочая информация.</p></li>
+      <li><h3>Осмотр</h3><p>Осматриваем полость рта, при необходимости делаем снимок и показываем его на экране: что на нём видно.</p></li>
+      <li><h3>План</h3><p>Врач предлагает варианты, порядок и сроки. Срочное отделяем от того, что может подождать.</p></li>
+      <li><h3>Смета</h3><p>Письменно, с составом работ. Забираете смету домой и решаете, когда будете готовы.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="smeta" class="quote" aria-labelledby="h-sm">
+  <div class="wrap grid two">
+    <div class="rv">
+      <h2 class="h2" id="h-sm">Сколько это стоит</h2>
+    </div>
+    <div class="rv d1">
+      <p style="hyphens:none;font:700 clamp(1.3rem,.8rem + 2.4vw,2.5rem)/1.2 var(--font-display);max-width:18ch;margin-bottom:clamp(24px,4vw,40px)">После консультации называем смету письменно</p>
+      <ul class="list">
+        <li>Цену вслух до осмотра не называем: без диагноза она ничего не значит.</li>
+        <li>В смете расписан состав работ и материалы по каждому пункту.</li>
+        <li>Если план меняется по ходу лечения, сначала согласуем новую смету с вами.</li>
+        <li>В демо-макете цен нет намеренно: у вымышленной клиники их не существует.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="voprosy" aria-labelledby="h-fq">
+  <div class="wrap">
+    <div class="rv" style="max-width:40em;margin-bottom:clamp(32px,5vw,56px)">
+      <h2 class="h2" id="h-fq">О чём спрашивают чаще всего</h2>
+    </div>
+    <div class="faq">
+      <div class="rv"><h3>Мне страшно идти к стоматологу. Что делать?</h3><p>Скажите об этом при записи и врачу. Первый приём можно ограничить разговором и осмотром, без процедур. Договоритесь с врачом о сигнале «стоп», по нему он останавливается.</p></div>
+      <div class="rv d1"><h3>Будет ли больно?</h3><p>Обезболивание подбирает врач с учётом вашего состояния и аллергий. Ощущения всё же возможны, поэтому обещать «совсем ничего» мы не станем. Почувствуете боль, поднимите руку: врач остановится и скорректирует обезболивание.</p></div>
+      <div class="rv"><h3>Как обстоят дела со стерильностью?</h3><p>Инструменты обрабатываются по действующим санитарным правилам, упаковку вскрывают при вас. Спросите о любом этапе, ответим и покажем.</p></div>
+      <div class="rv d1"><h3>Зачем нужен снимок и какая доза?</h3><p>Снимок показывает то, чего не видно при осмотре: корни, кость, скрытый кариес. Прицельный снимок даёт небольшую дозу и назначается, только когда нужен для диагноза. Заранее скажите о беременности или подозрении на неё.</p></div>
+      <div class="rv"><h3>Как часто нужна профессиональная гигиена?</h3><p>Обычно врач советует приходить раз в полгода или в год, но частота зависит от состояния дёсен. Определяется на осмотре.</p></div>
+      <div class="rv d1"><h3>Что взять с собой на первый приём?</h3><p>Паспорт, список принимаемых лекарств, выписки и снимки, если они есть. Если ничего нет, приходите как есть.</p></div>
+      <div class="rv"><h3>А если после консультации я передумаю?</h3><p>Смета остаётся у вас. Лечение начинается только с вашего согласия.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="zapis" class="tint" aria-labelledby="h-z">
+  <div class="wrap grid two">
+    <div class="rv">
+      <h2 class="h2" id="h-z">Записаться на консультацию</h2>
+      <p class="sub">Оставьте имя и телефон, администратор перезвонит и подберёт время. Это демо: кнопка ничего не отправляет.</p>
+    </div>
+    <div class="rv d1" id="box">
+      <form id="f" novalidate>
+        <div class="field"><label for="n">Как к вам обращаться</label><input id="n" name="n" type="text" autocomplete="given-name" placeholder="Имя" required></div>
+        <div class="field"><label for="t">Телефон</label><input id="t" name="t" type="tel" autocomplete="tel" inputmode="tel" placeholder="Любой номер, он не сохраняется" required></div>
+        <fieldset class="field"><legend>С чем приходите</legend>
+          <div class="chips">
+            <label><input type="radio" name="r" value="Осмотр" checked>Осмотр и консультация</label>
+            <label><input type="radio" name="r" value="Гигиена">Гигиена</label>
+            <label><input type="radio" name="r" value="Боль">Острая боль</label>
+            <label><input type="radio" name="r" value="Другое">Другое</label>
+          </div>
+          <p class="note">Срочную боль смотрим в тот же день, остальное планируем.</p>
+        </fieldset>
+        <p class="err" id="err" role="alert" hidden>Укажите имя и телефон</p>
+        <button class="btn" type="submit">Записаться</button>
+        <p class="note">Демо-макет: данные никуда не передаются, реального телефона и адреса у этой клиники нет.</p>
+      </form>
+      <div class="done" id="done" role="status" aria-live="polite">
+        <p>Это демо. Заявка никуда не ушла. Хотите такой сайт для себя? Напишите в&nbsp;Stack</p>
+        <a href="https://stackcomp.ru/#contact" target="_blank" rel="noopener">Написать в Stack</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="law">Демо-макет студии Stack. Не является рекламой медицинских услуг. Имеются противопоказания, необходима консультация специалиста.</p>
+    <p class="sig">Сайт сделала студия Stack: лендинги, каталоги и телеграм-боты для малого бизнеса. <a href="https://stackcomp.ru" target="_blank" rel="noopener">stackcomp.ru</a></p>
+  </div>
+</footer>
+
+<div class="sticky" id="stk"><a class="btn" href="#zapis">Записаться на консультацию</a></div>
+
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});els.forEach(function(e){io.observe(e)});}
+  var f=document.getElementById('f'),box=document.getElementById('box');
+  var err=document.getElementById('err');
+  [f.n,f.t].forEach(function(i){i.addEventListener('input',function(){i.removeAttribute('aria-invalid');if(f.n.value.trim()&&f.t.value.trim())err.hidden=true})});
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var bad=[f.n,f.t].filter(function(i){return !i.value.trim()});
+    [f.n,f.t].forEach(function(i){i.removeAttribute('aria-invalid')});
+    if(bad.length){bad.forEach(function(i){i.setAttribute('aria-invalid','true')});err.hidden=false;bad[0].focus();return}
+    err.hidden=true;
+    box.classList.add('sent');
+    document.getElementById('done').scrollIntoView({block:'center'});
+  });
+  var stk=document.getElementById('stk'),seen=new Set();
+  if('IntersectionObserver' in window){
+    var so=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting)seen.add(x.target);else seen.delete(x.target)});stk.classList.toggle('off',seen.size>0)});
+    so.observe(document.getElementById('zapis'));so.observe(document.querySelector('footer'));
+  }
+})();
+</script>
+</body>
+</html>
