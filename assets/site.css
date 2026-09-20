@@ -26,6 +26,12 @@ html.ck-on body{padding-bottom:64px}
   .ck button{width:100%}
   html.ck-on body{padding-bottom:104px}
 }
+/* Очень узко (телефон при зуме 150%): две кнопки в ряд не влезают, ставим столбиком. */
+@media (max-width:380px){
+  .ck-b{grid-template-columns:1fr}
+  .ck button{white-space:normal}
+  html.ck-on body{padding-bottom:150px}
+}
 /* Ячейки сеток и полей не распирают колонку на узких экранах: у grid-элементов min-width по умолчанию auto. */
 .two>*,.fwrap>*,.frow>*,.form>*,.surface>*{min-width:0}
 input,select,textarea{min-width:0}

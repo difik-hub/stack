@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://stackcomp.ru/uslugi">
 <meta property="og:image" content="https://stackcomp.ru/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/assets/site.css?v=68afd9f1">
+<link rel="stylesheet" href="/assets/site.css?v=57ee34d7">
 <style>
 @font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/814be3a421.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
 @font-face{font-family:'Geologica';font-style:normal;font-weight:100 900;font-display:block;src:url(/assets/fonts/bb47fcfcf2.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
@@ -377,7 +377,7 @@ td b{font-variant-numeric:tabular-nums}
     if(!ok){n.textContent='Заполните имя и контакт.';return}
     var d=new FormData(f),b=f.querySelector('button[type=submit]');b.disabled=true;n.textContent='Отправляем…';
     fetch('https://bot-demo-forka.vercel.app/api/zayavka',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({имя:d.get('имя'),контакт:d.get('контакт'),задача:d.get('задача'),услуга:S[cur].name,mail:d.get('mail')})})
-      .then(function(r){return r.json()}).then(function(r){n.textContent=r&&r.ok?'Спасибо. Ответим в тот же день.':'Не отправилось. Напишите в телеграм.';if(r&&r.ok){f.reset();touched=false;sum()}})
+      .then(function(r){return r.json()}).then(function(r){n.textContent=r&&r.ok?'Спасибо. Ответим в тот же день.':(r&&r.беда)||'Не отправилось. Напишите в телеграм.';if(r&&r.ok){f.reset();touched=false;sum()}})
       .catch(function(){n.textContent='Нет связи с сервером. Напишите в телеграм.'}).then(function(){b.disabled=false})});
 })();
 </script>
