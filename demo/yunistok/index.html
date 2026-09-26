@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Юнисток — септики и автономная канализация в Подольске</title>
+<style>
+  /* Копия структуры референса «Ремонт скважин в Мытищах» (jr_solutions).
+     Сохранено намеренно: двухэтажная шапка с полоской контактов, меню через
+     косые черты, двухцветный H1 с городом, подзаголовок-перечисление, две
+     пилюли, фото человека за работой в правый край с растворением в белое,
+     тёмные карточки преимуществ с номером в круге.
+     Заменено: ниша, имя, цвет, фото, шрифтовая пара, тексты. */
+
+  :root {
+    --accent: #1E8E7A; --accent-dark: #16705F; --navy: #16323F;
+    --ink: #1B1F24; --ink-2: #5B6470; --line: #E3E8E6;
+    --page: #EEF2F0; --card: #FFFFFF; --pill: #EDEFF0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 16px/1.55 "Source Sans Pro", "Segoe UI", sans-serif; color: var(--ink); background: var(--card);
+         font-variant-numeric: lining-nums; }
+  h1, h2, h3, .logo { font-family: Montserrat, "Segoe UI", sans-serif; font-weight: 700; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+  /* Полоска контактов над шапкой */
+  .strip { background: #F3F5F4; font-size: 13px; color: var(--ink-2); }
+  .strip .wrap { display: flex; align-items: center; gap: 26px; height: 42px; }
+  .strip b { color: var(--ink); font-weight: 600; }
+  .strip .cta { margin-left: auto; background: var(--accent); color: #fff; font-weight: 700; letter-spacing: .06em;
+                font-size: 12.5px; text-transform: uppercase; padding: 0 26px; height: 42px; display: flex; align-items: center; }
+  .strip .msg { display: flex; gap: 14px; font-weight: 600; color: var(--ink); }
+
+  header { background: var(--card); box-shadow: 0 8px 24px rgba(22,50,63,.08); position: relative; z-index: 2; }
+  header .wrap { display: flex; align-items: center; height: 84px; }
+  .logo { display: flex; align-items: center; gap: 11px; font-size: 21px; line-height: 1; letter-spacing: -.01em; color: var(--accent); }
+  .logo i { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); position: relative; flex: 0 0 34px; }
+  .logo i::after { content: ""; position: absolute; left: 9px; top: 9px; width: 16px; height: 16px; border-radius: 50%; background: #fff; }
+  .logo span { display: block; font-size: 12px; letter-spacing: .12em; color: var(--navy); margin-top: 3px; }
+  nav { margin-left: auto; display: flex; align-items: center; font-size: 14.5px; }
+  nav a { padding: 0 11px; color: var(--ink-2); position: relative; }
+  nav a + a::before { content: "/"; position: absolute; left: -3px; color: #C3CBC8; }
+  nav a.on { color: var(--ink); }
+  nav a.on::after { content: ""; position: absolute; left: 11px; right: 11px; bottom: -31px; height: 2px; background: var(--accent); }
+
+  /* Первый экран: текст слева, фото уходит за правый край */
+  .hero { position: relative; overflow: hidden; background: var(--card); }
+  .hero .wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; align-items: center; }
+  .hero .txt { padding: 56px 0 64px; position: relative; z-index: 1; }
+  .hero h1 { font-size: 56px; line-height: 1.08; letter-spacing: -.02em; margin-bottom: 22px; }
+  .hero h1 em { font-style: normal; color: var(--accent); display: block; }
+  .hero p { font-size: 18px; color: var(--ink-2); max-width: 46ch; margin-bottom: 30px; }
+  .btns { display: flex; gap: 14px; }
+  .pill { display: inline-flex; align-items: center; justify-content: center; height: 62px; padding: 0 40px; border-radius: 999px;
+          font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+  .pill.a { background: var(--accent); color: #fff; }
+  .pill.b { background: var(--pill); color: var(--ink); }
+  .hero .pic { position: absolute; top: 0; bottom: 0; left: 50%; right: 0; }
+  .hero .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%; }
+  .hero .pic::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #fff 0, rgba(255,255,255,.75) 18%, rgba(255,255,255,0) 48%); }
+
+  /* Преимущества: тёмные карточки с номером в круге, как у референса */
+  .adv { background: var(--page); padding: 72px 0; }
+  .adv .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .adv .c { background: var(--navy); color: #fff; border-radius: 22px; padding: 34px 26px 30px; text-align: center; }
+  /* Номер и есть содержимое круга: без иконки-заглушки */
+  .adv .n { width: 74px; height: 74px; border-radius: 50%; background: #fff; margin: 0 auto 20px; display: grid; place-items: center; }
+  .adv .n b { font-family: Montserrat, sans-serif; font-weight: 800; font-size: 24px; color: var(--accent); letter-spacing: -.02em; }
+  .adv h3 { font-size: 20px; margin-bottom: 10px; }
+  .adv p { font-size: 14.5px; color: #C9D3D8; }
+
+  /* Услуги: карточки с фото и ценой «от» */
+  section { padding: 78px 0; }
+  h2 { font-size: 38px; text-align: center; letter-spacing: -.02em; margin-bottom: 14px; }
+  .sub { text-align: center; color: var(--ink-2); max-width: 60ch; margin: 0 auto 44px; }
+  .srv { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .srv .c { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .srv img { height: 190px; width: 100%; object-fit: cover; }
+  .srv .b { padding: 18px 20px 20px; }
+  .srv h3 { font-size: 17px; margin-bottom: 6px; }
+  .srv p { font-size: 14px; color: var(--ink-2); margin-bottom: 12px; }
+  .srv .price { font-weight: 700; color: var(--accent); }
+
+  /* Прайс */
+  .price-t { background: var(--page); }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 18px; overflow: hidden; font-size: 15px; }
+  th { text-align: left; background: var(--navy); color: #fff; padding: 14px 20px; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+  td { padding: 15px 20px; border-bottom: 1px solid var(--line); }
+  td:last-child { text-align: right; font-weight: 700; white-space: nowrap; }
+
+  /* Заявка */
+  .lead .box { background: var(--navy); color: #fff; border-radius: 26px; padding: 52px 56px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
+  .lead h2 { text-align: left; color: #fff; margin-bottom: 12px; }
+  .lead p { color: #C9D3D8; }
+  .lead form { display: grid; gap: 12px; }
+  .lead input { height: 56px; border-radius: 999px; border: none; padding: 0 22px; font: 15px "Source Sans Pro", sans-serif; }
+  .lead button { height: 56px; border-radius: 999px; border: none; background: var(--accent); color: #fff; font: 700 13px Montserrat, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .lead small { color: #8FA3AD; font-size: 12.5px; }
+
+  footer { padding: 30px 0; font-size: 14px; color: var(--ink-2); border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+
+  /* О компании: текст и цифры */
+  .about { background: var(--page); }
+  .about .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center; }
+  .about p { font-size: 16.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .about p:last-child { margin-bottom: 0; }
+  .figs { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .fig { background: #fff; border-radius: 14px; padding: 26px 24px; }
+  .fig b { display: block; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 34px;
+           color: var(--accent); line-height: 1; margin-bottom: 8px; font-variant-numeric: lining-nums; }
+  .fig span { font-size: 14.5px; color: var(--ink-2); }
+
+  /* Наши работы: карточки сданных объектов */
+  .objs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .obj { border: 1px solid var(--line); border-radius: 14px; padding: 26px 24px; }
+  .obj .tag { display: inline-block; font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+              color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+              padding: 4px 12px; margin-bottom: 16px; }
+  .obj h3 { font-size: 18px; margin-bottom: 12px; }
+  .obj ul { list-style: none; font-size: 14.5px; color: var(--ink-2); }
+  .obj li { display: flex; justify-content: space-between; gap: 14px; padding: 7px 0; border-top: 1px solid var(--line); }
+  .obj li:first-child { border-top: 0; }
+  .obj li b { color: var(--ink); font-weight: 600; text-align: right; }
+
+  /* Отзывы */
+  .rev { background: var(--navy); color: #fff; }
+  .rev h2, .rev .sub { color: #fff; }
+  .rev .sub { opacity: .72; }
+  .revs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .rv { background: rgba(255,255,255,.07); border-radius: 14px; padding: 26px 24px; }
+  .rv .stars { color: #E8B84B; letter-spacing: 3px; font-size: 15px; margin-bottom: 14px; }
+  .rv p { font-size: 15px; margin-bottom: 18px; }
+  .rv .who { font-size: 13.5px; opacity: .7; }
+  .rv .who b { display: block; font-family: Montserrat, sans-serif; font-size: 15px; opacity: 1; margin-bottom: 2px; }
+
+  /* Статьи */
+  .arts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .art { border-top: 3px solid var(--accent); padding-top: 20px; }
+  .art time { font-size: 13px; color: var(--ink-2); }
+  .art h3 { font-size: 19px; margin: 10px 0 10px; line-height: 1.3; }
+  .art p { font-size: 15px; color: var(--ink-2); margin-bottom: 14px; }
+  .art span { font-size: 13.5px; font-weight: 600; color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 0 18px; }
+    .strip .wrap { gap: 12px; height: 40px; overflow: hidden; }
+    .strip .hrs, .strip .msg { display: none; }
+    header .wrap { height: 66px; }
+    nav { display: none; }
+    .burger { margin-left: auto; width: 26px; height: 18px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); position: relative; }
+    .burger::after { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 2px; background: var(--ink); }
+    body { overflow-x: hidden; }
+    .strip .cta { padding: 0 14px; font-size: 11px; letter-spacing: .04em; }
+    .hero { display: flex; flex-direction: column; }
+    .hero .wrap { display: block; min-height: 0; width: 100%; }
+    .hero .pic { position: relative; left: 0; right: auto; width: 100%; height: 240px; order: -1; }
+    .hero .pic::before { background: linear-gradient(0deg, #fff 0, rgba(255,255,255,0) 40%); }
+    .hero .txt { padding: 18px 0 40px; }
+    .adv .grid { grid-template-columns: minmax(0, 1fr); }
+    .adv .c { min-width: 0; padding: 30px 22px 26px; }
+    .adv p { overflow-wrap: anywhere; }
+    .hero h1 { font-size: 34px; }
+    .hero p { font-size: 16px; }
+    .btns { flex-direction: column; }
+    .pill { height: 56px; width: 100%; }
+    .adv, section { padding: 48px 0; }
+    .adv .grid, .srv { grid-template-columns: 1fr; gap: 14px; }
+    h2 { font-size: 27px; }
+    .lead .box { grid-template-columns: 1fr; padding: 30px 22px; }
+    table, thead, tbody, tr, td, th { display: block; }
+    thead { display: none; }
+    tr { border-bottom: 1px solid var(--line); padding: 10px 0; }
+    td { border: none; padding: 3px 0; }
+    td:last-child { text-align: left; color: var(--accent); }
+
+    .about .grid { grid-template-columns: 1fr; gap: 26px; }
+    .figs { gap: 12px; }
+    .fig { padding: 20px 18px; }
+    .fig b { font-size: 27px; }
+    .objs, .revs, .arts { grid-template-columns: 1fr; gap: 14px; }
+  }
+  @media (min-width: 901px) { .burger { display: none; } }
+</style>
+
+<div class="strip">
+  <div class="wrap">
+    <span class="hrs">Рабочие часы: <b>Круглосуточно, без выходных</b></span>
+    <span>Позвоните: <b>+7 (929) 640-18-52</b></span>
+    <a class="cta" href="#lead">Оставить заявку</a>
+    <span class="msg"><span>WhatsApp</span><span>Telegram</span></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#"><i></i><div>Юнисток<span>СЕПТИКИ · ПОДОЛЬСК</span></div></a>
+    <nav>
+      <a class="on" href="#">Главная</a><a href="#about">О компании</a><a href="#srv">Услуги</a><a href="#price">Прайс-лист</a><a href="#works">Наши работы</a><a href="#arts">Статьи</a><a href="#lead">Контакты</a>
+    </nav>
+    <div class="burger"></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="txt">
+      <h1><em>Септики и</em>автономная канализация в Подольске</h1>
+      <p>12 лет ставим септики: подбор, монтаж под ключ, обслуживание и откачка недорого в Подольске и районе.</p>
+      <div class="btns"><a class="pill a" href="#lead">Заказать услугу</a><a class="pill b" href="#about">О нас</a></div>
+    </div>
+  </div>
+  <div class="pic"><img src="img/hero.jpg" alt="Монтаж септика на участке"></div>
+</div>
+
+<div class="adv">
+  <div class="wrap grid">
+    <div class="c"><div class="n"><b>01</b></div><h3>Узкая специализация</h3><p>Только септики и канализация для частных домов. Не беремся за всё подряд.</p></div>
+    <div class="c"><div class="n"><b>02</b></div><h3>Монтаж за один день</h3><p>Приезжаем с техникой и материалами. Вечером септик уже работает.</p></div>
+    <div class="c"><div class="n"><b>03</b></div><h3>Гарантия 5 лет</h3><p>На монтаж и на корпус. В договоре, а не на словах.</p></div>
+    <div class="c"><div class="n"><b>04</b></div><h3>Своя откачка</h3><p>Обслуживаем то, что поставили: приезжаем по звонку, без посредников.</p></div>
+  </div>
+</div>
+
+<section id="srv">
+  <div class="wrap">
+    <h2>Что мы делаем</h2>
+    <p class="sub">Подбираем септик под грунт и количество жильцов, а не самый дорогой из каталога.</p>
+    <div class="srv">
+      <div class="c"><img src="img/s1.jpg" alt=""><div class="b"><h3>Монтаж септика под ключ</h3><p>Котлован, установка, подключение, запуск.</p><div class="price">от 89 000 ₽</div></div></div>
+      <div class="c"><img src="img/s2.jpg" alt=""><div class="b"><h3>Станции биоочистки</h3><p>Топас, Астра, Юнилос: продажа и монтаж.</p><div class="price">от 129 000 ₽</div></div></div>
+      <div class="c"><img src="img/s3.jpg" alt=""><div class="b"><h3>Обслуживание и откачка</h3><p>Регламентная чистка, замена компрессора.</p><div class="price">от 4 500 ₽</div></div></div>
+      <div class="c"><img src="img/s4.jpg" alt=""><div class="b"><h3>Ремонт и замена</h3><p>Восстановим старый септик или заменим.</p><div class="price">от 12 000 ₽</div></div></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="about" id="about">
+  <div class="wrap">
+    <h2>О компании</h2>
+    <p class="sub">Работаем в Подольске и районе с 2014 года. Ставим септики только частным домам.</p>
+    <div class="grid">
+      <div>
+        <p>Начинали вдвоём с одним экскаватором, сейчас в бригаде шесть человек и две единицы техники. За это время поставили больше семисот станций и накопительных ёмкостей в Подольске, Климовске, Щербинке и по Симферопольскому шоссе.</p>
+        <p>Мы не продаём самый дорогой септик из каталога. Сначала смотрим грунт, уровень воды и сколько человек живёт в доме постоянно, а потом называем модель. Если участок позволяет обойтись накопительной ёмкостью, так и скажем.</p>
+        <p>Обслуживаем то, что поставили: приезжаем по звонку в течение суток, компрессоры и мембраны держим на складе.</p>
+      </div>
+      <div class="figs">
+        <div class="fig"><b>712</b><span>септиков поставлено с 2014 года</span></div>
+        <div class="fig"><b>5 лет</b><span>гарантия на монтаж по договору</span></div>
+        <div class="fig"><b>1 день</b><span>обычный срок монтажа под ключ</span></div>
+        <div class="fig"><b>24 часа</b><span>приезд на аварийный вызов</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="works">
+  <div class="wrap">
+    <h2>Наши работы</h2>
+    <p class="sub">Несколько объектов этого сезона: что стояло, что поставили и во сколько обошлось.</p>
+    <div class="objs">
+      <div class="obj">
+        <span class="tag">Станция биоочистки</span>
+        <h3>Дом на 5 человек, Климовск</h3>
+        <ul>
+          <li>Грунт<b>Суглинок</b></li>
+          <li>Решение<b>Станция на 5 жильцов</b></li>
+          <li>Отвод<b>Дренажный колодец</b></li>
+          <li>Срок<b>1 день</b></li>
+          <li>Стоимость<b>147 000 руб.</b></li>
+        </ul>
+      </div>
+      <div class="obj">
+        <span class="tag">Накопительная ёмкость</span>
+        <h3>Дача сезонного проживания, Щербинка</h3>
+        <ul>
+          <li>Грунт<b>Песок</b></li>
+          <li>Решение<b>Ёмкость 3 куба</b></li>
+          <li>Отвод<b>Откачка по графику</b></li>
+          <li>Срок<b>1 день</b></li>
+          <li>Стоимость<b>89 000 руб.</b></li>
+        </ul>
+      </div>
+      <div class="obj">
+        <span class="tag">Замена старого</span>
+        <h3>Замена бетонных колец, Подольск</h3>
+        <ul>
+          <li>Было<b>Кольца, заиливание</b></li>
+          <li>Решение<b>Станция на 4 жильцов</b></li>
+          <li>Отвод<b>Насос в кювет</b></li>
+          <li>Срок<b>2 дня</b></li>
+          <li>Стоимость<b>163 000 руб.</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="price-t" id="price">
+  <div class="wrap">
+    <h2>Прайс-лист</h2>
+    <p class="sub">Цены с работой и материалами. Точную сумму называем после выезда, выезд бесплатный.</p>
+    <table>
+      <thead><tr><th>Услуга</th><th>Что входит</th><th>Цена</th></tr></thead>
+      <tbody>
+        <tr><td>Выезд и подбор септика</td><td>Замер участка, анализ грунта, расчёт</td><td>Бесплатно</td></tr>
+        <tr><td>Монтаж накопительного септика</td><td>Ёмкость 3 м³, котлован, подключение</td><td>от 89 000 ₽</td></tr>
+        <tr><td>Монтаж станции биоочистки</td><td>Станция на 5 человек, монтаж, запуск</td><td>от 129 000 ₽</td></tr>
+        <tr><td>Откачка и промывка</td><td>До 4 м³, выезд в течение дня</td><td>от 4 500 ₽</td></tr>
+        <tr><td>Замена компрессора</td><td>Компрессор в наличии, работа 1 час</td><td>от 9 800 ₽</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="rev" id="rev">
+  <div class="wrap">
+    <h2>Отзывы</h2>
+    <p class="sub">Живые отзывы наших заказчиков из Подольска и района.</p>
+    <div class="revs">
+      <div class="rv"><div class="stars">★★★★★</div><p>Поставили станцию за день, как и обещали. Отдельно понравилось, что отговорили от модели подороже: сказали, что для четверых она избыточна.</p><div class="who"><b>Илья К.</b>Климовск, июль 2026</div></div>
+      <div class="rv"><div class="stars">★★★★★</div><p>Меняли старые бетонные кольца, которые заиливались каждый сезон. Работали два дня, землю вывезли. Зимой ничего не замёрзло.</p><div class="who"><b>Ольга М.</b>Подольск, май 2026</div></div>
+      <div class="rv"><div class="stars">★★★★★</div><p>Вызывали на аварийную откачку в воскресенье, приехали через четыре часа. Заодно поменяли компрессор, который был у них с собой.</p><div class="who"><b>Дмитрий Р.</b>Щербинка, сентябрь 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="arts">
+  <div class="wrap">
+    <h2>Статьи</h2>
+    <p class="sub">Разбираем вопросы, которые нам задают на выезде чаще всего.</p>
+    <div class="arts">
+      <div class="art">
+        <time>14 августа 2026</time>
+        <h3>Станция или накопительная ёмкость: что дешевле за пять лет</h3>
+        <p>Считаем на примере дома для четверых: цена монтажа, электричество и откачка. Ёмкость дешевле на входе, но догоняет по деньгам к третьему году.</p>
+        <span>Читать далее</span>
+      </div>
+      <div class="art">
+        <time>2 июля 2026</time>
+        <h3>Высокие грунтовые воды: почему септик всплывает</h3>
+        <p>Что такое якорение бетонной плитой, когда оно обязательно и как понять уровень воды на участке без геологии, по соседским колодцам.</p>
+        <span>Читать далее</span>
+      </div>
+      <div class="art">
+        <time>19 мая 2026</time>
+        <h3>Зимовка септика без постоянного проживания</h3>
+        <p>Консервировать или оставить работать. Что делать с компрессором, нужно ли сливать воду и почему нельзя откачивать станцию досуха перед морозами.</p>
+        <span>Читать далее</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lead" id="lead">
+  <div class="wrap">
+    <div class="box">
+      <div>
+        <h2>Оставьте заявку</h2>
+        <p>Перезвоним в течение 15 минут, зададим три вопроса про участок и назовём цену. Выезд на замер бесплатный.</p>
+      </div>
+      <form onsubmit="return false">
+        <input type="text" placeholder="Ваше имя">
+        <input type="tel" placeholder="+7 ___ ___-__-__">
+        <button type="submit">Получить расчёт</button>
+        <small>Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</small>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>«Юнисток», ИП Дегтярёв С. В. · Подольск, ул. Комсомольская, 1</span>
+    <span>+7 (929) 640-18-52 · ежедневно</span>
+  </div>
+</footer>

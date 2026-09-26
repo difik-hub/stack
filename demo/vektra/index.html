@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vektra — перевозка автомобилей автовозами по России и СНГ</title>
+<style>
+  /* Копия структуры «МАГ Групп» (jr_solutions, работа 05). Сохранено намеренно:
+     тёмный герой, двухэтажная шапка (телефон с почтой и мессенджерами сверху,
+     меню с иконками под чертой), заголовок капсом в три строки слева, три
+     буллета-факта, широкая кнопка «Рассчитать стоимость», фото автовоза справа
+     и карта страны из светящихся точек в фоне, цветная полоса «нам доверяют»
+     с марками, ниже галерея работ. Заменено: имя, цвет, фото, тексты, цифры. */
+
+  :root {
+    --acc: #1E5FA8; --acc-2: #2C77C9; --dark: #0E1116; --dark-2: #161B22;
+    --ink-l: #C7CED6; --line: rgba(255,255,255,.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 16px/1.5 "Source Sans Pro", "Segoe UI", sans-serif; color: #12151A; background: #fff;
+         font-variant-numeric: lining-nums; }
+  h1, h2, h3, .btn, .logo { font-family: "Bebas Neue Pro", Montserrat, "Segoe UI", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 30px; }
+
+  /* Тёмный герой с картой в фоне */
+  .top { position: relative; background: var(--dark); color: #fff; overflow: hidden; }
+  /* холодное свечение «карты» — в цвет фирменного синего, а не тёплое золото */
+  .top::before { content: ""; position: absolute; inset: 0; z-index: 0;
+                 background: radial-gradient(ellipse 46% 62% at 70% 26%, rgba(60,130,215,.22), transparent 68%); }
+  .dots { position: absolute; left: 0; right: 0; top: 0; height: 86%; z-index: 1; opacity: .7; pointer-events: none;
+          background-image: radial-gradient(rgba(126,180,240,.9) 1.5px, transparent 1.6px);
+          background-size: 30px 30px;
+          -webkit-mask-image: radial-gradient(ellipse 30% 40% at 70% 28%, #000 6%, transparent 74%);
+          mask-image: radial-gradient(ellipse 30% 40% at 70% 28%, #000 6%, transparent 74%); }
+  .top > .wrap { position: relative; z-index: 2; }
+
+  .h1row { display: flex; align-items: center; gap: 26px; padding: 16px 0 14px; }
+  .logo { display: flex; align-items: center; gap: 12px; font-size: 30px; letter-spacing: .04em; }
+  .logo em { font-style: normal; font-size: 11px; letter-spacing: .22em; color: var(--ink-l); font-family: "Source Sans Pro", sans-serif; display: block; line-height: 1; margin-top: 4px; }
+  .contacts { margin-left: auto; text-align: right; }
+  .contacts b { font-family: "Bebas Neue Pro", Montserrat, sans-serif; font-size: 24px; letter-spacing: .03em; }
+  .contacts span { display: block; font-size: 13.5px; color: var(--ink-l); }
+  .ms { display: flex; gap: 8px; }
+  .ms i { width: 38px; height: 38px; border-radius: 9px; display: grid; place-items: center; font-style: normal; font-size: 16px; }
+  .ms i:nth-child(1) { background: #25D366; }
+  .ms i:nth-child(2) { background: #2AABEE; }
+  .ms i:nth-child(3) { background: #7B68EE; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 46px; padding: 0 24px;
+         border-radius: 8px; background: var(--acc); color: #fff; font-size: 17px; letter-spacing: .04em; }
+  .h1row .btn { border: 1px solid var(--acc-2); }
+
+  .h2row { display: flex; align-items: center; justify-content: space-between; gap: 20px;
+           border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 15px 0; font-size: 15px; letter-spacing: .07em; text-transform: uppercase; }
+
+  .hbody { display: grid; grid-template-columns: 1.02fr .98fr; gap: 20px; align-items: center; padding: 54px 0 0; }
+  .hbody h1 { font-size: 46px; line-height: 1.1; letter-spacing: .01em; margin-bottom: 30px; }
+  .bul { list-style: none; margin-bottom: 34px; }
+  .bul li { position: relative; padding-left: 22px; margin-bottom: 12px; font-size: 15px; letter-spacing: .05em; text-transform: uppercase; color: #E6EBF1; }
+  .bul li::before { content: ""; position: absolute; left: 0; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--acc-2); }
+  .hbody .btn { height: 56px; padding: 0 34px; font-size: 19px; margin-bottom: 46px; }
+  .truck { margin-bottom: -30px; }
+
+  /* Полоса доверия */
+  .trust { background: var(--acc); color: #fff; }
+  .trust .wrap { display: flex; align-items: center; gap: 40px; padding: 20px 30px; }
+  .trust p { font-size: 15px; line-height: 1.25; letter-spacing: .04em; text-transform: uppercase; flex: none; }
+  .brands { margin-left: auto; display: flex; gap: 34px; font-family: "Bebas Neue Pro", Montserrat, sans-serif; font-size: 20px; letter-spacing: .1em; opacity: .92; }
+
+  section { padding: 78px 0; }
+  h2 { font-size: 40px; letter-spacing: .01em; margin-bottom: 40px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .w img { width: 100%; height: 260px; object-fit: cover; border-radius: 10px; margin-bottom: 16px; }
+  .w h3 { font-size: 23px; letter-spacing: .02em; margin-bottom: 6px; }
+  .w p { font-size: 15px; color: #59616B; }
+
+  .adv { background: #F4F6F8; }
+  .adv .grid3 { gap: 22px; }
+  .a { background: #fff; border-radius: 10px; padding: 28px 26px; }
+  .a b { font-family: "Bebas Neue Pro", Montserrat, sans-serif; font-size: 34px; color: var(--acc); letter-spacing: .02em; display: block; margin-bottom: 8px; }
+  .a p { font-size: 15px; color: #59616B; }
+
+  footer { background: var(--dark-2); color: var(--ink-l); padding: 32px 0; font-size: 14.5px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+
+  /* Заявка: тёмный блок с формой маршрута */
+  .calc { background: var(--dark); color: #fff; }
+  .calc .grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center; }
+  .calc h2 { margin-bottom: 18px; }
+  .calc p { font-size: 16px; color: var(--ink-l); margin-bottom: 22px; max-width: 42ch; }
+  .calc ul { list-style: none; font-size: 15px; color: var(--ink-l); }
+  .calc li { position: relative; padding-left: 22px; margin-bottom: 10px; }
+  .calc li::before { content: ""; position: absolute; left: 0; top: 7px; width: 7px; height: 7px;
+                     border-radius: 50%; background: var(--acc-2); }
+  .form { background: #fff; border-radius: 12px; padding: 32px; color: #12151A; }
+  .form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form label { display: block; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase;
+                color: #6B737D; margin: 0 0 6px; }
+  .form input, .form select { width: 100%; height: 52px; border: 1px solid #DDE2E7; border-radius: 8px;
+                              padding: 0 14px; font: inherit; background: #fff; margin-bottom: 14px; }
+  .form button { width: 100%; height: 56px; border: 0; border-radius: 8px; background: var(--acc); color: #fff;
+                 font: 19px "Bebas Neue Pro", Montserrat, sans-serif; letter-spacing: .04em; cursor: pointer; }
+  .form small { display: block; margin-top: 12px; font-size: 12.5px; color: #6B737D; line-height: 1.45; }
+
+  /* Ваши вопросы */
+  .faq .list { max-width: 900px; margin: 0 auto; }
+  .faq details { border-bottom: 1px solid #E3E7EB; }
+  .faq summary { list-style: none; cursor: pointer; padding: 22px 44px 22px 0; position: relative;
+                 font: 23px "Bebas Neue Pro", Montserrat, sans-serif; letter-spacing: .02em; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: ""; position: absolute; right: 8px; top: 30px; width: 11px; height: 11px;
+                        border-right: 2px solid var(--acc); border-bottom: 2px solid var(--acc);
+                        transform: rotate(45deg); transition: transform .18s; }
+  .faq details[open] summary::after { transform: rotate(-135deg); top: 34px; }
+  .faq p { padding: 0 40px 24px 0; font-size: 15.5px; color: #59616B; max-width: 74ch; }
+
+  /* Контакты */
+  .cts { background: #F4F6F8; }
+  .cts .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .cbox { background: #fff; border-radius: 10px; padding: 26px 24px; }
+  .cbox i { display: block; font-style: normal; font-size: 12px; letter-spacing: .08em;
+            text-transform: uppercase; color: #8B939C; margin-bottom: 10px; }
+  .cbox b { font: 24px "Bebas Neue Pro", Montserrat, sans-serif; letter-spacing: .02em; display: block; }
+  .cbox span { font-size: 14.5px; color: #59616B; display: block; margin-top: 6px; }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 0 16px; }
+    .dots { display: none; }
+    .h1row { flex-wrap: wrap; gap: 12px; padding: 14px 0; }
+    .logo { font-size: 24px; }
+    .contacts { margin-left: auto; }
+    .contacts b { font-size: 19px; }
+    .h1row .btn { display: none; }
+    .h2row { display: none; }
+    .hbody { grid-template-columns: 1fr; padding: 28px 0 0; gap: 4px; }
+    .hbody h1 { font-size: 28px; margin-bottom: 20px; }
+    .bul li { font-size: 13px; margin-bottom: 9px; }
+    .hbody .btn { width: 100%; height: 52px; font-size: 17px; }
+    .truck { margin: 22px -16px -12px; }
+    .trust .wrap { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px 16px; }
+    .brands { margin: 0; flex-wrap: wrap; gap: 16px; font-size: 16px; }
+    section { padding: 48px 0; }
+    h2 { font-size: 28px; margin-bottom: 24px; }
+    .grid3 { grid-template-columns: 1fr; gap: 16px; }
+    .w img { height: 220px; }
+
+    .calc .grid { grid-template-columns: 1fr; gap: 26px; }
+    .form { padding: 22px 18px; }
+    .form .row { grid-template-columns: 1fr; gap: 0; }
+    .faq summary { font-size: 20px; padding: 18px 34px 18px 0; }
+    .faq summary::after { top: 26px; }
+    .faq details[open] summary::after { top: 30px; }
+    .faq p { padding-right: 0; font-size: 15px; }
+    .cts .grid { grid-template-columns: 1fr; gap: 12px; }
+  }
+</style>
+
+<div class="top">
+  <div class="dots"></div>
+  <div class="wrap">
+    <div class="h1row">
+      <div class="logo">VEKTRA<em>транспортная компания</em></div>
+      <div class="contacts"><b>8 (912) 640-33-18</b><span>zakaz@vektra-trans.ru</span></div>
+      <div class="ms"><i>✆</i><i>✈</i><i>◎</i></div>
+      <a class="btn" href="#calc">Заказать консультацию</a>
+    </div>
+    <div class="h2row">
+      <a href="#how">О компании</a><a href="#how">Услуги</a><a href="#adv">Преимущества</a><a href="#faq">Ваши вопросы</a><a href="#contacts">Контакты</a>
+    </div>
+  </div>
+  <div class="wrap hbody">
+    <div>
+      <h1>Безопасные перевозки автомобилей на автовозах в любой город России и СНГ</h1>
+      <ul class="bul">
+        <li>В перевозках с 2011 года</li>
+        <li>Собственный парк автовозов — 28 единиц</li>
+        <li>Груз застрахован на 10 млн рублей</li>
+      </ul>
+      <a class="btn" href="#calc">Рассчитать стоимость</a>
+    </div>
+    <img class="truck" src="img/hero.jpg" alt="">
+  </div>
+</div>
+
+<div class="trust">
+  <div class="wrap">
+    <p>Нам доверяют<br>свои автомобили</p>
+    <div class="brands"><span>SKODA</span><span>VOLKSWAGEN</span><span>BMW</span><span>MERCEDES</span><span>RENAULT</span><span>AUDI</span></div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <h2>Как мы возим</h2>
+    <div class="grid3">
+      <div class="w"><img src="img/w1.jpg" alt=""><h3>Открытый автовоз</h3><p>Восемь машин за рейс. Самый доступный способ для серийных автомобилей.</p></div>
+      <div class="w"><img src="img/w2.jpg" alt=""><h3>Погрузка под камерой</h3><p>Осмотр и акт приёма-передачи с фото каждой детали до и после рейса.</p></div>
+      <div class="w"><img src="img/w3.jpg" alt=""><h3>Крытый транспорт</h3><p>Для премиума и мототехники: закрытый кузов, крепление за колёса.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="adv" id="adv">
+  <div class="wrap">
+    <h2>Почему нас выбирают</h2>
+    <div class="grid3">
+      <div class="a"><b>28</b><p>собственных автовозов, а не диспетчерская посредников</p></div>
+      <div class="a"><b>10 млн ₽</b><p>страховка на каждый автомобиль в рейсе</p></div>
+      <div class="a"><b>2-9 дней</b><p>срок доставки по России, фиксируется в договоре</p></div>
+      <div class="a"><b>0 ₽</b><p>предоплаты: расчёт после прибытия и осмотра</p></div>
+      <div class="a"><b>24/7</b><p>трекинг рейса и связь с логистом по номеру заявки</p></div>
+      <div class="a"><b>14 лет</b><p>в перевозках: с 2011 года и без смены юрлица</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="calc" id="calc">
+  <div class="wrap grid">
+    <div>
+      <h2>Рассчитать перевозку</h2>
+      <p>Оставьте маршрут и телефон. Логист посчитает точную стоимость и назовёт ближайшую дату отправки.</p>
+      <ul>
+        <li>Расчёт в течение часа в рабочее время</li>
+        <li>Цена фиксируется в договоре и не растёт в пути</li>
+        <li>Оплата после подачи автовоза, предоплаты нет</li>
+      </ul>
+    </div>
+    <form class="form" onsubmit="return false">
+      <div class="row">
+        <div><label>Откуда</label><input type="text" placeholder="Екатеринбург"></div>
+        <div><label>Куда</label><input type="text" placeholder="Краснодар"></div>
+      </div>
+      <div class="row">
+        <div><label>Тип транспорта</label>
+          <select><option>Открытый автовоз</option><option>Крытый автовоз</option><option>Ещё не решил</option></select>
+        </div>
+        <div><label>Сколько машин</label>
+          <select><option>1 автомобиль</option><option>2-3 автомобиля</option><option>От 4 машин</option></select>
+        </div>
+      </div>
+      <label>Телефон для связи</label>
+      <input type="tel" placeholder="+7 ___ ___-__-__">
+      <button type="submit">Получить расчёт</button>
+      <small>Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</small>
+    </form>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2>Ваши вопросы</h2>
+    <div class="list">
+      <details open>
+        <summary>Сколько идёт машина до города назначения</summary>
+        <p>По европейской части от двух до пяти дней, до Сибири и Дальнего Востока от семи до четырнадцати. Точный срок логист называет при расчёте: он зависит от того, попадает ли ваш автомобиль в уже собранный рейс или автовоз ждёт загрузки.</p>
+      </details>
+      <details>
+        <summary>Что будет, если машину повредят в дороге</summary>
+        <p>Каждый автомобиль застрахован на сумму до десяти миллионов рублей. При погрузке составляется акт с фотографиями всех сторон кузова, при выдаче он сверяется. Если повреждение появилось в рейсе, ремонт оплачивает страховая, а не вы.</p>
+      </details>
+      <details>
+        <summary>Можно ли везти неисправный автомобиль</summary>
+        <p>Да. Машину без хода мы затаскиваем лебёдкой, для этого нужен рабочий руль и колёса, которые крутятся. Предупредите об этом при заявке: под такую загрузку выделяется место на нижней палубе.</p>
+      </details>
+      <details>
+        <summary>Можно ли оставить вещи в салоне</summary>
+        <p>До пятидесяти килограммов личных вещей в багажнике перевозим бесплатно. Вещи не страхуются, поэтому документы, технику и ценное лучше забрать с собой.</p>
+      </details>
+      <details>
+        <summary>Когда и как платить</summary>
+        <p>Предоплаты нет. Оплата наличными или переводом после подачи автовоза и подписания акта. Для юридических лиц работаем по безналу с закрывающими документами.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cts" id="contacts">
+  <div class="wrap">
+    <h2>Контакты</h2>
+    <div class="grid">
+      <div class="cbox"><i>Телефон</i><b>8 (912) 640-33-18</b><span>Круглосуточно, без выходных</span></div>
+      <div class="cbox"><i>Почта</i><b>zakaz@vektra-trans.ru</b><span>Ответ в течение рабочего дня</span></div>
+      <div class="cbox"><i>Офис и стоянка</i><b>Екатеринбург</b><span>ул. Монтёров, 8, будни с 9:00 до 19:00</span></div>
+      <div class="cbox"><i>Филиалы</i><b>4 города</b><span>Москва, Казань, Новосибирск, Краснодар</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Vektra, ООО «Вектра Транс» · Екатеринбург, ул. Монтёров, 8</span>
+    <span>8 (912) 640-33-18 · круглосуточно</span>
+  </div>
+</footer>

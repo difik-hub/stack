@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kepler — оригинальная техника Apple из Дубая</title>
+<style>
+  /* Структура взята с магазина техники (uliweb, работы 08-11): страна закупки
+     первым экраном, возврат налога, каталог с выбором цвета, витрина других
+     товаров, липкая строка мессенджеров, шаги доставки, контакты.
+     Подача своя: тёмный фон, объекты без рамок, композиция из двух товаров
+     под встречным наклоном с перекрытием — приём взят с lumio-pay.com. */
+
+  :root {
+    --bg: #0D0D10; --bg-2: #151519; --line: rgba(255,255,255,.10);
+    --ink: #F2F1EE; --ink-2: #8E8D96; --acc: #6E97F5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 16px/1.6 Lato, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); padding-bottom: 64px;
+         /* Raleway по умолчанию даёт старостильные цифры — они гуляют по базовой линии */
+         font-variant-numeric: lining-nums tabular-nums;
+         font-feature-settings: "lnum" 1, "tnum" 1; }
+  h1, h2, h3, .logo, .btn, .price { font-family: Raleway, "Segoe UI", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 104px 0; }
+  /* Заголовок секции: мелкий индекс и одна крупная строка лёгкого начертания */
+  .idx { font-family: Raleway, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .22em;
+         color: var(--ink-2); text-transform: uppercase; margin-bottom: 20px; display: block; }
+  h2 { font-family: Raleway, sans-serif; font-weight: 300; font-size: 48px; line-height: 1.08;
+       letter-spacing: -.02em; }
+  h2 em { font-style: normal; font-weight: 700; }
+  .lead { color: var(--ink-2); font-size: 17px; margin-top: 22px; max-width: 52ch; }
+
+  header { height: 78px; }
+  header .wrap { display: flex; align-items: center; height: 100%; gap: 48px; }
+  .logo { font-size: 21px; font-weight: 700; letter-spacing: .3em; }
+  header nav { display: flex; gap: 34px; font-family: Raleway, sans-serif; font-size: 12px; font-weight: 600;
+               letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2); }
+  header .tel { margin-left: auto; font-family: Raleway, sans-serif; font-size: 15px; font-weight: 700;
+                letter-spacing: .12em; }
+
+  /* Первый экран: текст слева, два объекта справа под встречным наклоном */
+  .hero { position: relative; overflow: hidden; }
+  .hero .wrap { display: grid; grid-template-columns: .92fr 1.08fr; gap: 30px; align-items: center;
+                padding-top: 20px; padding-bottom: 80px; position: relative; z-index: 1; }
+  .hero h1 { font-size: 62px; line-height: 1.04; font-weight: 300; letter-spacing: -.03em; }
+  .hero h1 b { font-weight: 700; display: block; }
+  .from { display: inline-flex; align-items: center; gap: 11px; margin: 26px 0 34px; font-size: 15px; color: var(--ink-2); }
+  .from::before { content: ""; width: 24px; height: 16px; flex: none; border-radius: 2px;
+                  background: linear-gradient(90deg, #CE1126 0 27%, transparent 27%),
+                              linear-gradient(180deg, #00732F 0 33.3%, #F5F5F5 33.3% 66.6%, #111 66.6%); }
+  .acts { display: flex; align-items: center; gap: 26px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 36px;
+         border-radius: 999px; font-size: 15px; font-weight: 600; letter-spacing: .02em;
+         background: var(--ink); color: #101014; }
+  .link { font-size: 15px; color: var(--ink-2); border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+  .tax { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 14.5px;
+         color: var(--ink-2); max-width: 46ch; }
+  .tax b { color: var(--ink); font-weight: 700; }
+
+  /* Товар стоит в пространстве: разворот по оси Y даёт объём, свет позади
+     отделяет группу от фона, низ уходит в темноту вместо линии обреза */
+  .stage { position: relative; min-height: 560px; perspective: 1400px; }
+  .stage .glow { position: absolute; left: 6%; right: -18%; top: 2%; bottom: 6%;
+                 background: radial-gradient(ellipse 54% 52% at 52% 46%, rgba(126,158,235,.30), transparent 70%);
+                 filter: blur(14px); }
+  .stage .back { position: absolute; width: 118%; right: -16%; top: 2%;
+                 transform: rotateY(-17deg) rotateZ(-5deg) scale(1.02);
+                 transform-origin: 62% 50%;
+                 filter: drop-shadow(-16px 40px 54px rgba(0,0,0,.7));
+                 -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 96%);
+                 mask-image: linear-gradient(180deg, #000 72%, transparent 96%); }
+
+  /* Факты: только типографика и тонкие линии */
+  /* Цифры набраны тем же плотным разрядом, что и логотип */
+  .facts { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .facts .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .f { padding: 46px 34px; border-right: 1px solid var(--line); text-align: center; }
+  .f:first-child { border-left: 1px solid var(--line); }
+  .f b { display: block; font-family: Raleway, sans-serif; font-size: 38px; font-weight: 800;
+         letter-spacing: .04em; line-height: 1; margin-bottom: 14px; white-space: nowrap;
+         font-variant-numeric: lining-nums tabular-nums; }
+  .f span { font-size: 11.5px; color: var(--ink-2); letter-spacing: .16em; text-transform: uppercase;
+            line-height: 1.5; display: block; }
+
+  /* Каталог */
+  .cat { background: var(--bg-2); }
+  .cat .top { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 66px; }
+  .cat .top .lead { margin-top: 0; }
+  .goods { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+  .g { display: grid; grid-template-columns: 1fr 1.05fr; gap: 30px; align-items: center; }
+  /* оба товара приводим к одной высоте — иначе один читается мельче другого */
+  .g .ph { height: 320px; display: grid; place-items: center; }
+  .g .ph img { max-height: 320px; width: auto; filter: drop-shadow(0 26px 36px rgba(0,0,0,.6)); }
+  /* у второго рендера кадр обрезан теснее, поэтому при равной высоте объект
+     читается мельче — компенсируем масштабом, а не растяжением */
+  .g:nth-child(2) .ph img { max-height: 384px; }
+  .g h3 { font-family: Raleway, sans-serif; font-size: 15px; font-weight: 800; letter-spacing: .16em;
+          text-transform: uppercase; }
+  .price { font-family: Raleway, sans-serif; font-size: 34px; font-weight: 700; letter-spacing: 0;
+           margin: 12px 0 6px; font-variant-numeric: lining-nums tabular-nums; }
+  .g small { display: block; font-size: 12px; color: var(--ink-2); letter-spacing: .1em;
+             text-transform: uppercase; margin-bottom: 26px; }
+  .sw { display: flex; gap: 10px; margin-bottom: 30px; }
+  .sw i { width: 24px; height: 24px; border-radius: 50%; display: block; box-shadow: 0 0 0 1px rgba(255,255,255,.22); }
+  .sw i.on { box-shadow: 0 0 0 2px var(--ink); }
+  .g .buy { display: inline-flex; align-items: center; height: 48px; padding: 0 30px; border-radius: 999px;
+            background: var(--ink); color: #101014; font: 600 14px Raleway, sans-serif; letter-spacing: .06em;
+            text-transform: uppercase; }
+
+  /* Другие товары */
+  .more { display: grid; grid-template-columns: repeat(5, 1fr); gap: 34px; margin-top: 58px; }
+  .m { text-align: center; }
+  .m .ph { height: 150px; display: grid; place-items: center; margin-bottom: 20px; }
+  .m img { max-height: 150px; width: auto; filter: drop-shadow(0 18px 26px rgba(0,0,0,.5)); }
+  .m h3 { font-size: 17px; font-weight: 500; }
+  .m span { font-size: 13.5px; color: var(--ink-2); }
+
+  /* Шаги доставки */
+  .flow { background: var(--bg-2); }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; margin-top: 58px; }
+  .st b { display: block; font-family: Raleway, sans-serif; font-size: 13px; letter-spacing: .18em;
+          color: var(--acc); margin-bottom: 16px; }
+  .st h3 { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  .st p { font-size: 14.5px; color: var(--ink-2); }
+
+  /* Витрина магазина */
+  /* Фото магазина притушены и растворены снизу, чтобы не висели
+     светлыми прямоугольниками поверх тёмной страницы */
+  .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 64px; }
+  .shot { position: relative; }
+  .shot img { width: 100%; height: 260px; object-fit: cover;
+              filter: grayscale(.35) brightness(.72) contrast(1.06);
+              -webkit-mask-image: linear-gradient(180deg, #000 58%, transparent 100%);
+              mask-image: linear-gradient(180deg, #000 58%, transparent 100%); }
+  .shot span { display: block; margin-top: -34px; position: relative; font-size: 13px; color: var(--ink-2);
+               letter-spacing: .12em; text-transform: uppercase; }
+
+  /* Контакты */
+  .kont .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .kont dl { display: grid; grid-template-columns: 150px 1fr; gap: 18px 20px; font-size: 15.5px; margin-top: 38px; }
+  .kont dt { color: var(--ink-2); }
+  .kont form { border-top: 1px solid var(--line); padding-top: 34px; }
+  .kont h3 { font-size: 24px; font-weight: 400; margin-bottom: 10px; }
+  .kont p { color: var(--ink-2); font-size: 15px; margin-bottom: 26px; }
+  .kont input { width: 100%; height: 56px; background: transparent; border: 0; border-bottom: 1px solid var(--line);
+                color: var(--ink); font: inherit; margin-bottom: 10px; }
+  .kont input::placeholder { color: #5E5D66; }
+  .kont button { margin-top: 22px; width: 100%; height: 56px; border: 0; border-radius: 999px; background: var(--ink);
+                 color: #101014; font: 600 15px Raleway, sans-serif; cursor: pointer; }
+  .kont small { display: block; margin-top: 14px; font-size: 12.5px; color: #5E5D66; line-height: 1.5; }
+
+  footer { border-top: 1px solid var(--line); padding: 30px 0; font-size: 14px; color: var(--ink-2); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+  /* Липкая строка мессенджеров */
+  .dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9;
+          background: rgba(13,13,16,.92); backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
+  .dock .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+  .dock .note { margin-right: auto; font-size: 14px; color: var(--ink-2); }
+  .dock .note b { color: var(--ink); font-weight: 700; }
+  .dock a { font-size: 14px; }
+  .dock a.pri { height: 40px; padding: 0 24px; border-radius: 999px; background: var(--ink); color: #101014;
+                display: inline-flex; align-items: center; font-weight: 600; }
+
+  @media (max-width: 900px) {
+    body { padding-bottom: 74px; }
+    .wrap { padding: 0 18px; }
+    section { padding: 58px 0; }
+    h2 { font-size: 30px; }
+    .idx { margin-bottom: 14px; font-size: 11px; }
+    header { height: 66px; }
+    header nav { display: none; }
+    header .wrap { gap: 0; }
+    header .tel { font-size: 14.5px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 10px; padding-bottom: 40px; }
+    .hero h1 { font-size: 36px; }
+    .from { margin: 18px 0 26px; }
+    .acts { flex-direction: column; align-items: stretch; gap: 16px; text-align: center; }
+    .tax { margin-top: 28px; }
+    /* На узком экране 3D-разворот десктопа читается как кривая вставка,
+       а не как приём — на мобильном кладём картинку плоско и по центру. */
+    .stage { min-height: 300px; margin: 0 -18px 0; perspective: none; }
+    .stage .back { position: static; width: auto; max-width: 84%; height: 300px;
+                   object-fit: contain; margin: 0 auto; display: block;
+                   transform: none; filter: drop-shadow(0 22px 30px rgba(0,0,0,.6));
+                   -webkit-mask-image: none; mask-image: none; }
+    .facts .wrap { grid-template-columns: 1fr 1fr; }
+    .f { padding: 26px 12px; }
+    .f:nth-child(2) { border-right: 0; }
+    .f:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .f b { font-size: 26px; margin-bottom: 10px; }
+    .f span { font-size: 10.5px; letter-spacing: .12em; }
+    .cat .top { display: block; }
+    .cat .top .lead { margin-top: 12px; }
+    .goods { grid-template-columns: 1fr; gap: 40px; }
+    .g { grid-template-columns: 1fr; gap: 18px; text-align: center; }
+    .g .ph, .g .ph img { height: 240px; max-height: 240px; }
+    .sw { justify-content: center; }
+    .more { grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 34px; }
+    .m .ph { height: 118px; }
+    .m img { max-height: 118px; }
+    .steps, .shots { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+    .shot img { height: 220px; }
+    .kont .wrap { grid-template-columns: 1fr; gap: 34px; }
+    .kont dl { grid-template-columns: 125px 1fr; font-size: 14.5px; gap: 14px; }
+    .dock .wrap { height: auto; padding: 12px 18px; gap: 10px; }
+    .dock .note { display: none; }
+    .dock a { flex: 1; text-align: center; }
+    .dock a.pri { justify-content: center; }
+  }
+</style>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">KEPLER</a>
+    <nav><a href="#cat">Каталог</a><a href="#more">Другие товары</a><a href="#flow">Доставка</a><a href="#kont">Контакты</a></nav>
+    <div class="tel">8 (958) 402-16-70</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Оригинальная<b>техника Apple</b></h1>
+      <div class="from">напрямую из Дубая, ОАЭ</div>
+      <div class="acts">
+        <a class="btn" href="#cat">Смотреть каталог</a>
+        <a class="link" href="#kont">Проверить наличие модели</a>
+      </div>
+      <p class="tax">Каждая позиция с чеком дубайского магазина. Проверяете при получении, платите после.</p>
+    </div>
+    <div class="stage">
+      <div class="glow"></div>
+      <img class="back" src="img/hero-cut.png" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="facts">
+  <div class="wrap">
+    <div class="f"><b>8 лет</b><span>возим технику из ОАЭ</span></div>
+    <div class="f"><b>12 мес</b><span>гарантия на технику</span></div>
+    <div class="f"><b>3–9 дней</b><span>доставка по России</span></div>
+    <div class="f"><b>0 ₽</b><span>предоплаты до проверки</span></div>
+  </div>
+</div>
+
+<section class="cat" id="cat">
+  <div class="wrap">
+    <div class="top">
+      <div><span class="idx">01 / Каталог</span><h2>iPhone <em>в наличии</em></h2></div>
+      <p class="lead">Все цвета и объёмы памяти в наличии. Полный список позиций обновляем в Telegram-канале каждый день.</p>
+    </div>
+    <div class="goods">
+      <div class="g">
+        <div class="ph"><img src="img/p1-cut.png" alt=""></div>
+        <div>
+          <h3>iPhone 17</h3>
+          <div class="price">63 500 ₽</div>
+          <small>256 GB, новый, запечатан</small>
+          <div class="sw">
+            <i class="on" style="background:#C9B6DE"></i><i style="background:#A8C4E5"></i><i style="background:#3A3A3C"></i><i style="background:#8FA893"></i><i style="background:#E7E2DA"></i>
+          </div>
+          <a class="buy" href="#kont">Забронировать</a>
+        </div>
+      </div>
+      <div class="g">
+        <div class="ph"><img src="img/p2-cut.png" alt=""></div>
+        <div>
+          <h3>iPhone 17 Pro</h3>
+          <div class="price">78 900 ₽</div>
+          <small>512 GB, новый, запечатан</small>
+          <div class="sw">
+            <i class="on" style="background:#2B4A72"></i><i style="background:#6E6E73"></i><i style="background:#1C1C1E"></i><i style="background:#D8CFC0"></i>
+          </div>
+          <a class="buy" href="#kont">Забронировать</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="more">
+  <div class="wrap">
+    <span class="idx">02 / Ассортимент</span>
+    <h2>Не только <em>iPhone</em></h2>
+    <p class="lead">Везём под заказ любую технику, которая продаётся в Дубае. Ниже то, что заказывают чаще всего.</p>
+    <div class="more">
+      <div class="m"><div class="ph"><img src="img/o1-cut.png" alt=""></div><h3>MacBook</h3><span>Air и Pro</span></div>
+      <div class="m"><div class="ph"><img src="img/o3-cut.png" alt=""></div><h3>Apple Watch</h3><span>SE, Series, Ultra</span></div>
+      <div class="m"><div class="ph"><img src="img/p3-cut.png" alt=""></div><h3>Google Pixel</h3><span>Последние поколения</span></div>
+      <div class="m"><div class="ph"><img src="img/o4-cut.png" alt=""></div><h3>Samsung</h3><span>Galaxy S и Z</span></div>
+      <div class="m"><div class="ph"><img src="img/o7-cut.png" alt=""></div><h3>Huawei</h3><span>Смартфоны и планшеты</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="flow" id="flow">
+  <div class="wrap">
+    <span class="idx">03 / Как это устроено</span>
+    <h2>Из Дубая <em>до вашей двери</em></h2>
+    <p class="lead">Забираем товар в дубайском магазине под конкретный заказ, поэтому цена ниже российской розницы.</p>
+    <div class="steps">
+      <div class="st"><b>ШАГ 1</b><h3>Бронь позиции</h3><p>Подтверждаем наличие в Дубае и фиксируем цену на три дня.</p></div>
+      <div class="st"><b>ШАГ 2</b><h3>Выкуп и чек</h3><p>Присылаем фото коробки, чек магазина и номер накладной.</p></div>
+      <div class="st"><b>ШАГ 3</b><h3>Доставка</h3><p>От 3 до 9 рабочих дней. Курьером до двери или в пункт выдачи.</p></div>
+      <div class="st"><b>ШАГ 4</b><h3>Проверка и оплата</h3><p>Вскрываете, включаете, проверяете. Платите только после этого.</p></div>
+    </div>
+    <div class="shots">
+      <div class="shot"><img src="img/shop1.jpg" alt=""><span>Витрина в Дубае</span></div>
+      <div class="shot"><img src="img/shop2.jpg" alt=""><span>Выкуп под заказ</span></div>
+      <div class="shot"><img src="img/shop3.jpg" alt=""><span>Проверка перед выдачей</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="kont" id="kont">
+  <div class="wrap">
+    <div>
+      <span class="idx">04 / Контакты</span>
+      <h2>Проверим наличие <em>сегодня</em></h2>
+      <dl>
+        <dt>Телефон</dt><dd>8 (958) 402-16-70</dd>
+        <dt>Telegram</dt><dd>@kepler_store</dd>
+        <dt>Пункт выдачи</dt><dd>Москва, Пресненская наб., 12, офис 402</dd>
+        <dt>Время работы</dt><dd>Ежедневно с 10:00 до 21:00</dd>
+        <dt>Доставка</dt><dd>СДЭК и Boxberry по всей России</dd>
+        <dt>Оплата</dt><dd>После получения и проверки</dd>
+      </dl>
+    </div>
+    <form onsubmit="return false">
+      <h3>Написать нам</h3>
+      <p>Укажите модель, цвет и объём памяти. Ответим ценой на сегодня и сроком доставки в ваш город.</p>
+      <input type="text" placeholder="Что ищете: модель, цвет, память">
+      <input type="tel" placeholder="Телефон или ник в Telegram">
+      <button type="submit">Узнать цену</button>
+      <small>Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</small>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Kepler, ИП Гарипов Р. Н. · Москва, Пресненская наб., 12</span>
+    <span>8 (958) 402-16-70 · ежедневно 10:00 – 21:00</span>
+  </div>
+</footer>
+
+<div class="dock">
+  <div class="wrap">
+    <span class="note">Наличие и цены — в Telegram-канале, <b>обновляем каждый день</b></span>
+    <a class="pri" href="#">Написать менеджеру</a>
+    <a href="#">Канал с наличием</a>
+  </div>
+</div>

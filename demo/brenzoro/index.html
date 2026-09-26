@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Brenzoro — автосалон в Ростове-на-Дону. Автомобили в наличии, кредит от 0,01%, трейд-ин с оценкой выше рынка, выдача за один день.">
+<title>Brenzoro — автомобили в наличии в Ростове-на-Дону</title>
+
+<link rel="preload" href="fonts/Oswald.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Commissioner.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+  /* Шрифты локально: CDN в РФ режется */
+  @font-face { font-family: Oswald; src: url(fonts/Oswald.woff2) format("woff2");
+               font-weight: 200 700; font-display: swap; }
+  @font-face { font-family: Commissioner; src: url(fonts/Commissioner.woff2) format("woff2");
+               font-weight: 100 900; font-display: swap; }
+
+  :root {
+    --ink: #10151C;
+    --night: #0F1B2D;        /* секция кредита */
+    --night-2: #16263F;
+    --paper: #FFFFFF;
+    --grey: #F2F3F5;
+    --grey-2: #E7E9EC;
+    --mute: #656D78;         /* 5.4:1 на белом */
+    --mute-d: #9AA6B4;
+    --acc: #C8102E;          /* дилерский красный, 6.3:1 на белом */
+    --acc-d: #A60D26;
+    --ok: #1C7A4B;
+    --line: #DFE2E6;
+
+    --w-body: 400;
+    --w-mid: 550;
+    --w-bold: 700;
+
+    --gutter: 24px;
+    --layout: 1180px;
+
+    --t-hover: .18s;
+    --t-state: .34s;
+    --e-out: cubic-bezier(.22,.8,.3,1);
+    --e-firm: cubic-bezier(.4,0,.15,1);
+
+    --r: 10px;
+    --sh-1: 0 1px 2px rgba(16,21,28,.06), 0 2px 8px rgba(16,21,28,.05);
+    --sh-2: 0 12px 28px -10px rgba(16,21,28,.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { font-family: Commissioner, system-ui, sans-serif; font-weight: var(--w-body);
+         font-size: 15.5px; line-height: 1.5; color: var(--ink); background: var(--paper);
+         -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  ::selection { background: var(--acc); color: #fff; }
+  .wrap { width: 100%; max-width: var(--layout); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* Дилерская подача: жирный капс, узкий гротеск, плотно. Воздух и тонкие
+     начертания здесь читались бы как «дизайнер не понял, что продают». */
+  h1, h2, .plate, .price b, .cnum, .adv b, .cside b, .clock b, .logo { font-family: Oswald, "Arial Narrow", sans-serif; }
+  h1 { font-size: clamp(28px, 4.4vw, 56px); font-weight: var(--w-bold); line-height: 1.02;
+       text-transform: uppercase; letter-spacing: .005em; }
+  h2 { font-size: clamp(24px, 3.2vw, 40px); font-weight: var(--w-bold); line-height: 1.06;
+       text-transform: uppercase; }
+  .vh { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden;
+        clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ── Шапка: два этажа, как у дилеров ───────────────────────────── */
+  header { position: sticky; top: 0; z-index: 70; background: #fff;
+           box-shadow: 0 1px 0 var(--line); }
+  .bar1 { display: flex; align-items: center; gap: 22px; height: 68px; }
+  .logo { font-size: 23px; font-weight: var(--w-bold);
+          letter-spacing: .16em; text-transform: uppercase; }
+  .logo em { font-style: normal; color: var(--acc); }
+  .bar1 .addr { margin-left: auto; font-size: 14px; color: var(--mute); }
+  .bar1 .phone { font-size: 17px; font-weight: var(--w-mid); white-space: nowrap; }
+  .bar2 { display: flex; gap: 26px; justify-content: center; height: 46px;
+          align-items: center; border-top: 1px solid var(--line); font-size: 14.5px; }
+  .bar2 a { color: var(--mute); transition: color var(--t-hover); }
+  .bar2 a:hover { color: var(--acc); }
+  .burger { display: none; width: 28px; height: 22px; position: relative; margin-left: auto; }
+  .burger i { position: absolute; left: 0; right: 0; height: 2px; background: var(--ink);
+              transition: transform var(--t-state) var(--e-firm); }
+  .burger i:nth-child(1) { top: 3px; } .burger i:nth-child(2) { bottom: 3px; }
+  .burger.on i:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .burger.on i:nth-child(2) { transform: translateY(-8px) rotate(-45deg); }
+
+  /* ── Кнопки ────────────────────────────────────────────────────── */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+         height: 48px; padding: 0 22px; border-radius: 8px; font-size: 15px;
+         font-weight: var(--w-mid); text-align: center; cursor: pointer;
+         transition: background var(--t-hover), color var(--t-hover),
+                     box-shadow var(--t-hover), transform var(--t-hover) var(--e-out); }
+  .btn:active { transform: translateY(1px); }
+  .btn.red { background: var(--acc); color: #fff; }
+  .btn.red:hover { background: var(--acc-d); box-shadow: 0 6px 18px -6px rgba(200,16,46,.6); }
+  .btn.out { box-shadow: inset 0 0 0 1px var(--line); }
+  .btn.out:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+  .btn.sm { height: 40px; padding: 0 16px; font-size: 14px; }
+
+  /* ── Баннер акции ──────────────────────────────────────────────── */
+  .promo { position: relative; background: var(--ink); color: #fff; overflow: hidden;
+           padding-bottom: 54px; }
+  .promo .bg { position: absolute; inset: 0; z-index: 0; }
+  .promo .bg img { width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+  .promo .bg::after { content: ""; position: absolute; inset: 0;
+                      background: linear-gradient(180deg, rgba(16,21,28,.78), rgba(16,21,28,.42) 50%,
+                                  rgba(16,21,28,.92)); }
+  .promo .wrap { position: relative; z-index: 1; padding-top: 58px; text-align: center; }
+  .promo h1 span { color: #FF4257; }
+  .promo .sub { font-family: Oswald, sans-serif; font-size: clamp(15px, 2vw, 25px);
+                text-transform: uppercase; font-weight: 300; margin-top: 30px;
+                color: rgba(255,255,255,.9); line-height: 1.25; }
+  /* Три плашки выгод — полоса под заголовком, не карточки */
+  .perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; }
+  .perks div { background: rgba(255,255,255,.1); backdrop-filter: blur(10px);
+               box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); border-radius: 8px;
+               padding: 14px 16px; font-size: 15px; font-weight: var(--w-mid); }
+
+  /* ── Таймер и заявка ───────────────────────────────────────────── */
+  .offer { background: #fff; border-radius: 12px; box-shadow: var(--sh-2);
+           margin: -34px auto 0; position: relative; z-index: 3; padding: 26px 28px;
+           display: grid; grid-template-columns: 1fr 1.3fr; gap: 34px; align-items: center; }
+  .offer h3 { font-family: Oswald, sans-serif; font-size: 21px; font-weight: var(--w-bold);
+              text-transform: uppercase; margin-bottom: 14px; }
+  .clock { display: flex; gap: 10px; }
+  .clock div { background: var(--grey); border-radius: 8px; padding: 10px 4px;
+               text-align: center; flex: 1; }
+  .clock b { font-size: 30px; font-weight: var(--w-bold); display: block; line-height: 1;
+             font-variant-numeric: tabular-nums; }
+  .clock span { font-size: 11.5px; color: var(--mute); }
+  .offer .fr { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; }
+  .field { position: relative; }
+  .field input, .field select { width: 100%; height: 48px; border-radius: 8px; border: 0;
+        padding: 0 14px; font: inherit; font-size: 15px; background: #fff; color: var(--ink);
+        box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow var(--t-hover); }
+  .field input::placeholder { color: #8A929B; }
+  .field input:focus, .field select:focus { outline: 0; box-shadow: inset 0 0 0 2px var(--acc); }
+  .field input:focus-visible, .field select:focus-visible { outline: 2px solid var(--acc);
+        outline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px;
+        border-radius: 4px; }
+  .field.bad input { box-shadow: inset 0 0 0 2px var(--acc); }
+  .field .err { position: absolute; left: 2px; top: 100%; font-size: 11.5px; color: var(--acc);
+                opacity: 0; transition: opacity var(--t-hover); }
+  .field.bad .err { opacity: 1; }
+  .agree { font-size: 11.5px; color: var(--mute); margin-top: 12px; line-height: 1.45; }
+  .said { display: none; background: rgba(28,122,75,.09); border-radius: 8px; padding: 16px 18px;
+          font-size: 15px; color: var(--ok); }
+  .said.show { display: block; }
+
+  /* ── Табы моделей строкой ──────────────────────────────────────── */
+  .mtabs { display: flex; gap: 10px; margin-top: 46px; overflow-x: auto; padding-bottom: 4px; }
+  .mtabs button { flex: 1 0 auto; min-width: 140px; height: 52px; border-radius: 8px;
+                  background: var(--grey); font-size: 15px; white-space: nowrap;
+                  transition: background var(--t-hover), color var(--t-hover); }
+  .mtabs button:hover { background: var(--grey-2); }
+  .mtabs button.on { background: var(--ink); color: #fff; font-weight: var(--w-mid); }
+
+  /* Чёрная плашка-рубрика во всю ширину — подпись этого типа сайтов */
+  .plate { background: var(--ink); color: #fff; border-radius: 8px; padding: 13px 20px;
+           font-size: 17px; font-weight: var(--w-bold); text-transform: uppercase;
+           letter-spacing: .06em; margin: 34px 0 18px; }
+
+  /* ── Горизонтальная карточка модели ────────────────────────────── */
+  .row { background: var(--grey); border-radius: 12px; padding: 22px;
+         display: grid; grid-template-columns: 1fr 1.05fr .78fr; gap: 26px;
+         align-items: center; margin-bottom: 16px;
+         transition: box-shadow var(--t-state) var(--e-out); }
+  .row:hover { box-shadow: var(--sh-2); }
+  .row .shot { border-radius: 8px; overflow: hidden; aspect-ratio: 3 / 2; background: var(--grey-2); }
+  .row .shot img { width: 100%; height: 100%; object-fit: cover;
+                   transition: transform .7s var(--e-out); }
+  .row:hover .shot img { transform: scale(1.04); }
+  .row h3 { font-size: 21px; font-weight: var(--w-mid); margin-bottom: 12px; }
+  .ticks { list-style: none; margin-bottom: 14px; }
+  .ticks li { position: relative; padding-left: 24px; font-size: 14.5px; margin-bottom: 6px; }
+  .ticks li::before { content: ""; position: absolute; left: 4px; top: 6px; width: 10px;
+                      height: 5px; border: solid var(--acc); border-width: 0 0 2px 2px;
+                      transform: rotate(-45deg); }
+  .cap { font-size: 13px; color: var(--mute); margin-bottom: 7px; }
+  .cap b { color: var(--ink); font-weight: var(--w-mid); }
+  /* Выбранный цвет крупнее и в кольце — не обводка блока */
+  .dots { display: flex; gap: 10px; margin-bottom: 14px; }
+  .dots button { width: 22px; height: 22px; border-radius: 50%;
+                 box-shadow: inset 0 0 0 1px rgba(16,21,28,.2);
+                 transition: transform var(--t-state) var(--e-out),
+                             box-shadow var(--t-state) var(--e-out); }
+  .dots button.on { transform: scale(1.3); box-shadow: inset 0 0 0 1px rgba(16,21,28,.2),
+                    0 0 0 2px #F2F3F5, 0 0 0 3.5px var(--ink); }
+  .trims { display: flex; gap: 6px; flex-wrap: wrap; }
+  .trims span { font-size: 12.5px; background: #fff; border-radius: 6px; padding: 5px 10px;
+                color: var(--mute); }
+  .price { text-align: right; }
+  .price .from { font-size: 12.5px; color: var(--mute); }
+  .price b { font-size: 26px; font-weight: var(--w-bold); display: block; line-height: 1.1; }
+  .price .cred { font-size: 13.5px; color: var(--acc); margin-bottom: 14px; display: block; }
+  .price .btn { width: 100%; margin-bottom: 8px; }
+
+  /* ── Преимущества ──────────────────────────────────────────────── */
+  .adv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .adv div { background: var(--grey); border-radius: 10px; padding: 20px 22px; }
+  .adv b { font-size: 24px; font-weight: var(--w-bold); color: var(--acc);
+           text-transform: uppercase; display: block; line-height: 1.1; }
+  .adv span { font-size: 13px; color: var(--mute); text-transform: uppercase;
+              letter-spacing: .04em; display: block; margin-top: 5px; }
+
+  /* ── Калькулятор ───────────────────────────────────────────────── */
+  .calc { background: var(--night); color: #fff; padding: 54px 0 58px; margin-top: 52px; }
+  .calc h2 { margin-bottom: 24px; }
+  .cgrid { display: grid; grid-template-columns: 420px 1fr; gap: 44px; align-items: start; }
+  .cbox { background: var(--night-2); border-radius: 12px; padding: 24px; }
+  .srow { margin-top: 18px; }
+  .srow label { font-size: 13.5px; color: var(--mute-d); display: block; margin-bottom: 8px; }
+  .srow label b { color: #fff; }
+  input[type=range] { width: 100%; appearance: none; height: 4px; border-radius: 3px;
+                      background: rgba(255,255,255,.22); cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { appearance: none; width: 20px; height: 20px;
+        border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.4);
+        transition: transform var(--t-hover); }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.12); }
+  .ends { display: flex; justify-content: space-between; font-size: 12px;
+          color: var(--mute-d); margin-top: 6px; }
+  .cout { display: grid; gap: 14px; margin: 22px 0 18px; }
+  .cout span { font-size: 13px; color: var(--mute-d); display: block; }
+  .cnum { font-size: 30px; font-weight: var(--w-bold); line-height: 1.1;
+          font-variant-numeric: tabular-nums; }
+  .cnote { font-size: 12.5px; color: var(--mute-d); line-height: 1.5; }
+  .cside li { list-style: none; padding: 17px 0; border-bottom: 1px solid rgba(255,255,255,.13);
+              display: flex; gap: 18px; align-items: baseline; }
+  .cside li b { font-size: 26px; font-weight: var(--w-bold); min-width: 92px; }
+  .cside li span { font-size: 14.5px; color: var(--mute-d); }
+
+  /* ── Трейд-ин ──────────────────────────────────────────────────── */
+  .trade { padding: 54px 0; background: var(--grey); }
+  .tgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .tform { background: #fff; border-radius: 12px; padding: 24px; box-shadow: var(--sh-1); }
+  .tform .field { margin-bottom: 14px; }
+  .shotbox { border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 2; background: var(--grey-2); }
+  .shotbox img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Заглушка под фото: честно говорит, что сюда и какого размера */
+  .stub { border-radius: 12px; background:
+          repeating-linear-gradient(45deg, #E4E7EA 0 12px, #DDE1E5 12px 24px);
+          display: grid; place-items: center; text-align: center; color: #6B737C;
+          font-size: 13.5px; aspect-ratio: 3 / 2; padding: 20px; }
+  .stub b { display: block; font-size: 15px; color: #4E565F; margin-bottom: 4px; }
+
+  /* ── Контакты ──────────────────────────────────────────────────── */
+  .contacts { padding: 54px 0; }
+  .cgrid2 { display: grid; grid-template-columns: 1fr 1.4fr; gap: 32px; align-items: start; }
+  .cinfo li { list-style: none; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .cinfo span { display: block; font-size: 12.5px; color: var(--mute); margin-bottom: 3px; }
+  .cinfo b { font-weight: var(--w-mid); font-size: 16px; }
+
+  footer { background: var(--ink); color: #fff; padding: 30px 0; font-size: 13px; }
+  .fb { display: flex; gap: 18px; flex-wrap: wrap; color: var(--mute-d); }
+  .fb .by { margin-left: auto; }
+  .fb .by a { color: #fff; font-weight: var(--w-mid); }
+  .fb .by a:hover { color: #FF4257; }
+
+  .rise { opacity: 0; transform: translateY(16px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .001s !important; transition-duration: .001s !important; }
+    .rise { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 980px) {
+    .bar1 .addr { display: none; }
+    .bar2 { display: none; }
+    .bar2.open { display: flex; flex-direction: column; gap: 0; height: auto;
+                 align-items: stretch; padding: 8px 0 14px; }
+    .bar2.open a { padding: 12px 4px; border-bottom: 1px solid var(--line); }
+    .burger { display: block; }
+    .offer { grid-template-columns: 1fr; gap: 22px; }
+    .offer .fr { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr 1fr; }
+    .row .price { grid-column: 1 / -1; text-align: left; display: grid;
+                  grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
+    .row .price .btn { margin: 0; }
+    .cgrid { grid-template-columns: 1fr; gap: 26px; }
+    .tgrid, .cgrid2 { grid-template-columns: 1fr; }
+    .adv { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 760px) {
+    /* На узком экране в строку не влезают логотип, телефон, кнопка и бургер.
+       Кнопку убираем: звонок доступен по самому телефону. */
+    #callBtn { display: none; }
+    .bar1 { gap: 14px; }
+    .bar1 .phone { font-size: 15.5px; margin-left: auto; }
+  }
+
+  @media (max-width: 620px) {
+    .perks { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr; }
+    .row .price { grid-template-columns: 1fr; }
+    .adv { grid-template-columns: 1fr; }
+    .offer { padding: 20px; }
+    .promo .wrap { padding-top: 38px; }
+  }
+</style>
+<noscript><style>.rise { opacity: 1; transform: none; }</style></noscript>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar1">
+    <a class="logo" href="#top">Brenz<em>o</em>ro</a>
+    <span class="addr">Ростов-на-Дону, пр. Стачки, 43</span>
+    <a class="phone" href="tel:+78632206655">+7 (863) 220-66-55</a>
+    <button class="btn red sm" id="callBtn">Обратный звонок</button>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="nav"><i></i><i></i></button>
+  </div>
+  <nav class="wrap bar2" id="nav">
+    <a href="#models">Модельный ряд</a><a href="#adv">Преимущества</a>
+    <a href="#calc">Кредит</a><a href="#trade">Трейд-ин</a><a href="#contacts">Контакты</a>
+  </nav>
+</header>
+
+<section class="promo" id="top">
+  <div class="bg"><img src="img/hero.jpg" alt="" fetchpriority="high"></div>
+  <div class="wrap">
+    <h1>Распродажа склада <span>Brenzoro</span></h1>
+    <p class="sub">Увеличиваем выгоду на все автомобили в наличии</p>
+    <div class="perks">
+      <div>Кредит от 0,01%</div>
+      <div>Первый взнос 0 ₽</div>
+      <div>Решение за 1 час</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="offer" id="offer">
+    <div>
+      <h3>До конца акции осталось</h3>
+      <div class="clock" id="clock">
+        <div><b data-u="d">00</b><span>дней</span></div>
+        <div><b data-u="h">00</b><span>часов</span></div>
+        <div><b data-u="m">00</b><span>минут</span></div>
+        <div><b data-u="s">00</b><span>секунд</span></div>
+      </div>
+    </div>
+    <div>
+      <h3>Успейте получить предложение</h3>
+      <form id="offerForm" novalidate>
+        <div class="fr">
+          <div class="field">
+            <label class="vh" for="o-name">Имя</label>
+            <input id="o-name" name="name" placeholder="Имя" autocomplete="given-name" aria-describedby="o-e1">
+            <span class="err" id="o-e1">Впишите имя</span>
+          </div>
+          <div class="field">
+            <label class="vh" for="o-tel">Телефон</label>
+            <input id="o-tel" name="tel" placeholder="+7 (___) ___-__-__" inputmode="tel" autocomplete="tel" aria-describedby="o-e2">
+            <span class="err" id="o-e2">Нужен номер из 11 цифр</span>
+          </div>
+          <button class="btn red" type="submit">Узнать выгоду</button>
+        </div>
+        <p class="agree" id="offerNote">Демонстрационный макет: заявка никуда не отправляется.</p>
+      </form>
+      <div class="said" id="offerSaid" role="status" aria-live="polite">
+        Заявка принята. Перезвоним в течение пятнадцати минут.
+      </div>
+    </div>
+  </div>
+
+  <div class="mtabs" id="mtabs" aria-label="Модели"></div>
+  <div class="plate" id="models">Модельный ряд</div>
+  <div id="rows"></div>
+
+  <div class="plate" id="adv">Преимущества</div>
+  <div class="adv">
+    <div class="rise"><b>20 лет</b><span>на авторынке</span></div>
+    <div class="rise"><b>Трейд-ин</b><span>оценка выше рынка</span></div>
+    <div class="rise"><b>1 день</b><span>и автомобиль ваш</span></div>
+    <div class="rise"><b>Своя парковка</b><span>заезд прямо с проспекта</span></div>
+    <div class="rise"><b>430 машин</b><span>в наличии на складе</span></div>
+    <div class="rise"><b>Без доплат</b><span>цена в договоре окончательная</span></div>
+  </div>
+</div>
+
+<section class="calc" id="calc">
+  <div class="wrap">
+    <h2>Рассчитайте кредит</h2>
+    <div class="cgrid">
+      <div class="cbox">
+        <div class="field">
+          <label class="vh" for="c-model">Автомобиль</label>
+          <select id="c-model"></select>
+        </div>
+        <div class="srow">
+          <label for="c-pay">Первоначальный взнос, <b id="c-pay-v">20</b> %</label>
+          <input type="range" id="c-pay" min="0" max="90" step="5" value="20">
+          <div class="ends"><span>0%</span><span>90%</span></div>
+        </div>
+        <div class="srow">
+          <label for="c-term">Срок кредита, <b id="c-term-v">84</b> мес</label>
+          <input type="range" id="c-term" min="6" max="84" step="6" value="84">
+          <div class="ends"><span>6 мес</span><span>84 мес</span></div>
+        </div>
+        <div class="cout">
+          <div><span>Первоначальный взнос</span><b class="cnum" id="c-first">0 ₽</b></div>
+          <div><span>Ежемесячный платёж</span><b class="cnum" id="c-month">0 ₽</b></div>
+        </div>
+        <form id="calcForm" novalidate>
+          <div class="field">
+            <label class="vh" for="c-tel">Телефон</label>
+            <input id="c-tel" name="tel" placeholder="+7 (___) ___-__-__" inputmode="tel" aria-describedby="c-e1">
+            <span class="err" id="c-e1">Нужен номер из 11 цифр</span>
+          </div>
+          <button class="btn red" type="submit" style="width:100%;margin-top:14px">Получить предложение</button>
+        </form>
+        <div class="said" id="calcSaid" role="status" aria-live="polite" style="margin-top:12px">
+          Заявка принята. Пришлём расчёт и одобрение банка.
+        </div>
+        <p class="cnote" style="margin-top:12px">Ставка 9,9% годовых. Расчёт предварительный
+           и не является публичной офертой.</p>
+      </div>
+      <div>
+      <ul class="cside">
+        <li><b>0,01%</b><span>ставка по госпрограмме на отдельные модели в наличии</span></li>
+        <li><b>1 час</b><span>решение банка по предварительной заявке</span></li>
+        <li><b>7 лет</b><span>максимальный срок кредита</span></li>
+        <li><b>0 ₽</b><span>первый взнос, если сдаёте свой автомобиль в трейд-ин</span></li>
+      </ul>
+      <div class="shotbox" style="margin-top:22px;aspect-ratio:16/7">
+        <img src="img/night.jpg" alt="Автомобиль в городе вечером" loading="lazy">
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trade" id="trade">
+  <div class="wrap">
+    <h2 style="margin-bottom:24px">Оцените свой автомобиль</h2>
+    <div class="tgrid">
+      <div class="shotbox"><img src="img/hall.jpg" alt="Зал салона Brenzoro" loading="lazy"></div>
+      <div class="tform">
+        <form id="tradeForm" novalidate>
+          <div class="field">
+            <label class="vh" for="t-car">Ваш автомобиль</label>
+            <input id="t-car" name="car" placeholder="Марка, модель и год" aria-describedby="t-e1">
+            <span class="err" id="t-e1">Напишите марку и модель</span>
+          </div>
+          <div class="field">
+            <label class="vh" for="t-run">Пробег</label>
+            <input id="t-run" name="run" placeholder="Пробег, км" inputmode="numeric">
+          </div>
+          <div class="field">
+            <label class="vh" for="t-tel">Телефон</label>
+            <input id="t-tel" name="tel" placeholder="+7 (___) ___-__-__" inputmode="tel" aria-describedby="t-e2">
+            <span class="err" id="t-e2">Нужен номер из 11 цифр</span>
+          </div>
+          <button class="btn red" type="submit" style="width:100%">Узнать оценку</button>
+          <p class="agree">Предварительная оценка по фотографиям, окончательная — после осмотра.
+             Демонстрационный макет: заявка не отправляется.</p>
+        </form>
+        <div class="said" id="tradeSaid" role="status" aria-live="polite">
+          Заявка принята. Оценку пришлём в течение часа.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contacts" id="contacts">
+  <div class="wrap">
+    <h2 style="margin-bottom:24px">Как нас найти</h2>
+    <div class="cgrid2">
+      <ul class="cinfo">
+        <li><span>Адрес</span><b>Ростов-на-Дону, пр. Стачки, 43</b></li>
+        <li><span>Телефон</span><b><a href="tel:+78632206655">+7 (863) 220-66-55</a></b></li>
+        <li><span>Почта</span><b><a href="mailto:rnd@brenzoro.ru">rnd@brenzoro.ru</a></b></li>
+        <li><span>Часы работы</span><b>Ежедневно, 9:00 – 21:00</b></li>
+      </ul>
+      <div class="stub" style="aspect-ratio:16/9"><div><b>Карта проезда</b>виджет карты, 720×405</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fb">
+    <span>ООО «Брензоро»</span>
+    <span>Ростов-на-Дону</span>
+    <span class="by">Демонстрационный макет студии
+      <a href="https://stackcomp.ru" target="_blank" rel="noopener">Stack</a></span>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var hasGsap = typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined";
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var still = /[?&]still=1/.test(location.search);
+
+  /* Подписи сверены с фотографиями: на кадре именно эта машина. */
+  var CARS = [
+    { id: "m5", name: "M5 Competition", img: "img/c1.jpg", price: 11900000,
+      trims: ["Competition", "M Performance"], colors: ["#F2F3F5", "#10151C", "#2C4C86", "#7C8896"],
+      gifts: ["Кредит от 0,01%", "Госпрограммы", "Комплект зимних шин в подарок"] },
+    { id: "cam", name: "Camaro SS", img: "img/c2.jpg", price: 5400000,
+      trims: ["SS", "SS 1LE"], colors: ["#1E63C8", "#C8102E", "#10151C", "#E7E9EC"],
+      gifts: ["Кредит от 3,9%", "Доплата за ваш автомобиль", "Защитная плёнка в подарок"] },
+    { id: "laf", name: "LaFerrari", img: "img/c3.jpg", price: 189000000,
+      trims: ["Aperta"], colors: ["#C8102E", "#10151C", "#B0B6BD"],
+      gifts: ["Индивидуальный подбор", "Доставка из ОАЭ", "Сопровождение сделки"] },
+    { id: "amg", name: "AMG GT", img: "img/c4.jpg", price: 9800000,
+      trims: ["GT", "GT S", "GT C"], colors: ["#E8A400", "#10151C", "#F2F3F5", "#5A6673"],
+      gifts: ["Кредит от 0,01%", "Госпрограммы", "Техобслуживание на год в подарок"] },
+    { id: "b4", name: "4 Series", img: "img/c5.jpg", price: 4700000,
+      trims: ["Base", "M Sport", "xDrive"], colors: ["#2C4C86", "#F2F3F5", "#10151C", "#9AA6B4"],
+      gifts: ["Кредит от 0,01%", "Первый взнос 0 ₽", "Комплект зимних шин в подарок"] },
+    { id: "gtr", name: "GT-R", img: "img/c6.jpg", price: 12500000,
+      trims: ["Premium", "Track Edition"], colors: ["#F2F3F5", "#10151C", "#C8102E", "#7C8896"],
+      gifts: ["Кредит от 3,9%", "Доставка из Японии", "Развал-схождение в подарок"] }
+  ];
+
+  var COLOR_NAMES = { "#F2F3F5": "белый", "#10151C": "чёрный", "#2C4C86": "синий",
+    "#7C8896": "серый", "#1E63C8": "ярко-синий", "#C8102E": "красный", "#E7E9EC": "серебристый",
+    "#B0B6BD": "платина", "#E8A400": "жёлтый", "#5A6673": "графит", "#9AA6B4": "стальной" };
+
+  var RATE = 0.099;
+  function money(n) { return Math.round(n).toLocaleString("ru-RU").replace(/,/g, " ") + " ₽"; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  // Аннуитет: платёж из суммы кредита, месячной ставки и срока
+  function monthly(sum, months) {
+    var i = RATE / 12;
+    return sum <= 0 ? 0 : sum * i / (1 - Math.pow(1 + i, -months));
+  }
+  function creditFrom(price) { return monthly(price * 0.8, 84); }
+  function byId(id) { return CARS.filter(function (c) { return c.id === id; })[0]; }
+
+  /* ── Горизонтальные карточки ────────────────────────────────── */
+  var rowsBox = document.getElementById("rows");
+  rowsBox.innerHTML = CARS.map(function (c) {
+    return '' +
+    '<article class="row rise" id="car-' + c.id + '">' +
+      '<div class="shot"><img src="' + c.img + '" alt="Brenzoro ' + esc(c.name) + '" loading="lazy"></div>' +
+      '<div>' +
+        '<h3>Brenzoro ' + esc(c.name) + '</h3>' +
+        '<ul class="ticks">' + c.gifts.map(function (g) {
+          return "<li>" + esc(g) + "</li>"; }).join("") + '</ul>' +
+        '<p class="cap">Цвета в наличии: <b data-colorname="' + c.id + '">' +
+          esc(COLOR_NAMES[c.colors[0]] || "") + '</b></p>' +
+        '<div class="dots" data-car="' + c.id + '">' + c.colors.map(function (col, i) {
+          return '<button type="button" data-col="' + col + '"' + (i === 0 ? ' class="on"' : '') +
+                 ' aria-label="Цвет: ' + esc(COLOR_NAMES[col] || "вариант") + '"' +
+                 ' style="background:' + col + '"></button>'; }).join("") + '</div>' +
+        '<p class="cap">Доступные комплектации:</p>' +
+        '<div class="trims">' + c.trims.map(function (t) {
+          return "<span>" + esc(t) + "</span>"; }).join("") + '</div>' +
+      '</div>' +
+      '<div class="price">' +
+        '<span class="from">от</span><b>' + money(c.price) + '</b>' +
+        '<span class="cred">кредит от ' + money(creditFrom(c.price)) + ' / мес.</span>' +
+        '<button class="btn red" data-want="' + c.id + '">Получить выгоду</button>' +
+        '<button class="btn out" data-calc="' + c.id + '">Рассчитать кредит</button>' +
+      '</div>' +
+    '</article>';
+  }).join("");
+
+  rowsBox.addEventListener("click", function (e) {
+    var dot = e.target.closest(".dots button");
+    if (dot) {
+      var box = dot.closest(".dots");
+      box.querySelectorAll("button").forEach(function (b) { b.classList.remove("on"); });
+      dot.classList.add("on");
+      rowsBox.querySelector('[data-colorname="' + box.dataset.car + '"]').textContent =
+        COLOR_NAMES[dot.dataset.col] || "выбран";
+      return;
+    }
+    var want = e.target.closest("[data-want]");
+    if (want) {
+      // Показываем, по какой машине пойдёт заявка, чтобы человек не гадал
+      document.getElementById("offerNote").textContent =
+        "Заявка по модели Brenzoro " + byId(want.dataset.want).name +
+        ". Демонстрационный макет: ничего не отправляется.";
+      document.getElementById("offer").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+      return;
+    }
+    var calc = e.target.closest("[data-calc]");
+    if (calc) {
+      sel.value = calc.dataset.calc; recalc();
+      document.getElementById("calc").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    }
+  });
+
+  /* ── Табы моделей ───────────────────────────────────────────── */
+  var tabs = document.getElementById("mtabs");
+  tabs.innerHTML = CARS.map(function (c, i) {
+    return '<button data-go="' + c.id + '"' + (i === 0 ? ' class="on"' : '') + ">" +
+           esc(c.name) + "</button>";
+  }).join("");
+  tabs.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-go]"); if (!b) return;
+    tabs.querySelectorAll("button").forEach(function (x) { x.classList.remove("on"); });
+    b.classList.add("on");
+    document.getElementById("car-" + b.dataset.go).scrollIntoView({
+      behavior: reduce ? "auto" : "smooth", block: "center" });
+  });
+
+  /* ── Таймер акции ───────────────────────────────────────────── */
+  // Конец акции — ближайшая полночь через несколько суток: таймер должен
+  // идти, иначе это просто картинка с цифрами.
+  var deadline = new Date();
+  deadline.setHours(0, 0, 0, 0);
+  deadline.setDate(deadline.getDate() + 4);
+  var clock = document.getElementById("clock");
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function tick() {
+    var s = Math.max(0, Math.floor((deadline - new Date()) / 1000));
+    clock.querySelector('[data-u="d"]').textContent = pad(Math.floor(s / 86400));
+    clock.querySelector('[data-u="h"]').textContent = pad(Math.floor(s / 3600) % 24);
+    clock.querySelector('[data-u="m"]').textContent = pad(Math.floor(s / 60) % 60);
+    clock.querySelector('[data-u="s"]').textContent = pad(s % 60);
+  }
+  tick();
+  if (!still) setInterval(tick, 1000);
+
+  /* ── Калькулятор ────────────────────────────────────────────── */
+  var sel = document.getElementById("c-model"),
+      pay = document.getElementById("c-pay"), term = document.getElementById("c-term");
+  sel.innerHTML = CARS.map(function (c) {
+    return '<option value="' + c.id + '">Brenzoro ' + esc(c.name) + " от " + money(c.price) + "</option>";
+  }).join("");
+
+  function recalc() {
+    var c = byId(sel.value);
+    var first = c.price * (+pay.value / 100);
+    document.getElementById("c-pay-v").textContent = pay.value;
+    document.getElementById("c-term-v").textContent = term.value;
+    document.getElementById("c-first").textContent = money(first);
+    document.getElementById("c-month").textContent = money(monthly(c.price - first, +term.value));
+  }
+  [sel, pay, term].forEach(function (el) { el.addEventListener("input", recalc); });
+  recalc();
+
+  /* ── Формы ──────────────────────────────────────────────────── */
+  function flag(el, bad) {
+    el.parentNode.classList.toggle("bad", bad);
+    el.setAttribute("aria-invalid", bad ? "true" : "false");
+  }
+  function mask(el) {
+    el.addEventListener("input", function () {
+      var d = el.value.replace(/\D/g, "").replace(/^8/, "7").slice(0, 11);
+      if (d && d[0] !== "7") d = "7" + d.slice(0, 10);
+      var out = d ? "+7" : "";
+      if (d.length > 1) out += " (" + d.slice(1, 4);
+      if (d.length >= 5) out += ") " + d.slice(4, 7);
+      if (d.length >= 8) out += "-" + d.slice(7, 9);
+      if (d.length >= 10) out += "-" + d.slice(9, 11);
+      el.value = out;
+      flag(el, false);
+    });
+  }
+  function wire(formId, saidId, checks) {
+    var f = document.getElementById(formId), said = document.getElementById(saidId);
+    f.querySelectorAll("input").forEach(function (el) {
+      if (el.name === "tel") mask(el);
+      else el.addEventListener("input", function () { flag(el, false); });
+    });
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var bad = false;
+      checks.forEach(function (ch) {
+        var el = f.querySelector("[name=" + ch.name + "]");
+        var isBad = !ch.ok(el.value);
+        flag(el, isBad); if (isBad) bad = true;
+      });
+      if (bad) {
+        var first = f.querySelector(".bad input");
+        if (first) first.focus();
+        if (hasGsap && !reduce) gsap.fromTo(f.querySelectorAll(".bad"),
+          { x: -4 }, { x: 0, duration: .4, ease: "elastic.out(1,.4)" });
+        return;
+      }
+      // Демонстрационный макет: заявки никуда не уходят
+      f.style.display = "none";
+      said.classList.add("show");
+      said.setAttribute("tabindex", "-1");
+      said.focus();
+    });
+  }
+  var telOk = function (v) { return v.replace(/\D/g, "").length === 11; };
+  var textOk = function (v) { return v.trim().length > 1; };
+  wire("offerForm", "offerSaid", [{ name: "name", ok: textOk }, { name: "tel", ok: telOk }]);
+  wire("calcForm", "calcSaid", [{ name: "tel", ok: telOk }]);
+  wire("tradeForm", "tradeSaid", [{ name: "car", ok: textOk }, { name: "tel", ok: telOk }]);
+
+  /* ── Меню и звонок ──────────────────────────────────────────── */
+  var burger = document.getElementById("burger"), nav = document.getElementById("nav");
+  function menu(open) {
+    nav.classList.toggle("open", open);
+    burger.classList.toggle("on", open);
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  burger.addEventListener("click", function () { menu(!nav.classList.contains("open")); });
+  nav.addEventListener("click", function (e) { if (e.target.tagName === "A") menu(false); });
+  addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && nav.classList.contains("open")) menu(false);
+  });
+  document.getElementById("callBtn").addEventListener("click", function () {
+    document.getElementById("offer").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    document.getElementById("o-tel").focus({ preventScroll: true });
+  });
+
+  /* ── Движение: здесь оно служебное, сайт продаёт плотностью ─── */
+  if (!hasGsap || reduce) {
+    document.querySelectorAll(".rise").forEach(function (n) {
+      n.style.opacity = 1; n.style.transform = "none"; });
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (still) {
+    gsap.set(".rise", { opacity: 1, y: 0 });
+  } else {
+    gsap.utils.toArray(".rise").forEach(function (el) {
+      gsap.to(el, { opacity: 1, y: 0, duration: .6, ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 92%" } });
+    });
+  }
+  addEventListener("resize", function () { ScrollTrigger.refresh(); });
+
+  var at = (location.search.match(/[?&]at=([\w-]+)/) || [])[1];
+  if (still && at && document.getElementById(at)) {
+    requestAnimationFrame(function () {
+      var top = document.getElementById(at).getBoundingClientRect().top + scrollY - 20;
+      document.body.style.marginTop = (-top) + "px";
+    });
+  }
+})();
+</script>
+</body>
+</html>
