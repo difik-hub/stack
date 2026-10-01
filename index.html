@@ -670,11 +670,11 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
   var qf=document.getElementById('reqForm'), qnote=document.getElementById('reqNote');
   qf.addEventListener('submit',function(e){
     e.preventDefault(); if(!validate(qf)){qnote.className='fnote bad';qnote.textContent='Заполните имя, контакт и задачу.';return}
-    var f=new FormData(qf), btn=qf.querySelector('button[type=submit]');
+    var f=new FormData(qf), btn=qf.querySelector('button[type=submit]'), params=new URLSearchParams(location.search), source=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].map(function(key){return params.get(key)?key+'='+params.get(key):''}).filter(Boolean).join('; '); try{source=source||sessionStorage.getItem('stack-campaign')||''}catch(_){ } source=source||document.referrer||'direct';
     qnote.className='fnote';qnote.textContent='Отправляем…';btn.disabled=true;
-    fetch('https://bot-demo-forka.vercel.app/api/zayavka',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({имя:f.get('имя'),контакт:f.get('контакт'),задача:f.get('задача'),услуга:'с главной',откуда:document.referrer})})
+    fetch('https://bot-demo-forka.vercel.app/api/zayavka',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({имя:f.get('имя'),контакт:f.get('контакт'),задача:f.get('задача'),услуга:'с главной',откуда:source})})
       .then(function(r){return r.json()}).then(function(d){
-        if(d&&d.ok){qf.reset();qnote.className='fnote good';qnote.textContent='Получили. Ответим в тот же день.'}
+        if(d&&d.ok){if(window.ym&&window.__stackMetrikaLoaded)window.ym(113269785,'reachGoal','lead');qf.reset();qnote.className='fnote good';qnote.textContent='Получили. Ответим в тот же день.'}
         else{qnote.className='fnote bad';qnote.textContent=(d&&d.беда)||'Не отправилось. Напишите в телеграм.'}
       }).catch(function(){qnote.className='fnote bad';qnote.textContent='Нет связи с сервером. Напишите в телеграм.'})
       .then(function(){btn.disabled=false});

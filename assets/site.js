@@ -1,7 +1,28 @@
 /* Cookie-выбор: одна плашка на все страницы. Ответ хранится в браузере.
-   Статистику грузим только при «Принять» — счётчика пока нет, поэтому
-   выбор сейчас просто запоминается (точка подключения — ниже, в согласии). */
+   Статистику грузим только при «Принять»; выбор сохраняется в браузере. */
 (function () {
+  var COUNTER = 113269785;
+  function initAnalytics() {
+    if (window.__stackMetrikaLoaded) return;
+    window.__stackMetrikaLoaded = true;
+    window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
+    window.ym.l = window.ym.l || +new Date();
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://mc.yandex.ru/metrika/tag.js';
+    document.head.appendChild(script);
+    window.ym(COUNTER, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: false });
+  }
+  window.stackInitAnalytics = initAnalytics;
+  try { if (localStorage.getItem('stack-cookies') === 'all') initAnalytics(); } catch (e) {}
+
+  try {
+    var campaignKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    var campaignParams = new URLSearchParams(location.search);
+    var campaign = campaignKeys.map(function (key) { return campaignParams.get(key) ? key + '=' + campaignParams.get(key) : ''; }).filter(Boolean).join('; ');
+    if (campaign) sessionStorage.setItem('stack-campaign', campaign);
+  } catch (e) {}
+
   var KEY = 'stack-cookies';
   var YES = 'all', NO = 'necessary';
   var saved = null;
@@ -26,12 +47,17 @@
     try { localStorage.setItem(KEY, b.getAttribute('data-a')); } catch (_) {}
     el.remove();
     document.documentElement.classList.remove('ck-on');
-    // согласие на статистику: сюда подключить счётчик, когда он появится
+    if (b.getAttribute('data-a') === YES && window.stackInitAnalytics) window.stackInitAnalytics();
   });
 
   document.documentElement.classList.add('ck-on');
   document.body.appendChild(el);
 })();
+
+document.addEventListener('click', function (e) {
+  var link = e.target.closest('a[href*="t.me/"]');
+  if (link && window.ym && window.__stackMetrikaLoaded) window.ym(113269785, 'reachGoal', 'telegram_click');
+});
 
 /* Шапка на телефоне: едет вместе со страницей, прячется при скролле вниз и
    возвращается при скролле вверх. Бургер открывает разделы панелью под шапкой. */
