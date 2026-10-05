@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Скат — кровельные работы под ключ в Твери и области</title>
+<style>
+  /* Копия структуры «Фундамент39» (uliweb). Сохранено намеренно: логотип
+     «слово + код региона» с цветным числом, меню и два телефона справа,
+     герой на затемнённом фото стройки с белым H1 и городом в белой пилюле,
+     три факта с иконками под заголовком, синяя кнопка «Рассчитать стоимость»,
+     человек в спецовке справа; затем карточки типов с изометрией и квиз
+     «Узнайте стоимость за 2 минуты» с прогресс-баром.
+     Заменено: ниша (кровля вместо фундаментов), город, имя, цвет, фото, тексты. */
+
+  :root {
+    --accent: #D2481E; --accent-dark: #B33A15; --ink: #1B1C1F; --ink-2: #5E6167;
+    --line: #E8E6E1; --page: #F5F4F1; --card: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 16px/1.55 "PT Sans", "Segoe UI", sans-serif; color: var(--ink); background: var(--card);
+         font-variant-numeric: lining-nums; }
+  h1, h2, h3, .logo, .btn { font-family: Manrope, "Segoe UI", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+  header { height: 62px; background: var(--card); position: relative; z-index: 3; box-shadow: 0 1px 0 var(--line); }
+  header .wrap { display: flex; align-items: center; height: 100%; }
+  .logo { font-weight: 800; font-size: 22px; letter-spacing: -.02em; }
+  .logo b { color: var(--accent); font-weight: 800; }
+  nav { margin-left: 70px; display: flex; gap: 24px; font-size: 15px; }
+  nav a.on { color: var(--ink-2); }
+  .tels { margin-left: auto; text-align: right; font-size: 14.5px; line-height: 1.3; font-weight: 600; }
+
+  /* Герой на фото стройки */
+  .hero { position: relative; min-height: 560px; color: #fff; display: flex; align-items: center; overflow: hidden; }
+  .hero .bg { position: absolute; inset: 0; }
+  .hero .bg img { width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%; }
+  .hero .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,18,16,.72) 0, rgba(20,18,16,.55) 45%, rgba(20,18,16,.25) 100%); }
+  .hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr .85fr; align-items: end; }
+  .hero .txt { padding: 70px 0 66px; }
+  .hero h1 { font-size: 46px; line-height: 1.12; font-weight: 500; margin-bottom: 20px; }
+  .city { display: inline-block; background: #fff; color: var(--ink); border-radius: 999px; padding: 11px 26px; font-size: 18px; margin-bottom: 44px; }
+  .facts { display: flex; gap: 40px; margin-bottom: 44px; }
+  .facts div { font-size: 15.5px; line-height: 1.3; max-width: 150px; }
+  /* Три разные иконки: печать-гарантия, щит-норматив, дом-счётчик.
+     У оригинала иконки тоже разные — одинаковые галочки читаются как заглушка. */
+  .facts i { display: block; width: 38px; height: 38px; margin-bottom: 12px; position: relative; }
+  .facts i::before, .facts i::after { content: ""; position: absolute; }
+  /* печать: кружок с галочкой */
+  .facts i.g::before { inset: 0; border: 2.5px solid #fff; border-radius: 50%; }
+  .facts i.g::after { left: 12px; top: 9px; width: 8px; height: 14px; border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+  /* щит: скруглённый снизу прямоугольник с полосой */
+  .facts i.s::before { left: 4px; top: 1px; width: 30px; height: 36px; border: 2.5px solid #fff; border-radius: 5px 5px 15px 15px; }
+  .facts i.s::after { left: 12px; top: 13px; width: 14px; height: 2.5px; background: #fff; box-shadow: 0 6px 0 #fff; }
+  /* дом: треугольная крыша над коробкой */
+  .facts i.h::before { left: 8px; top: 17px; width: 22px; height: 19px; border: 2.5px solid #fff; border-top: 0; }
+  .facts i.h::after { left: 6px; top: 5px; width: 0; height: 0; border-left: 13px solid transparent;
+                      border-right: 13px solid transparent; border-bottom: 12px solid #fff; }
+  .btn { display: inline-flex; align-items: center; gap: 12px; background: var(--accent); color: #fff; font-weight: 600; font-size: 13.5px;
+         letter-spacing: .06em; text-transform: uppercase; padding: 0 30px; height: 60px; border-radius: 12px; }
+  .btn::after { content: "→"; font-size: 18px; }
+  .hero .man { align-self: end; position: relative; height: 560px; }
+  /* фигура крупным планом и срезана нижней границей героя — как в оригинале,
+     иначе человек выглядит наклейкой, стоящей посреди стройплощадки */
+  .hero .man img { position: absolute; bottom: -14px; right: -50px; height: 108%; width: auto; max-width: none; }
+
+  section { padding: 80px 0; }
+  h2 { font-size: 40px; font-weight: 500; text-align: center; line-height: 1.15; letter-spacing: -.01em; margin-bottom: 48px; }
+  .types { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
+  .types .c { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 26px 18px 22px; }
+  /* PNG с вырезанным фоном на белой карточке: шва не видно, тень рисуем сами */
+  .types .ph { position: relative; height: 150px; margin-bottom: 26px; display: grid; place-items: end center; }
+  .types .ph::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 4px; height: 14px;
+                      border-radius: 50%; background: rgba(27,28,31,.16); filter: blur(7px); }
+  .types img { position: relative; z-index: 1; max-height: 142px; width: auto; max-width: 100%; object-fit: contain; }
+  .types h3 { font-size: 15.5px; font-weight: 700; line-height: 1.35; }
+
+  /* Квиз: карточка с прогресс-баром */
+  .quiz { background: var(--page); }
+  .quiz .sub { text-align: center; font-size: 19px; color: var(--ink-2); margin: -30px 0 46px; }
+  .qbox { max-width: 840px; margin: 0 auto; background: var(--card); border-radius: 12px; box-shadow: 0 20px 50px rgba(27,28,31,.06); overflow: hidden; }
+  .bar { height: 4px; background: #E3E1DC; }
+  .bar i { display: block; height: 100%; width: 20%; background: var(--accent); }
+  .qin { padding: 30px 34px 26px; }
+  .note { font-size: 13.5px; color: var(--ink-2); display: flex; align-items: center; gap: 8px; margin-bottom: 30px; }
+  .note::before { content: "i"; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--accent); color: var(--accent); font-size: 11px; font-weight: 700; display: grid; place-items: center; }
+  .note b { font-weight: 700; color: var(--ink); }
+  .q { font-size: 21px; font-weight: 700; margin-bottom: 22px; }
+  .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 30px; }
+  .opts img { width: 100%; height: 178px; object-fit: cover; border-radius: 6px; margin-bottom: 9px; }
+  .opts span { font-size: 13.5px; }
+  .qf { display: flex; align-items: center; justify-content: space-between; }
+  .qf small { color: var(--ink-2); font-size: 13px; }
+  .qf .nav2 { display: flex; gap: 10px; }
+  .qf .prev { width: 44px; height: 44px; border-radius: 10px; border: 1.5px solid var(--line); display: grid; place-items: center; color: var(--ink-2); }
+  .qf .next { height: 44px; padding: 0 22px; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+  footer { padding: 28px 0; font-size: 14px; color: var(--ink-2); border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+
+  /* Преимущества: две колонки, цифра слева */
+  .why { background: var(--page); }
+  .why .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 44px; }
+  .why .r { display: flex; gap: 20px; }
+  .why .r b { font-family: Manrope, sans-serif; font-size: 30px; font-weight: 800; color: var(--accent);
+              line-height: 1; flex: none; width: 54px; font-variant-numeric: lining-nums; }
+  .why h3 { font-size: 19px; font-weight: 700; margin-bottom: 7px; }
+  .why p { font-size: 15px; color: var(--ink-2); }
+
+  /* Наши работы: лента сданных объектов с параметрами */
+  .jobs { display: grid; gap: 14px; }
+  .job { display: grid; grid-template-columns: 1.5fr 1fr .8fr .8fr .9fr; gap: 20px; align-items: center;
+         border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; }
+  .job b { font-family: Manrope, sans-serif; font-size: 17px; font-weight: 700; }
+  .job span { font-size: 14.5px; color: var(--ink-2); }
+  .job span i { display: block; font-style: normal; font-size: 12px; letter-spacing: .04em;
+                text-transform: uppercase; color: #9AA0A6; margin-bottom: 3px; }
+  .job em { font-style: normal; font-family: Manrope, sans-serif; font-weight: 700; font-size: 16px; text-align: right; }
+
+  /* Отзывы */
+  .rev { background: var(--page); }
+  .revs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .rv { background: #fff; border-radius: 12px; padding: 26px 24px; }
+  .rv .stars { color: var(--accent); letter-spacing: 3px; font-size: 15px; margin-bottom: 14px; }
+  .rv p { font-size: 15px; margin-bottom: 18px; }
+  .rv .who { font-size: 13.5px; color: var(--ink-2); }
+  .rv .who b { display: block; color: var(--ink); font-size: 15px; font-weight: 700; font-family: Manrope, sans-serif; }
+
+  /* Контакты */
+  .cont .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .cont dl { display: grid; grid-template-columns: 160px 1fr; gap: 16px 20px; font-size: 15.5px; }
+  .cont dt { color: var(--ink-2); }
+  .cont dd { font-weight: 600; }
+  .cont form { background: var(--page); border-radius: 14px; padding: 30px; }
+  .cont form h3 { font-size: 21px; font-weight: 700; margin-bottom: 8px; }
+  .cont form p { font-size: 14.5px; color: var(--ink-2); margin-bottom: 20px; }
+  .cont input { width: 100%; height: 52px; border: 1px solid var(--line); border-radius: 10px;
+                padding: 0 16px; font: inherit; background: #fff; margin-bottom: 12px; }
+  .cont button { width: 100%; height: 54px; border: 0; border-radius: 10px; background: var(--accent);
+                 color: #fff; font: 600 15px Manrope, sans-serif; letter-spacing: .04em;
+                 text-transform: uppercase; cursor: pointer; }
+  .cont small { display: block; margin-top: 12px; font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
+
+
+  /* Экран «после»: та же сетка объектов, но с готовой кровлей */
+  .bar i.mid { width: 80%; }
+  .done .opts img { height: 178px; }
+  .done .cap { display: flex; align-items: baseline; gap: 10px; margin-bottom: 22px; }
+  .done .cap b { font-size: 21px; font-weight: 700; }
+  .done .cap span { font-size: 14px; color: var(--ink-2); }
+
+  /* Второй экран квиза: итог расчёта */
+  .qbox + .qbox { margin-top: 26px; }
+  .bar i.full { width: 100%; }
+  .sum { display: grid; grid-template-columns: 1.15fr .85fr; gap: 34px; align-items: center; }
+  .picked { list-style: none; }
+  /* метка и значение стоят в двух ровных колонках: при выключке по краям
+     строки читались как рваные */
+  .picked li { display: grid; grid-template-columns: 190px 1fr; gap: 16px; font-size: 15px;
+               padding: 12px 0; border-bottom: 1px solid var(--line); color: var(--ink-2); }
+  .picked li:last-child { border-bottom: 0; }
+  .picked li b { font-weight: 700; color: var(--ink); }
+  .total { background: var(--page); border-radius: 12px; padding: 26px 24px; text-align: center; }
+  .total span { display: block; font-size: 14px; color: var(--ink-2); margin-bottom: 6px; }
+  .total b { display: block; font-family: Manrope, sans-serif; font-size: 34px; font-weight: 800;
+             letter-spacing: -.02em; font-variant-numeric: lining-nums; margin-bottom: 4px; }
+  .total em { font-style: normal; font-size: 13.5px; color: var(--ink-2); display: block; margin-bottom: 20px; }
+  .total .go { display: block; height: 52px; line-height: 52px; border-radius: 10px; background: var(--accent);
+               color: #fff; font: 600 14px Manrope, sans-serif; letter-spacing: .05em; text-transform: uppercase; }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 0 18px; }
+    nav, .tels div:last-child { display: none; }
+    .tels { font-size: 14px; }
+    .hero { min-height: 0; }
+    .hero .wrap { grid-template-columns: 1fr; }
+    .hero .txt { padding: 40px 0 30px; }
+    .hero h1 { font-size: 30px; }
+    .city { font-size: 15px; padding: 9px 18px; margin-bottom: 28px; }
+    .facts { gap: 18px; margin-bottom: 30px; }
+    .facts div { font-size: 13.5px; }
+    .btn { height: 54px; width: 100%; justify-content: center; }
+    .hero .man { height: 260px; }
+    .hero .man img { right: -10px; }
+    section { padding: 50px 0; }
+    h2 { font-size: 27px; margin-bottom: 28px; }
+    .types { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .types .ph { height: 104px; margin-bottom: 14px; }
+    .types img { max-height: 98px; }
+    .quiz .sub { font-size: 16px; margin: -14px 0 28px; }
+    .qin { padding: 22px 18px; }
+    .opts { grid-template-columns: 1fr 1fr; }
+    .opts img { height: 120px; }
+    .why .grid { grid-template-columns: 1fr; gap: 22px; }
+    .why .r b { width: 42px; font-size: 25px; }
+    .job { grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px 18px; }
+    .job b { grid-column: 1 / -1; }
+    .job em { text-align: left; }
+    .revs { grid-template-columns: 1fr; gap: 12px; }
+    .cont .grid { grid-template-columns: 1fr; gap: 26px; }
+    .cont dl { grid-template-columns: 125px 1fr; font-size: 14.5px; gap: 12px 14px; }
+    .cont form { padding: 22px 18px; }
+
+
+    .sum { grid-template-columns: 1fr; gap: 20px; }
+    .picked li { grid-template-columns: 130px 1fr; gap: 12px; font-size: 14px; }
+    .total b { font-size: 27px; }
+  }
+</style>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">Скат<b>.</b></a>
+    <nav><a class="on" href="#types">Услуги</a><a href="#why">Преимущества</a><a href="#works">Наши работы</a><a href="#rev">Отзывы</a><a href="#cont">Контакты</a></nav>
+    <div class="tels"><div>8 (904) 351-27-80</div><div>8 (920) 688-14-03</div></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="bg"><img src="img/hero-bg.jpg" alt=""></div>
+  <div class="wrap">
+    <div class="txt">
+      <h1>Кровельные работы<br>под ключ</h1>
+      <div class="city">в Твери и области</div>
+      <div class="facts">
+        <div><i class="g"></i>Гарантия 3 года по договору</div>
+        <div><i class="s"></i>Работаем по СП 17.13330</div>
+        <div><i class="h"></i>Больше 200 крыш за 9 лет</div>
+      </div>
+      <a class="btn" href="#quiz">Рассчитать стоимость кровли</a>
+    </div>
+    <div class="man"><img src="img/man-crop.png" alt=""></div>
+  </div>
+</div>
+
+<section id="types">
+  <div class="wrap">
+    <h2>Смонтируем кровлю<br>любой формы и из любого материала</h2>
+    <div class="types">
+      <div class="c"><div class="ph"><img src="img/t1-cut.png" alt=""></div><h3>Двускатная кровля</h3></div>
+      <div class="c"><div class="ph"><img src="img/t2-cut.png" alt=""></div><h3>Вальмовая кровля</h3></div>
+      <div class="c"><div class="ph"><img src="img/t3-cut.png" alt=""></div><h3>Мансардная с окнами</h3></div>
+      <div class="c"><div class="ph"><img src="img/t4-cut.png" alt=""></div><h3>Плоская кровля с ПВХ-мембраной</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="quiz" id="quiz">
+  <div class="wrap">
+    <h2>Узнайте стоимость за 2 минуты</h2>
+    <p class="sub">Ответьте на несколько вопросов и получите точный расчёт</p>
+    <div class="qbox">
+      <div class="bar"><i></i></div>
+      <div class="qin">
+        <div class="note">Опрос займёт <b>не более 2 минут</b></div>
+        <div class="q">Какой дом кроем?</div>
+        <div class="opts">
+          <div><img src="img/q1.jpg" alt=""><span>Жилой дом / коттедж</span></div>
+          <div><img src="img/q2.jpg" alt=""><span>Баня / гостевой дом</span></div>
+          <div><img src="img/q3.jpg" alt=""><span>Гараж / хозблок</span></div>
+          <div><img src="img/q4.jpg" alt=""><span>Другое (навес, беседка, пристройка)</span></div>
+        </div>
+        <div class="qf">
+          <small>Шаг 1/5</small>
+          <div class="nav2"><span class="prev">←</span><a class="next" href="#">Далее →</a></div>
+        </div>
+      </div>
+    </div>
+      <div class="qbox done">
+        <div class="bar"><i class="mid"></i></div>
+        <div class="qin">
+          <div class="note">Шаг пройден, <b>показываем результат</b></div>
+          <div class="cap"><b>Так эти объекты выглядят после нас</b><span>те же дома с готовой кровлей</span></div>
+          <div class="opts">
+            <div><img src="img/r1.jpg" alt=""><span>Металлочерепица, 0,5 мм</span></div>
+            <div><img src="img/r2.jpg" alt=""><span>Фальц по бане, медный отлив</span></div>
+            <div><img src="img/r3.jpg" alt=""><span>Профнастил, односкатная</span></div>
+            <div><img src="img/r4.jpg" alt=""><span>Навес и беседка под ключ</span></div>
+          </div>
+          <div class="qf">
+            <small>Шаг 4/5</small>
+            <div class="nav2"><span class="prev">←</span><a class="next" href="#">Далее →</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qbox">
+        <div class="bar"><i class="full"></i></div>
+        <div class="qin">
+          <div class="note">Готово, <b>расчёт по вашим ответам</b></div>
+          <div class="q">Предварительная смета</div>
+          <div class="sum">
+            <ul class="picked">
+              <li>Тип объекта<b>Жилой дом, двускатная кровля</b></li>
+              <li>Площадь кровли<b>160 м²</b></li>
+              <li>Покрытие<b>Металлочерепица, 0,5 мм</b></li>
+              <li>Стропильная система<b>Нужна замена обрешётки</b></li>
+              <li>Когда начинать<b>В ближайший месяц</b></li>
+            </ul>
+            <div class="total">
+              <span>Ориентировочно</span>
+              <b>от 385 000 ₽</b>
+              <em>Точную смету назовём после замера</em>
+              <a class="go" href="#cont">Вызвать замерщика</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</section>
+
+
+<section class="why" id="why">
+  <div class="wrap">
+    <h2>Почему нас зовут повторно</h2>
+    <div class="grid">
+      <div class="r"><b>01</b><div><h3>Считаем по факту замера</h3><p>Приезжаем на объект, меряем скаты и смотрим стропильную систему. Цена в договоре не меняется задним числом.</p></div></div>
+      <div class="r"><b>02</b><div><h3>Своя бригада, без подряда</h3><p>Четыре постоянных кровельщика в штате девять лет. На объект не приезжают случайные люди.</p></div></div>
+      <div class="r"><b>03</b><div><h3>Работаем зимой</h3><p>Металл и фальц монтируем до минус пятнадцати. Зимой очередь короче, а цена ниже на десять процентов.</p></div></div>
+      <div class="r"><b>04</b><div><h3>Убираем за собой</h3><p>Старое покрытие и обрезки вывозим в день окончания работ. Участок сдаём чистым.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="works">
+  <div class="wrap">
+    <h2>Наши работы</h2>
+    <div class="jobs">
+      <div class="job"><b>Двускатная кровля, металлочерепица</b><span><i>Объект</i>Тверь, Соминка</span><span><i>Площадь</i>168 м²</span><span><i>Срок</i>6 дней</span><em>412 000 ₽</em></div>
+      <div class="job"><b>Вальмовая кровля, гибкая черепица</b><span><i>Объект</i>Тверь, Мамулино</span><span><i>Площадь</i>210 м²</span><span><i>Срок</i>9 дней</span><em>648 000 ₽</em></div>
+      <div class="job"><b>Мансарда с окнами, фальц</b><span><i>Объект</i>Конаково</span><span><i>Площадь</i>145 м²</span><span><i>Срок</i>11 дней</span><em>735 000 ₽</em></div>
+      <div class="job"><b>Плоская кровля, ПВХ-мембрана</b><span><i>Объект</i>Тверь, Индустриальная</span><span><i>Площадь</i>420 м²</span><span><i>Срок</i>7 дней</span><em>590 000 ₽</em></div>
+      <div class="job"><b>Замена покрытия на бане</b><span><i>Объект</i>Городня</span><span><i>Площадь</i>48 м²</span><span><i>Срок</i>2 дня</span><em>96 000 ₽</em></div>
+    </div>
+  </div>
+</section>
+
+<section class="rev" id="rev">
+  <div class="wrap">
+    <h2>Отзывы</h2>
+    <div class="revs">
+      <div class="rv"><div class="stars">★★★★★</div><p>Меняли кровлю на доме в Соминке. Приехали в срок, старый шифер вывезли сами. По деньгам вышло ровно как в смете, доплат не просили.</p><div class="who"><b>Андрей П.</b>Тверь, август 2026</div></div>
+      <div class="rv"><div class="stars">★★★★★</div><p>Делали мансарду с двумя окнами. Отдельное спасибо за то, что объяснили, зачем нужна пароизоляция, а не просто выставили счёт.</p><div class="who"><b>Марина С.</b>Конаково, июнь 2026</div></div>
+      <div class="rv"><div class="stars">★★★★★</div><p>Крыли склад мембраной зимой. Работали в мороз, уложились в неделю. Через полгода протечек нет, приезжали проверить сами.</p><div class="who"><b>Сергей В.</b>Тверь, март 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cont" id="cont">
+  <div class="wrap">
+    <h2>Контакты</h2>
+    <div class="grid">
+      <dl>
+        <dt>Телефоны</dt><dd>8 (904) 351-27-80<br>8 (920) 688-14-03</dd>
+        <dt>Почта</dt><dd>zakaz@skat-tver.ru</dd>
+        <dt>Адрес</dt><dd>Тверь, ул. Коминтерна, 47, офис 3</dd>
+        <dt>Время работы</dt><dd>Ежедневно с 8:00 до 20:00</dd>
+        <dt>Выезд на замер</dt><dd>Тверь и область до 80 км, бесплатно</dd>
+      </dl>
+      <form onsubmit="return false">
+        <h3>Вызвать замерщика</h3>
+        <p>Приедем в удобное время, посчитаем смету на месте и оставим её вам, даже если работать будете не с нами.</p>
+        <input type="text" placeholder="Как к вам обращаться">
+        <input type="tel" placeholder="Телефон">
+        <button type="submit">Записаться на замер</button>
+        <small>Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</small>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>«Скат», ИП Малахов Д. А. · Тверь, ул. Коминтерна, 47</span>
+    <span>8 (904) 351-27-80 · ежедневно 8:00 - 20:00</span>
+  </div>
+</footer>

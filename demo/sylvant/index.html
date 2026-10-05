@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sylvant — участок, ипотека и строительство дома под ключ</title>
+<style>
+  /* Копия структуры «Участок, ипотека и сопровождение» (jr_solutions, работа 06).
+     Сохранено намеренно: фото леса и дома на всю ширину экрана, поверх него
+     плавающая тёмная стеклянная шапка-пилюля с круглым логотипом слева, меню,
+     иконки мессенджеров и тёплая кнопка справа; заголовок и подзаголовок по
+     центру кадра, полупрозрачная кнопка «Подробнее»; ниже — блок цифр о
+     компании и карточки услуг. Заменено: имя, регион, цвета, фото, тексты. */
+
+  :root {
+    --sand: #C9A227; --sand-2: #E4C15A; --ink: #171A17; --ink-2: #5F6660;
+    --line: #E4E2DC; --page: #F3F2EE; --card: #FFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 16px/1.55 "PT Sans", "Segoe UI", sans-serif; color: var(--ink); background: var(--card);
+         font-variant-numeric: lining-nums; }
+  h1, h2, h3, .logo, .btn, .num { font-family: Montserrat, "Segoe UI", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 30px; }
+
+  /* Герой: фото на весь экран, шапка плавает поверх */
+  .hero { position: relative; min-height: 720px; display: flex; flex-direction: column; }
+  .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,17,14,.5) 0, rgba(14,17,14,.18) 38%, rgba(14,17,14,.48) 100%); }
+  .hero > .wrap, .hero .mid { position: relative; z-index: 2; }
+
+  .bar { margin-top: 22px; display: flex; align-items: center; gap: 34px;
+         background: rgba(30,36,29,.44); backdrop-filter: blur(14px); border-radius: 22px; padding: 12px 14px 12px 16px; }
+  .logo { width: 78px; height: 78px; border-radius: 50%; background: #FBF8F0; border: 2px solid var(--sand);
+          display: grid; place-items: center; font-size: 19px; font-weight: 800; letter-spacing: -.02em; color: #2C3128; flex: none; }
+  .bar nav { display: flex; gap: 30px; font-size: 15.5px; color: #fff; }
+  .msg { margin-left: auto; display: flex; gap: 9px; }
+  .msg i { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.15); display: grid; place-items: center; color: #fff; font-size: 15px; font-style: normal; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; height: 46px; padding: 0 26px; border-radius: 999px;
+         font-weight: 600; font-size: 14.5px; background: linear-gradient(90deg, var(--sand), var(--sand-2)); color: #221F14; }
+
+  .mid { margin: auto 0; text-align: center; color: #fff; padding: 90px 30px; }
+  .mid h1 { font-size: 58px; font-weight: 500; line-height: 1.1; letter-spacing: -.01em; max-width: 800px; margin: 0 auto 22px; }
+  .mid p { font-size: 18px; line-height: 1.5; max-width: 620px; margin: 0 auto 34px; opacity: .95; }
+  .ghost { display: inline-flex; align-items: center; height: 50px; padding: 0 34px; border-radius: 999px;
+           background: rgba(255,255,255,.18); backdrop-filter: blur(6px); color: #fff; font-size: 15px; font-family: Montserrat, sans-serif; }
+
+  section { padding: 88px 0; }
+  h2 { font-size: 40px; font-weight: 500; letter-spacing: -.01em; line-height: 1.16; }
+
+  /* Цифры о компании + фасад */
+  .about { display: grid; grid-template-columns: 1fr 420px; gap: 70px; align-items: center; }
+  .about p.lead { font-size: 17px; color: var(--ink-2); margin: 20px 0 34px; max-width: 520px; }
+  .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .num { font-size: 40px; font-weight: 600; color: var(--sand); letter-spacing: -.02em; font-variant-numeric: lining-nums; }
+  .nums span { display: block; font-size: 14.5px; color: var(--ink-2); margin-top: 6px; }
+  .about img { border-radius: 20px; width: 100%; height: 470px; object-fit: cover; }
+
+  /* Услуги */
+  .serv { background: var(--page); }
+  .serv .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 44px; }
+  .serv .head p { color: var(--ink-2); max-width: 400px; font-size: 16px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .c { background: #fff; border-radius: 18px; padding: 30px 28px 28px; }
+  .c b { display: block; font-family: Montserrat, sans-serif; font-size: 13px; color: var(--sand); letter-spacing: .08em; margin-bottom: 16px; }
+  .c h3 { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+  .c p { font-size: 15px; color: var(--ink-2); }
+
+  /* Заявка с фото телефона */
+  .cta { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .cta img { border-radius: 20px; width: 100%; height: 400px; object-fit: cover; }
+  .cta h2 { margin-bottom: 18px; }
+  .cta p { color: var(--ink-2); margin-bottom: 28px; max-width: 440px; }
+  .form { display: flex; gap: 12px; flex-wrap: wrap; }
+  .form input { height: 54px; border: 1px solid var(--line); border-radius: 12px; padding: 0 18px; font: inherit; min-width: 230px; flex: 1; }
+  .form .btn { height: 54px; }
+
+  footer { background: #1B1F1A; color: #B9BEB6; padding: 34px 0; font-size: 14.5px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+
+  /* Каталог проектов и сданные дома */
+  /* заголовок блока вне секции услуг: подзаголовку нужен свой отступ */
+  .head { margin-bottom: 44px; }
+  .head p { color: var(--ink-2); font-size: 16px; margin-top: 12px; max-width: 620px; }
+  .proj { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .pj { border: 1px solid var(--line); border-radius: 18px; padding: 28px 26px; }
+  .pj h3 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .pj .area { font-family: Montserrat, sans-serif; font-size: 14px; color: var(--sand); margin-bottom: 18px; }
+  .pj ul { list-style: none; font-size: 15px; color: var(--ink-2); margin-bottom: 20px; }
+  .pj li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .pj li:first-child { border-top: 0; }
+  .pj li b { color: var(--ink); font-weight: 600; }
+  .pj .from { font-family: Montserrat, sans-serif; font-size: 24px; font-weight: 600; font-variant-numeric: lining-nums; }
+  .pj .from span { font-size: 14px; color: var(--ink-2); font-weight: 400; display: block; margin-bottom: 2px; }
+
+  .built { background: var(--page); }
+  .blt { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .bl { background: #fff; border-radius: 16px; padding: 24px 22px; }
+  .bl time { font-size: 13px; color: var(--ink-2); }
+  .bl h3 { font-size: 18px; font-weight: 600; margin: 8px 0 12px; line-height: 1.3; }
+  .bl p { font-size: 14.5px; color: var(--ink-2); }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 0 16px; }
+    .hero { min-height: 0; }
+    .bar { gap: 12px; padding: 10px; margin-top: 14px; }
+    .bar nav, .msg { display: none; }
+    .logo { width: 58px; height: 58px; font-size: 11.5px; letter-spacing: 0; }
+    .bar .btn { margin-left: auto; height: 42px; padding: 0 18px; font-size: 13px; }
+    .mid { padding: 74px 4px 84px; }
+    .mid h1 { font-size: 32px; }
+    .mid p { font-size: 15.5px; margin-bottom: 26px; }
+    section { padding: 52px 0; }
+    h2 { font-size: 27px; }
+    .about, .cta { grid-template-columns: 1fr; gap: 28px; }
+    .about img, .cta img { height: 300px; }
+    .nums { gap: 14px; }
+    .num { font-size: 28px; }
+    .nums span { font-size: 12.5px; }
+    .serv .head { display: block; }
+    .serv .head p { margin-top: 12px; }
+    .cards { grid-template-columns: 1fr; gap: 14px; }
+    .form input { min-width: 0; width: 100%; }
+    .form .btn { width: 100%; }
+
+    .proj, .blt { grid-template-columns: 1fr; gap: 14px; }
+  }
+</style>
+
+<div class="hero">
+  <img src="img/hero.jpg" alt="">
+  <div class="wrap">
+    <div class="bar">
+      <div class="logo">Sylvant</div>
+      <nav><a href="#about">О нас</a><a href="#serv">Услуги</a><a href="#built">Построенные дома</a><a href="#proj">Каталог проектов</a><a href="#cta">Контакты</a></nav>
+      <div class="msg"><i>✈</i><i>✆</i><i>✉</i></div>
+      <a class="btn" href="#cta">Оставить заявку</a>
+    </div>
+  </div>
+  <div class="mid">
+    <h1>Участок, ипотека и сопровождение</h1>
+    <p>Поможем подобрать землю в Ленобласти, оформить ипотеку и построим дом от фундамента до отделки под ключ.</p>
+    <a class="ghost" href="#cta">Подробнее</a>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap about">
+    <div>
+      <h2>9 лет строим дома<br>в Ленинградской области</h2>
+      <p class="lead">С 2017 года построили больше сотни частных домов, бань и гаражей. Ведём стройку сами: без субподряда, с фиксированной сметой и еженедельным отчётом с площадки.</p>
+      <div class="nums">
+        <div><div class="num">104</div><span>дома сдано с 2017 года</span></div>
+        <div><div class="num">7 лет</div><span>гарантия на конструктив</span></div>
+        <div><div class="num">0 ₽</div><span>доплат сверх сметы</span></div>
+      </div>
+    </div>
+    <img src="img/facade.jpg" alt="">
+  </div>
+</section>
+
+<section class="serv" id="serv">
+  <div class="wrap">
+    <div class="head">
+      <h2>Что берём на себя</h2>
+      <p>От поиска участка до ключей. На каждом этапе один прораб и один договор.</p>
+    </div>
+    <div class="cards">
+      <div class="c"><b>ЗЕМЛЯ</b><h3>Подбор участка</h3><p>Проверяем категорию земли, коммуникации и подъезд. Выезжаем смотреть вместе с вами.</p></div>
+      <div class="c"><b>ДЕНЬГИ</b><h3>Ипотека и субсидии</h3><p>Готовим документы под семейную и IT-ипотеку, подаём сразу в несколько банков.</p></div>
+      <div class="c"><b>БУМАГИ</b><h3>Проект и смета</h3><p>Планировка, инженерка и смета до рубля. Смета фиксируется договором.</p></div>
+      <div class="c"><b>СТРОЙКА</b><h3>Фундамент и коробка</h3><p>Плита, лента или сваи по геологии участка. Кладка, кровля, окна.</p></div>
+      <div class="c"><b>СЕТИ</b><h3>Инженерные сети</h3><p>Скважина, септик, электрика и отопление. Всё с актами и паспортами.</p></div>
+      <div class="c"><b>КЛЮЧИ</b><h3>Отделка и сдача</h3><p>Чистовая отделка, уборка, ключи и папка документов на дом.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="proj">
+  <div class="wrap">
+    <div class="head">
+      <h2>Каталог проектов</h2>
+      <p>Готовые планировки, которые уже строили. Любую меняем под участок и семью.</p>
+    </div>
+    <div class="proj">
+      <div class="pj">
+        <h3>Хвойный</h3>
+        <div class="area">Одноэтажный, 118 м²</div>
+        <ul>
+          <li>Спальни<b>3</b></li>
+          <li>Стены<b>Газобетон 400 мм</b></li>
+          <li>Кровля<b>Фальц</b></li>
+          <li>Срок<b>5 месяцев</b></li>
+        </ul>
+        <div class="from"><span>под ключ от</span>6 940 000 ₽</div>
+      </div>
+      <div class="pj">
+        <h3>Ладога</h3>
+        <div class="area">Полтора этажа, 152 м²</div>
+        <ul>
+          <li>Спальни<b>4</b></li>
+          <li>Стены<b>Керамоблок 380 мм</b></li>
+          <li>Кровля<b>Металлочерепица</b></li>
+          <li>Срок<b>7 месяцев</b></li>
+        </ul>
+        <div class="from"><span>под ключ от</span>8 480 000 ₽</div>
+      </div>
+      <div class="pj">
+        <h3>Сосновый бор</h3>
+        <div class="area">Два этажа, 196 м²</div>
+        <ul>
+          <li>Спальни<b>5</b></li>
+          <li>Стены<b>Газобетон 400 мм</b></li>
+          <li>Кровля<b>Гибкая черепица</b></li>
+          <li>Срок<b>9 месяцев</b></li>
+        </ul>
+        <div class="from"><span>под ключ от</span>11 200 000 ₽</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="built" id="built">
+  <div class="wrap">
+    <div class="head">
+      <h2>Построенные дома</h2>
+      <p>Последние объекты этого года. Адрес и контакты хозяев даём по запросу, съездить и посмотреть можно.</p>
+    </div>
+    <div class="blt">
+      <div class="bl"><time>Сдан в мае 2026</time><h3>Дом 118 м², Всеволожский район</h3><p>Плита, газобетон, фальц. Участок нашли сами, оформили семейную ипотеку.</p></div>
+      <div class="bl"><time>Сдан в марте 2026</time><h3>Дом 152 м², Токсово</h3><p>Свайно-ростверковый фундамент из-за торфа. Скважина и септик в цене.</p></div>
+      <div class="bl"><time>Сдан в декабре 2025</time><h3>Баня 48 м², Сертолово</h3><p>Каркас с утеплением 200 мм, отделка кедром. Построили за семь недель.</p></div>
+      <div class="bl"><time>Сдан в сентябре 2025</time><h3>Дом 196 м², Кировский район</h3><p>Два этажа, пятно застройки сдвигали из-за охранной зоны леса.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="wrap cta">
+    <img src="img/hand.jpg" alt="">
+    <div>
+      <h2>Расчёт дома за один день</h2>
+      <p>Оставьте номер: пришлём смету с ценой за квадрат, сроками по этапам и вариантами ипотеки под ваш случай.</p>
+      <form class="form" onsubmit="return false">
+        <input type="text" placeholder="Как к вам обращаться">
+        <input type="tel" placeholder="Телефон">
+        <button class="btn" type="submit">Получить расчёт</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Sylvant, ООО «Сильвант» · Всеволожск, Колтушское шоссе, 138</span>
+    <span>8 (812) 449-70-25 · ежедневно 9:00 – 20:00</span>
+  </div>
+</footer>

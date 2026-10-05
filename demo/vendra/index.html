@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Остатки, цены и заказы с Wildberries, Ozon и Яндекс Маркета в одном кабинете. Автоцена по правилам, прогноз остатка, расчёт маржи.">
+<title>Vendra — управление продажами на маркетплейсах</title>
+
+<!-- Шрифты и GSAP рядом с сайтом: CDN в РФ режется. Вариативные, один файл
+     на все веса. Предзагрузка, иначе первый кадр рисуется системным шрифтом
+     и строка прыгает на другую ширину. -->
+<link rel="preload" href="fonts/Geologica.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/GolosText.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+  @font-face { font-family: Geologica; src: url("fonts/Geologica.ttf") format("truetype-variations");
+               font-weight: 100 900; font-display: swap; }
+  @font-face { font-family: Golos; src: url("fonts/GolosText.ttf") format("truetype-variations");
+               font-weight: 400 900; font-display: swap; }
+
+  :root {
+    /* Сетка узкая и выводится из максимума. Узкая читается увереннее широкой */
+    --layout-max: 1180px;
+    --gutter: 28px;
+    --layout: min(var(--layout-max), 100vw - var(--gutter) * 2);
+    --col: calc(var(--layout) / 4);
+    --copy: calc(var(--col) * 3);
+    --section-y: clamp(72px, 8vw, 140px);
+
+    /* Нейтралы с холодным подтоном, ни чистого белого, ни чистого чёрного */
+    --bg: #F5F6F8;
+    --bg-2: #FFFFFF;
+    --ink: #101820;
+    --ink-2: #4E5A66;
+    --ink-3: #67717D;
+    --acc-ink: #0B7659;  /* акцент для текста: 5.18 на фоне, яркий не проходил */
+    --line: #DFE3E8;
+    --dash: rgba(16,24,32,.055);
+
+    /* Акцент свой: изумруд с лаймом вместо фиолетово-синего у референса */
+    --acc: #0E8F6F;
+    --acc-2: #14B389;
+
+    /* Микровеса: 425 в тексте и 505 в заголовках вместо 400 и 700 */
+    --w-body: 425; --w-mid: 505; --w-bold: 620;
+
+    /* Тени тинтованные, с отрицательным разлётом, никогда не чёрные */
+    --sh-1: 0 1px 1.5px rgba(16,24,32,.04), 0 2px 4px rgba(16,24,32,.04);
+    --sh-2: 0 6px 12px -2px rgba(38,56,72,.18), 0 3px 7px -3px rgba(16,24,32,.2);
+    --sh-3: 0 14px 28px -6px rgba(38,56,72,.2), 0 8px 16px -8px rgba(16,24,32,.22);
+    --sh-hero: 0 50px 100px -20px rgba(38,56,72,.22), 0 30px 60px -30px rgba(16,24,32,.25);
+
+    /* Кривая под каждый класс движения, а не общий ease */
+    --e-out: cubic-bezier(.22,1,.36,1);
+    --e-soft: cubic-bezier(.4,0,.2,1);
+    --e-expo: cubic-bezier(.7,0,0,1);
+    --t-hover: .18s; --t-state: .24s; --t-layout: .5s;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: Golos, "Segoe UI", sans-serif; font-weight: var(--w-body);
+         font-size: 16px; line-height: 1.68; color: var(--ink); background: var(--bg);
+         font-variant-numeric: lining-nums tabular-nums;
+         overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, .ui { font-family: Geologica, "Segoe UI", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button, input, select { font: inherit; color: inherit; }
+  .wrap { width: var(--layout); margin: 0 auto; }
+  section { padding: var(--section-y) 0; position: relative; }
+
+  h2 { font-size: clamp(30px, 3.6vw, 46px); font-weight: var(--w-mid);
+       line-height: 1.12; letter-spacing: -.028em; }
+  .kicker { font-family: Geologica, sans-serif; font-size: 15px; font-weight: var(--w-mid);
+            color: var(--acc-ink); margin-bottom: 14px; display: block; letter-spacing: -.01em; }
+  .lead { font-size: 17px; line-height: 1.6; letter-spacing: .1px; color: var(--ink-2);
+          max-width: var(--copy); }
+
+  /* Пунктирная сетка на всю высоту страницы: четыре дорожки, к ним привязан
+     контент. Это главный приём референса — он собирает длинную страницу
+     в одну конструкцию. */
+  /* Линии сплошные и почти невидимые: пунктир в упор читается как артефакт,
+     а сетка должна чувствоваться, а не рассматриваться. Маска гасит линии
+     у верха и низа секции, чтобы они не болтались в пустоте между блоками. */
+  .grid-lines { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+                -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 90px,
+                                    #000 calc(100% - 90px), transparent 100%);
+                mask-image: linear-gradient(180deg, transparent 0, #000 90px,
+                            #000 calc(100% - 90px), transparent 100%); }
+  .grid-lines .wrap { height: 100%; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .grid-lines i { border-left: 1px solid var(--dash); display: block; height: 100%; }
+  .grid-lines i:last-child { border-right: 1px solid var(--dash); }
+  section > .wrap, header > .wrap { position: relative; z-index: 1; }
+
+  /* Шапка двухэтажная: меню компании, под ним меню раздела */
+  header { position: sticky; top: 0; z-index: 60; background: rgba(245,246,248,.86);
+           backdrop-filter: blur(14px) saturate(1.4);
+           transition: box-shadow var(--t-state) var(--e-soft); }
+  header.dense { box-shadow: 0 1px 0 var(--line), 0 10px 30px -22px rgba(16,24,32,.5); }
+  .bar1 { display: flex; align-items: center; gap: 34px; height: 68px; }
+  .logo { font-family: Geologica, sans-serif; font-weight: 700; font-size: 23px;
+          letter-spacing: -.045em; display: inline-flex; align-items: baseline; }
+  .logo em { font-style: normal; color: var(--acc); }
+  .bar1 nav { display: flex; gap: 26px; font-size: 15px; color: var(--ink-2); }
+  .bar1 nav a { transition: color var(--t-hover); }
+  .bar1 nav a:hover { color: var(--ink); }
+  .bar1 .right { margin-left: auto; display: flex; align-items: center; gap: 20px; }
+  .navcta { display: none; }
+  .bar1 nav.open .navcta { display: inline-flex; }
+  .bar1 .enter { font-size: 15px; color: var(--acc-ink); }
+  .bar2 { display: flex; align-items: center; gap: 28px; height: 48px;
+          border-top: 1px solid var(--line); font-size: 14.5px; color: var(--ink-2); }
+  .bar2 .cur { color: var(--acc); font-family: Geologica, sans-serif; font-weight: var(--w-mid); }
+  .bar2 .items { display: flex; gap: 26px; margin-left: auto; }
+  .bar2 a { position: relative; padding: 4px 0; transition: color var(--t-hover); }
+  .bar2 a.on, .bar2 a:hover { color: var(--ink); }
+  .bar2 a.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
+                      height: 2px; background: var(--acc); }
+
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center;
+         gap: 9px; height: 46px; padding: 0 22px; border: 0; border-radius: 999px; cursor: pointer;
+         background: var(--acc); color: #fff; overflow: hidden; isolation: isolate;
+         font-family: Geologica, sans-serif; font-weight: var(--w-mid); font-size: 14.5px;
+         letter-spacing: -.01em; white-space: nowrap;
+         transition: transform var(--t-hover) var(--e-out), box-shadow var(--t-state) var(--e-out); }
+  .btn::after { content: "›"; font-size: 17px; line-height: 0; transform: translateY(-1px);
+                transition: transform var(--t-state) var(--e-out); }
+  .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--acc-2);
+                 transform: translateY(101%); transition: transform var(--t-state) var(--e-expo); }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 22px -12px rgba(14,143,111,.9); }
+  .btn:hover::before { transform: translateY(0); }
+  .btn:hover::after { transform: translate(3px,-1px); }
+  .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+  .btn.ghost::before { background: rgba(16,24,32,.05); }
+  .lnk { font-size: 15px; color: var(--acc-ink); display: inline-flex; align-items: center; gap: 6px; }
+  .lnk::after { content: "›"; font-size: 17px; line-height: 0; transition: transform var(--t-state) var(--e-out); }
+  .lnk:hover::after { transform: translateX(3px); }
+
+  .burger { display: none; width: 42px; height: 42px; background: none; border: 0; cursor: pointer;
+            position: relative; margin-left: auto; }
+  .burger span { position: absolute; left: 10px; right: 10px; height: 1.6px; background: var(--ink);
+                 transition: transform var(--t-state) var(--e-out); }
+  .burger span:nth-child(1) { top: 16px; } .burger span:nth-child(2) { top: 24px; }
+  body.menu .burger span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+  body.menu .burger span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+
+  /* Первый экран: цветной клин входит по диагонали, как у референса */
+  .hero { padding: clamp(48px, 7vw, 104px) 0 0; position: relative; overflow: hidden; }
+  .wedge { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+           clip-path: polygon(0 78%, 100% 34%, 100% 100%, 0 100%); }
+  /* Мешь собирается из перекрывающихся пятен: один линейный градиент
+     читается плоской заливкой, а нужен перелив */
+  .wedge i { position: absolute; inset: -34% -14%; display: block; filter: blur(14px);
+             background:
+               radial-gradient(44% 62% at 92% 22%, #D8FB6B 0, rgba(216,251,107,0) 60%),
+               radial-gradient(40% 58% at 70% 66%, #5FF0A8 0, rgba(95,240,168,0) 62%),
+               radial-gradient(46% 66% at 44% 22%, #17E0D2 0, rgba(23,224,210,0) 64%),
+               radial-gradient(42% 60% at 16% 74%, #1E7FB8 0, rgba(30,127,184,0) 62%),
+               radial-gradient(34% 52% at 0% 100%, #0B5F8A 0, rgba(11,95,138,0) 60%),
+               linear-gradient(276deg, #8CF06B 0%, #17E0D2 40%, #12A7A6 68%, #1A6FA0 100%); }
+  .hero .wrap { position: relative; z-index: 2; }
+  .tag { display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 6px 0 14px;
+         border-radius: 999px; background: rgba(16,24,32,.06); font-size: 13.5px; color: var(--ink-2);
+         margin-bottom: 26px; transition: background var(--t-hover); }
+  .tag:hover { background: rgba(16,24,32,.1); }
+  .tag b { font-weight: var(--w-body); color: var(--ink); }
+  .tag i { font-style: normal; display: inline-flex; align-items: center; gap: 4px; padding: 0 10px;
+           height: 24px; border-radius: 999px; background: var(--bg-2); color: var(--acc);
+           font-size: 12.5px; box-shadow: var(--sh-1); }
+  h1 { font-size: clamp(38px, 5.2vw, 62px); font-weight: var(--w-mid); line-height: 1.06;
+       letter-spacing: -.035em; max-width: 15ch; }
+  h1 .l { display: block; overflow: hidden; }
+  h1 .l > span { display: block; }
+  .hero p.lead { margin: 24px 0 32px; }
+  .hero .acts { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .heromock { margin-top: clamp(40px, 6vw, 84px); position: relative; z-index: 2;
+              border-radius: 12px; background: var(--bg-2); box-shadow: var(--sh-hero);
+              overflow: hidden; }
+
+  /* Колонки преимуществ: своя дорожка сетки, чёрточка слева от заголовка */
+  .feats { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .feat { padding: 0 24px 0 20px; position: relative; }
+  .feat:first-child { padding-left: 0; }
+  .feat .ic { width: 40px; height: 40px; margin-bottom: 18px; }
+  .feat h3 { font-size: 16.5px; font-weight: var(--w-mid); letter-spacing: -.015em;
+             margin-bottom: 10px; }
+  .feat p { font-size: 14.5px; color: var(--ink-2); line-height: 1.6; }
+
+  /* Логотипы клиентов в тех же дорожках */
+  /* Блок клиентов. Голые названия текстом читались как случайный набор слов,
+     поэтому у каждого знак и род занятий, а плитки сидят в дорожках сетки. */
+  .clients { background: var(--bg-2); border-block: 1px solid var(--line); }
+  .clhead { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+            margin-bottom: 30px; }
+  .clhead h2 { font-family: Geologica, sans-serif; font-weight: var(--w-mid);
+               font-size: 19px; letter-spacing: -.02em; line-height: 1.2; }
+  .clhead span { font-size: 14.5px; color: var(--ink-3); }
+  .clgrid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .cl { display: flex; align-items: center; gap: 13px; padding: 20px 22px;
+        border-radius: 10px; transition: background var(--t-state) var(--e-soft),
+        transform var(--t-state) var(--e-soft), box-shadow var(--t-state) var(--e-soft); }
+  .cl svg { flex: 0 0 34px; width: 34px; height: 34px; }
+  .cl svg * { transition: fill var(--t-state) var(--e-soft); }
+  .cl b { display: block; font-family: Geologica, sans-serif; font-weight: 600;
+          font-size: 16px; letter-spacing: -.022em; color: var(--ink-2);
+          transition: color var(--t-state) var(--e-soft); }
+  .cl i { font-style: normal; font-size: 12.5px; color: var(--ink-3); letter-spacing: .01em; }
+  .cl:hover { background: var(--bg); transform: translateY(-3px); box-shadow: var(--sh-1); }
+  .cl:hover b { color: var(--ink); }
+  .cl:hover svg .a { fill: var(--acc); }
+  .cl:hover svg .b { fill: #9BE564; }
+
+  /* Метрика выносом на поля, рядом с заголовком блока */
+  .withmetric { display: grid; grid-template-columns: 3fr 1fr; gap: 40px; align-items: start; }
+  .metric { padding-left: 0; }
+  .metric b { display: block; font-family: Geologica, sans-serif; font-size: 44px;
+              font-weight: var(--w-mid); letter-spacing: -.03em; color: var(--acc); }
+  .metric span { font-size: 14px; color: var(--ink-2); line-height: 1.5; display: block; margin-top: 6px; }
+
+  /* Карусель карточек-функций */
+  .carousel .head { display: flex; align-items: end; justify-content: space-between;
+                    gap: 24px; margin-bottom: 26px; }
+  .arrows { display: flex; gap: 8px; }
+  .arrows button { width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer;
+                   background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line);
+                   color: var(--ink); font-size: 16px;
+                   transition: background var(--t-hover), box-shadow var(--t-hover),
+                               transform var(--t-hover) var(--e-out), opacity var(--t-hover); }
+  .arrows button:hover:not([aria-disabled="true"]) { background: var(--acc); color: #fff; box-shadow: none;
+                                        transform: scale(1.06); }
+  .arrows button[aria-disabled="true"] { opacity: .35; cursor: default; }
+  .rail { display: flex; gap: 22px; will-change: transform; }
+  .fcard { flex: 0 0 calc((var(--layout) - 44px) / 3); background: var(--bg-2); border-radius: 10px;
+           overflow: hidden; box-shadow: var(--sh-1);
+           transition: box-shadow var(--t-state) var(--e-out), transform var(--t-state) var(--e-out); }
+  .fcard:hover { box-shadow: var(--sh-3); transform: translateY(-3px); }
+  .fcard .shot { background: linear-gradient(180deg, #EEF2F5, #F7F9FB); padding: 22px 22px 0;
+                 height: 210px; overflow: hidden; }
+  .fcard .shot svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 8px 18px rgba(38,56,72,.14)); }
+  .fcard .txt { padding: 22px 24px 26px; }
+  .fcard h3 { font-size: 18px; font-weight: var(--w-mid); letter-spacing: -.02em; margin-bottom: 8px; }
+  .fcard p { font-size: 14.5px; color: var(--ink-2); margin-bottom: 14px; }
+  .fcard ul { list-style: none; font-size: 14px; color: var(--ink-2); }
+  .fcard li { position: relative; padding-left: 22px; margin-bottom: 7px; }
+  .fcard li::before { content: ""; position: absolute; left: 0; top: 7px; width: 13px; height: 8px;
+                      border-left: 2px solid var(--acc); border-bottom: 2px solid var(--acc);
+                      transform: rotate(-45deg); }
+
+  /* Двухколоночный блок: слева текст, справа живой мокап интерфейса */
+  .split { display: grid; grid-template-columns: 1fr 1.12fr; gap: 56px; align-items: center; }
+  .panel { background: var(--bg-2); border-radius: 10px; box-shadow: var(--sh-2); overflow: hidden; }
+  .panel .ptop { display: flex; align-items: center; gap: 10px; padding: 14px 18px;
+                 border-bottom: 1px solid var(--line); }
+  .panel .ptop b { font-family: Geologica, sans-serif; font-size: 14.5px; font-weight: var(--w-mid); }
+  .panel .ptop .st { margin-left: auto; font-size: 12.5px; color: var(--acc-ink);
+                     background: rgba(14,143,111,.1); padding: 4px 10px; border-radius: 999px; }
+  .panel .pbody { padding: 18px; }
+  .row { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 10px; align-items: center;
+         padding: 11px 8px; border-radius: 6px; font-size: 13.5px; }
+  .row.h { color: var(--ink-3); font-size: 12px; letter-spacing: .02em; padding-bottom: 6px; }
+  .row:not(.h):nth-child(even) { background: #F8FAFB; }
+  .row .nm { display: flex; align-items: center; gap: 9px; }
+  .row .sq { width: 26px; height: 26px; border-radius: 5px; flex: none;
+             background: linear-gradient(135deg, #E4EAF0, #F2F5F8); }
+  .row .num { font-variant-numeric: lining-nums tabular-nums; }
+  .chip { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 999px;
+          font-size: 12px; }
+  .chip.up { background: rgba(14,143,111,.12); color: var(--acc-ink); }
+  .chip.dn { background: rgba(214,69,58,.1); color: #C4433A; }
+  .chip.wait { background: rgba(16,24,32,.06); color: var(--ink-2); }
+
+  /* Переключатель площадок */
+  .tabs { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
+  .tabs button { height: 38px; padding: 0 16px; border: 0; border-radius: 999px; cursor: pointer;
+                 background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--ink-2);
+                 font-family: Geologica, sans-serif; font-weight: var(--w-mid); font-size: 14px;
+                 transition: color var(--t-hover), background var(--t-hover), box-shadow var(--t-hover); }
+  .tabs button:hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink-3); }
+  .tabs button.on { background: var(--acc); color: #fff; box-shadow: none; }
+
+  /* Тарифы */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .plan { background: var(--bg-2); border-radius: 10px; padding: 28px 26px 30px;
+          box-shadow: var(--sh-1); display: flex; flex-direction: column;
+          transition: box-shadow var(--t-state) var(--e-out), transform var(--t-state) var(--e-out); }
+  .plan:hover { box-shadow: var(--sh-3); transform: translateY(-3px); }
+  /* Рекомендованный тариф берёт внимание размером и глубиной, а не рамкой:
+     он крупнее и выше, соседние приглушены и лежат плоско. */
+  .plan.pick { box-shadow: var(--sh-hero); transform: translateY(-12px) scale(1.035);
+               padding: 34px 30px 36px; z-index: 1; }
+  .plan.pick:hover { transform: translateY(-15px) scale(1.035); }
+  .plans:hover .plan:not(.pick) { opacity: 1; }
+  .plan:not(.pick) { opacity: .84; transition: box-shadow var(--t-state) var(--e-out),
+                     transform var(--t-state) var(--e-out), opacity var(--t-state) var(--e-out); }
+  .plan:not(.pick):hover { opacity: 1; }
+  .plan .nm { font-family: Geologica, sans-serif; font-size: 17px; font-weight: var(--w-mid);
+              letter-spacing: -.02em; }
+  .plan .pr { font-family: Geologica, sans-serif; font-size: 36px; font-weight: var(--w-mid);
+              letter-spacing: -.035em; margin: 14px 0 2px; }
+  .plan .pr small { font-size: 15px; color: var(--ink-3); font-weight: var(--w-body); letter-spacing: 0; }
+  .plan .note { font-size: 13.5px; color: var(--ink-3); margin-bottom: 20px; }
+  .plan ul { list-style: none; font-size: 14.5px; color: var(--ink-2); margin-bottom: 24px; }
+  .plan li { position: relative; padding-left: 24px; margin-bottom: 9px; }
+  .plan li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 12px; height: 7px;
+                     border-left: 2px solid var(--acc); border-bottom: 2px solid var(--acc);
+                     transform: rotate(-45deg); }
+  .plan .btn { margin-top: auto; }
+
+  /* Заявка */
+  .cta { background: var(--ink); color: #fff; border-radius: 14px; padding: clamp(32px, 4vw, 56px);
+         position: relative; overflow: hidden; }
+  .cta::before { content: ""; position: absolute; right: -10%; top: -60%; width: 60%; height: 220%;
+                 background: radial-gradient(50% 50% at 50% 50%, rgba(52,214,200,.5), transparent 70%);
+                 filter: blur(30px); }
+  .cta .inner { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 44px;
+                align-items: center; }
+  .cta h2 { color: #fff; }
+  .cta p { color: rgba(255,255,255,.72); margin-top: 14px; max-width: 40ch; }
+  .form .fr { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* Пункты без своего раздела: не притворяются ссылками, но и не исчезают. */
+  .soon { color: var(--ink-3); cursor: default; }
+
+  .field { position: relative; margin-bottom: 12px; }
+  .field input, .field select { width: 100%; height: 50px; border: 0; border-radius: 8px; padding: 0 15px;
+                                background: rgba(255,255,255,.08); color: #fff;
+                                box-shadow: inset 0 0 0 1px rgba(255,255,255,.16);
+                                transition: box-shadow var(--t-state) var(--e-soft), background var(--t-state); }
+  .field input::placeholder { color: rgba(255,255,255,.62); }
+  .field input:focus-visible, .field select:focus-visible {
+      outline: 2px solid var(--acc-2); outline-offset: 2px; background: rgba(255,255,255,.12); }
+  .field input:focus, .field select:focus { outline: 0; background: rgba(255,255,255,.12);
+                                            box-shadow: inset 0 0 0 1px var(--acc-2); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--acc-ink); outline-offset: 3px;
+                                          border-radius: 4px; }
+  .field.bad input { box-shadow: inset 0 0 0 1px #E4685C; }
+  .field .err { position: absolute; left: 2px; top: 100%; font-size: 12px; color: #F09A90;
+                opacity: 0; transition: opacity var(--t-hover); }
+  .field.bad .err { opacity: 1; }
+  .form .note { font-size: 12.5px; color: rgba(255,255,255,.66); margin: 14px 0 18px; line-height: 1.5; }
+  .form .btn { width: 100%; background: var(--acc-2); }
+  .done { display: none; gap: 10px; padding: 18px 20px; border-radius: 8px;
+          background: rgba(20,179,137,.14); box-shadow: inset 0 0 0 1px rgba(20,179,137,.45);
+          font-size: 14.5px; }
+  .done.show { display: block; }
+
+  footer { padding: 64px 0 34px; background: var(--bg-2); border-top: 1px solid var(--line); }
+  .fg { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 32px; }
+  footer h4 { font-family: Geologica, sans-serif; font-size: 13px; font-weight: var(--w-mid);
+              color: var(--ink-3); margin-bottom: 14px; }
+  footer ul { list-style: none; font-size: 14.5px; color: var(--ink-2); }
+  footer li { margin-bottom: 9px; }
+  footer li a:hover { color: var(--acc-ink); }
+  .fb .by { margin-left: auto; }
+  .fb .by a { color: var(--acc-ink); font-weight: var(--w-mid); }
+  .fb .by a:hover { text-decoration: underline; }
+  .fb { margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--line);
+        display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+        font-size: 13px; color: var(--ink-3); }
+
+  .rise { opacity: 0; transform: translateY(22px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .001s !important; transition-duration: .001s !important; }
+    .rise { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 1000px) {
+    :root { --gutter: 16px; }
+    .grid-lines { display: none; }
+    .bar1 nav, .bar1 .right, .bar2 .items { display: none; }
+    .burger { display: block; }
+    .bar2 { justify-content: flex-start; }
+    .bar1 nav.open { position: fixed; inset: 116px 0 auto; display: flex; flex-direction: column;
+                     gap: 0; background: var(--bg-2); padding: 12px 16px 20px; font-size: 18px;
+                     box-shadow: 0 20px 40px -20px rgba(16,24,32,.4); z-index: 70; }
+    .bar1 nav.open a { padding: 13px 0; border-bottom: 1px solid var(--line);
+                       font-family: Geologica, sans-serif; }
+    .bar1 nav.open a.navcta { border: 0; margin-top: 14px; justify-content: center; }
+    h1 { max-width: none; }
+    .hero .acts { gap: 14px; }
+    .wedge { clip-path: polygon(0 88%, 100% 62%, 100% 100%, 0 100%); }
+    .feats { grid-template-columns: 1fr 1fr; gap: 30px 20px; }
+    .feat, .feat:first-child { padding: 0; }
+    .clgrid { grid-template-columns: 1fr 1fr; }
+    .cl { padding: 16px 12px; gap: 11px; }
+    .withmetric { grid-template-columns: 1fr; gap: 24px; }
+    .fcard { flex: 0 0 82%; }
+    .split { grid-template-columns: 1fr; gap: 28px; }
+    .plans { grid-template-columns: 1fr; }
+    .cta .inner { grid-template-columns: 1fr; gap: 26px; }
+    .form .fr { grid-template-columns: 1fr; }
+    .fg { grid-template-columns: 1fr 1fr; gap: 26px; }
+  }
+
+  /* Ниже 600 названия магазинов ломаются по два слова, поэтому
+     плитки клиентов идут в одну колонку. */
+  @media (max-width: 600px) {
+    .clgrid { grid-template-columns: 1fr; }
+    .cl { padding: 13px 10px; }
+  }
+</style>
+<noscript><style>.rise { opacity: 1; transform: none; }</style></noscript>
+
+<header id="hdr">
+  <div class="wrap">
+    <div class="bar1">
+      <a class="logo" href="#top">vendra<em>.</em></a>
+      <nav id="nav">
+        <a href="#how">Возможности</a><a href="#stock">Остатки</a>
+        <a href="#price">Тарифы</a><a href="#cta">Контакты</a>
+        <a class="btn navcta" href="#cta">Подключить магазин</a>
+      </nav>
+      <div class="right">
+        <a class="enter" href="#cta">Войти</a>
+        <button class="btn" data-scroll="#cta">Попробовать</button>
+      </div>
+      <button class="burger" id="burger" aria-label="Меню"><span></span><span></span></button>
+    </div>
+    <div class="bar2">
+      <span class="cur">Продажи</span>
+      <div class="items">
+        <a class="on" href="#top">Обзор</a><a href="#how">Возможности</a><a href="#stock">Остатки</a>
+        <a href="#price">Тарифы</a><span class="soon">Документация</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wedge" id="wedge"><i></i></div>
+  <div class="grid-lines"><div class="wrap"><i></i><i></i><i></i><i></i></div></div>
+  <div class="wrap">
+    <a class="tag" href="#how">Отчёт о рынке за третий квартал <i>Читать</i></a>
+    <h1>
+      <span class="l"><span>Один кабинет</span></span>
+      <span class="l"><span>на все маркетплейсы</span></span>
+    </h1>
+    <p class="lead">Остатки, цены и заказы с Wildberries, Ozon и Яндекс Маркета в одной таблице. Vendra сама поднимает цену, когда товар заканчивается, и опускает, когда лежит.</p>
+    <div class="acts">
+      <button class="btn" data-scroll="#cta">Подключить магазин</button>
+      <a class="lnk" href="#how">Посмотреть, как работает</a>
+    </div>
+    <div class="heromock rise" id="heromock"></div>
+  </div>
+</div>
+
+<section>
+  <div class="grid-lines"><div class="wrap"><i></i><i></i><i></i><i></i></div></div>
+  <div class="wrap">
+    <div class="feats">
+      <div class="feat">
+        <svg class="ic" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="3" y="9" width="34" height="23" rx="4" fill="#DDF3EC"/><rect x="3" y="9" width="34" height="8" rx="4" fill="#0E8F6F"/><rect x="8" y="22" width="12" height="3" rx="1.5" fill="#0E8F6F"/><rect x="8" y="27" width="20" height="3" rx="1.5" fill="#9BE564"/></svg>
+        <h3>Все площадки в одном окне</h3>
+        <p>Не нужно держать открытыми пять кабинетов. Товары, остатки и заказы собираются в одну таблицу с общими фильтрами.</p>
+      </div>
+      <div class="feat">
+        <svg class="ic" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#DDF3EC"/><path d="M12 24l6-7 5 4 6-8" stroke="#0E8F6F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="13" r="3.4" fill="#9BE564"/></svg>
+        <h3>Цена меняется сама</h3>
+        <p>Правила по остатку, марже и цене конкурента. Товар заканчивается — цена растёт, лежит месяц — падает до вашего минимума.</p>
+      </div>
+      <div class="feat">
+        <svg class="ic" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="5" y="7" width="30" height="27" rx="4" fill="#DDF3EC"/><rect x="10" y="13" width="20" height="3" rx="1.5" fill="#34D6C8"/><rect x="10" y="20" width="14" height="3" rx="1.5" fill="#0E8F6F"/><rect x="10" y="27" width="17" height="3" rx="1.5" fill="#0E8F6F" opacity=".5"/></svg>
+        <h3>Отзывы без ручной работы</h3>
+        <p>Ответы на отзывы и вопросы по вашим шаблонам, с подстановкой названия товара. Спорные уходят вам на проверку.</p>
+      </div>
+      <div class="feat">
+        <svg class="ic" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 4l14 7v11c0 8-6 14-14 16-8-2-14-8-14-16V11z" fill="#DDF3EC"/><path d="M14 20l4.5 4.5L27 16" stroke="#0E8F6F" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Видно, где теряются деньги</h3>
+        <p>Считаем маржу с учётом комиссии, логистики, хранения и возвратов. Убыточные товары видны сразу, а не в конце месяца.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="clients">
+  <div class="grid-lines"><div class="wrap"><i></i><i></i><i></i><i></i></div></div>
+  <div class="wrap" id="clients">
+    <div class="clhead rise"><h2>Работают на Vendra</h2><span>Восемьсот сорок магазинов, от одного кабинета до пятнадцати</span></div>
+    <div class="clgrid">
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><rect x="3" y="12" width="28" height="19" rx="3" class="a" fill="#C9D3DC"/><path d="M17 3 33 13v4L17 8 1 17v-4z" class="b" fill="#AEBAC6"/></svg><span><b>Первый склад</b><i>склад и фулфилмент</i></span></div>
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="17" r="8" class="a" fill="#C9D3DC"/><circle cx="17" cy="6" r="4.4" class="b" fill="#AEBAC6"/><circle cx="17" cy="28" r="4.4" class="b" fill="#AEBAC6"/></svg><span><b>Ирис</b><i>косметика</i></span></div>
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M17 3 32 15v16H2V15z" class="a" fill="#C9D3DC"/><rect x="13" y="20" width="8" height="11" rx="1.6" class="b" fill="#AEBAC6"/></svg><span><b>Домовой</b><i>товары для дома</i></span></div>
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="17" r="13" class="a" fill="#C9D3DC"/><path d="M17 9v8.6l6 3.4" stroke="#8894A0" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg><span><b>Кайрос</b><i>часы и аксессуары</i></span></div>
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M17 31C9 27 5 21 6 12c9-1 14 4 15 12 2-7 6-10 13-9 0 8-6 14-17 16z" class="a" fill="#C9D3DC"/></svg><span><b>Зелёный дом</b><i>сад и растения</i></span></div>
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M2 29 13 9l6 10 4-6 9 16z" class="a" fill="#C9D3DC"/><path d="M10 18h6l-3-5z" class="b" fill="#AEBAC6"/></svg><span><b>Вершина</b><i>спорт и туризм</i></span></div>
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><rect x="7" y="3" width="20" height="28" rx="4" class="a" fill="#C9D3DC"/><rect x="12" y="8" width="10" height="14" rx="1.6" class="b" fill="#AEBAC6"/></svg><span><b>Оникс</b><i>электроника</i></span></div>
+      <div class="cl"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M13 4h8l10 5-4 7-3-1.6V31H10V14.4L7 16 3 9z" class="a" fill="#C9D3DC"/></svg><span><b>Мануфактура</b><i>одежда</i></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="grid-lines"><div class="wrap"><i></i><i></i><i></i><i></i></div></div>
+  <div class="wrap">
+    <div class="withmetric rise">
+      <div>
+          <h2>Цена, которая держит и маржу, и место в выдаче</h2>
+        <p class="lead" style="margin-top:18px">Правила пересчитывают цену каждые пятнадцать минут по остатку, скорости продаж и цене конкурентов. Вы задаёте нижнюю границу, ниже которой сделка перестаёт быть выгодной, и дальше не следите вручную.</p>
+        <div style="margin-top:22px"><a class="lnk" href="#stock">Как считается маржа</a></div>
+      </div>
+      <div class="metric">
+        <b data-count="18">18</b>
+        <span>процентов средний рост выручки за первый квартал работы с автоценой</span>
+      </div>
+    </div>
+
+    <div class="carousel" style="margin-top:56px">
+      <div class="head">
+        <h2 class="rise" style="font-size:clamp(24px,2.6vw,32px)">Что закрывает Vendra</h2>
+        <div class="arrows rise">
+          <button id="prev" aria-label="Назад">‹</button>
+          <button id="next" aria-label="Вперёд">›</button>
+        </div>
+      </div>
+      <div style="overflow:hidden">
+        <div class="rail" id="rail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stock" style="background:var(--bg-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="split">
+      <div class="rise">
+        <h2>Знать, что кончится через неделю</h2>
+        <p class="lead" style="margin-top:18px">Vendra считает скорость продаж по каждому складу и показывает, на сколько дней хватит товара. За пять дней до нуля приходит напоминание с готовой заявкой на поставку.</p>
+        <div class="tabs" id="mtabs" style="margin-top:26px"></div>
+        <div style="margin-top:8px"><a class="lnk" href="#cta">Подключить свой кабинет</a></div>
+      </div>
+      <div class="panel rise" id="panel"></div>
+    </div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="grid-lines"><div class="wrap"><i></i><i></i><i></i><i></i></div></div>
+  <div class="wrap">
+    <span class="kicker rise">Тарифы</span>
+    <h2 class="rise">Платите за обороты, а не за места</h2>
+    <p class="lead rise" style="margin:16px 0 36px">Все возможности во всех тарифах. Отличается только оборот и количество подключённых кабинетов. Первые четырнадцать дней бесплатно, карта не нужна.</p>
+    <div class="plans">
+      <div class="plan rise">
+        <div class="nm">Старт</div>
+        <div class="pr">4 900 ₽<small> / мес</small></div>
+        <div class="note">Оборот до 1 млн ₽, один кабинет</div>
+        <ul><li>Остатки и заказы со всех площадок</li><li>Автоцена по трём правилам</li><li>Ответы на отзывы по шаблонам</li><li>Отчёт по марже раз в неделю</li></ul>
+        <button class="btn ghost" data-scroll="#cta">Попробовать</button>
+      </div>
+      <div class="plan pick rise">
+        <div class="nm">Рабочий</div>
+        <div class="pr">11 900 ₽<small> / мес</small></div>
+        <div class="note">Оборот до 8 млн ₽, до пяти кабинетов</div>
+        <ul><li>Всё из тарифа «Старт»</li><li>Правила автоцены без ограничений</li><li>Заявки на поставку и прогноз остатка</li><li>Выгрузка в 1С и МойСклад</li><li>Отчёты каждый день</li></ul>
+        <button class="btn" data-scroll="#cta">Попробовать</button>
+      </div>
+      <div class="plan rise">
+        <div class="nm">Компания</div>
+        <div class="pr">от 29 900 ₽<small> / мес</small></div>
+        <div class="note">Оборот без ограничений, кабинетов сколько нужно</div>
+        <ul><li>Всё из тарифа «Рабочий»</li><li>Доступы по ролям для сотрудников</li><li>Свои формулы расчёта маржи</li><li>Отдельный менеджер и общий чат</li></ul>
+        <button class="btn ghost" data-scroll="#cta">Обсудить</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="wrap">
+    <div class="cta rise">
+      <div class="inner">
+        <div>
+          <h2>Посмотрите на своих товарах</h2>
+          <p>Подключим ваш кабинет и за два дня покажем, сколько зарабатывает каждый товар после всех комиссий. Дальше решайте сами.</p>
+        </div>
+        <div>
+          <form class="form" id="leadForm" novalidate>
+            <div class="fr">
+              <div class="field">
+                <label class="vh" for="f-name">Имя</label>
+                <input id="f-name" name="name" placeholder="Имя" autocomplete="given-name" aria-describedby="e-name">
+                <span class="err" id="e-name">Впишите имя</span>
+              </div>
+              <div class="field">
+                <label class="vh" for="f-tel">Телефон</label>
+                <input id="f-tel" name="tel" placeholder="+7 (___) ___-__-__" inputmode="tel" autocomplete="tel" aria-describedby="e-tel">
+                <span class="err" id="e-tel">Нужен номер из 11 цифр</span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="vh" for="f-place">Где продаёте</label>
+              <select id="f-place" name="place">
+                <option value="" disabled selected>Где продаёте</option>
+                <option>Wildberries</option><option>Ozon</option><option>Яндекс Маркет</option><option>Несколько площадок</option>
+              </select>
+            </div>
+            <p class="note">Это демонстрационный макет: заявка никуда не отправляется.</p>
+            <button class="btn" type="submit">Получить разбор</button>
+          </form>
+          <div class="done" id="done" role="status" aria-live="polite"><b>Заявка принята.</b> Ответим в течение рабочего дня.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <a class="logo" href="#top">vendra<em>.</em></a>
+        <p style="color:var(--ink-3);font-size:14px;margin-top:12px;max-width:30ch">Сервис управления продажами на маркетплейсах</p>
+      </div>
+      <div><h4>Продукт</h4><ul><li><a href="#how">Возможности</a></li><li><a href="#stock">Остатки</a></li><li><a href="#price">Тарифы</a></li></ul></div>
+      <div><h4>Помощь</h4><ul><li><span class="soon">Документация</span></li><li><span class="soon">Как подключить</span></li><li><span class="soon">Статус сервиса</span></li></ul></div>
+      <div><h4>Контакты</h4><ul><li><a href="tel:+78005502114">8 (800) 550-21-14</a></li><li><a href="mailto:hello@vendra.ru">hello@vendra.ru</a></li><li>Пн–пт, 9:00 – 19:00</li></ul></div>
+    </div>
+    <div class="fb"><span>ООО «Вендра»</span><span>Екатеринбург, ул. Радищева, 28</span><span class="by">Демонстрационный макет студии <a href="https://stackcomp.ru" target="_blank" rel="noopener">Stack</a></span></div>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hasGsap = typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined";
+  var still = /[?&]still=1/.test(location.search);
+  function mob() { return matchMedia("(max-width: 1000px)").matches; }
+
+  /* ── Мокапы рисуем инлайновым SVG: чертёж масштабируется и не мылит ── */
+  function bar(x, h, c) {
+    return '<rect x="' + x + '" y="' + (120 - h) + '" width="16" height="' + h +
+           '" rx="3" fill="' + c + '"/>';
+  }
+  function heroMock() {
+    var hs = [38, 52, 44, 70, 58, 86, 74, 96, 82, 104];
+    var bars = hs.map(function (h, i) {
+      return bar(40 + i * 30, h, i > 6 ? "#0E8F6F" : "#BFE7DA");
+    }).join("");
+    return '<svg viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">' +
+      '<rect width="860" height="300" fill="#fff"/>' +
+      '<rect x="0" y="0" width="860" height="46" fill="#FAFBFC"/>' +
+      '<rect x="24" y="17" width="96" height="12" rx="6" fill="#DDE3E9"/>' +
+      '<rect x="700" y="13" width="72" height="20" rx="10" fill="#DDF3EC"/>' +
+      '<rect x="784" y="13" width="52" height="20" rx="10" fill="#EEF1F4"/>' +
+      '<line x1="0" y1="46" x2="860" y2="46" stroke="#E6EAEE"/>' +
+      '<text x="24" y="80" font-family="Geologica,sans-serif" font-size="13" fill="#8894A0">Выручка за 30 дней</text>' +
+      '<text x="24" y="110" font-family="Geologica,sans-serif" font-size="26" font-weight="600" fill="#101820">4 812 600 ₽</text>' +
+      '<g transform="translate(24,150)">' + bars + '</g>' +
+      '<line x1="24" y1="272" x2="836" y2="272" stroke="#E6EAEE"/>' +
+      '<g transform="translate(560,70)">' +
+      '<rect width="276" height="86" rx="8" fill="#FAFBFC" stroke="#E6EAEE"/>' +
+      '<text x="16" y="28" font-family="Golos,sans-serif" font-size="12" fill="#8894A0">Товаров с низким остатком</text>' +
+      '<text x="16" y="58" font-family="Geologica,sans-serif" font-size="22" font-weight="600" fill="#101820">17</text>' +
+      '<rect x="150" y="38" width="110" height="24" rx="12" fill="#DDF3EC"/>' +
+      '<text x="205" y="55" text-anchor="middle" font-family="Golos,sans-serif" font-size="12" fill="#0E8F6F">Собрать заявку</text>' +
+      '</g></svg>';
+  }
+  document.getElementById("heromock").innerHTML = heroMock();
+
+  /* ── Карточки функций каруселью ───────────────────────────────── */
+  var CARDS = [
+    { t: "Автоцена по правилам", p: "Цена пересчитывается каждые пятнадцать минут и никогда не падает ниже вашей границы.",
+      li: ["Правила по остатку и скорости продаж", "Слежение за ценой конкурентов", "Нижний порог по марже, а не по цене"],
+      svg: '<svg viewBox="0 0 360 170"><rect width="360" height="170" rx="8" fill="#fff"/>' +
+           '<text x="18" y="30" font-family="Golos" font-size="12" fill="#8894A0">Правило · остаток меньше 20</text>' +
+           '<rect x="18" y="44" width="324" height="40" rx="6" fill="#F6F8FA"/>' +
+           '<text x="32" y="69" font-family="Golos" font-size="13" fill="#101820">Поднять цену на 6%</text>' +
+           '<rect x="268" y="54" width="60" height="20" rx="10" fill="#DDF3EC"/>' +
+           '<text x="298" y="68" text-anchor="middle" font-family="Golos" font-size="11" fill="#0E8F6F">активно</text>' +
+           '<rect x="18" y="94" width="324" height="40" rx="6" fill="#F6F8FA"/>' +
+           '<text x="32" y="119" font-family="Golos" font-size="13" fill="#101820">Лежит 30 дней — снизить на 4%</text>' +
+           '<rect x="268" y="104" width="60" height="20" rx="10" fill="#EEF1F4"/>' +
+           '<text x="298" y="118" text-anchor="middle" font-family="Golos" font-size="11" fill="#8894A0">пауза</text></svg>' },
+    { t: "Прогноз остатка", p: "Видно, на сколько дней хватит товара по каждому складу, и когда пора отгружать.",
+      li: ["Скорость продаж по складам", "Напоминание за пять дней до нуля", "Готовая заявка на поставку"],
+      svg: '<svg viewBox="0 0 360 170"><rect width="360" height="170" rx="8" fill="#fff"/>' +
+           '<polyline points="20,130 70,118 120,104 170,86 220,74 270,48 330,30" fill="none" stroke="#0E8F6F" stroke-width="3" stroke-linecap="round"/>' +
+           '<polyline points="20,130 70,118 120,104 170,86 220,74 270,48 330,30" fill="none" stroke="#9BE564" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round" opacity=".7"/>' +
+           '<line x1="20" y1="146" x2="340" y2="146" stroke="#E6EAEE"/>' +
+           '<circle cx="270" cy="48" r="5" fill="#0E8F6F"/>' +
+           '<rect x="212" y="14" width="124" height="24" rx="12" fill="#DDF3EC"/>' +
+           '<text x="274" y="30" text-anchor="middle" font-family="Golos" font-size="11" fill="#0E8F6F">хватит на 9 дней</text></svg>' },
+    { t: "Ответы на отзывы", p: "Шаблоны с подстановкой товара. Спорные отзывы уходят вам, остальные закрываются сами.",
+      li: ["Шаблоны под оценку и причину", "Спорные на ручную проверку", "История переписки по товару"],
+      svg: '<svg viewBox="0 0 360 170"><rect width="360" height="170" rx="8" fill="#fff"/>' +
+           '<rect x="18" y="20" width="220" height="46" rx="8" fill="#F6F8FA"/>' +
+           '<text x="32" y="40" font-family="Golos" font-size="12" fill="#8894A0">★★★★★ Анна</text>' +
+           '<text x="32" y="58" font-family="Golos" font-size="12" fill="#101820">Пришло быстро, качество супер</text>' +
+           '<rect x="102" y="78" width="240" height="46" rx="8" fill="#DDF3EC"/>' +
+           '<text x="118" y="98" font-family="Golos" font-size="12" fill="#0E8F6F">Ответ отправлен автоматически</text>' +
+           '<text x="118" y="116" font-family="Golos" font-size="12" fill="#101820">Спасибо! Рады, что подошло</text>' +
+           '<rect x="18" y="136" width="120" height="20" rx="10" fill="#EEF1F4"/>' +
+           '<text x="78" y="150" text-anchor="middle" font-family="Golos" font-size="11" fill="#8894A0">на проверке: 2</text></svg>' },
+    { t: "Маржа после комиссий", p: "Считаем комиссию площадки, логистику, хранение и возвраты. Видно настоящую прибыль.",
+      li: ["Комиссия и логистика по каждой площадке", "Возвраты и хранение в расчёте", "Убыточные товары в отдельном списке"],
+      svg: '<svg viewBox="0 0 360 170"><rect width="360" height="170" rx="8" fill="#fff"/>' +
+           '<rect x="18" y="24" width="150" height="122" rx="8" fill="#F6F8FA"/>' +
+           '<text x="34" y="48" font-family="Golos" font-size="12" fill="#8894A0">Цена продажи</text>' +
+           '<text x="34" y="70" font-family="Geologica" font-size="18" font-weight="600" fill="#101820">2 490 ₽</text>' +
+           '<text x="34" y="98" font-family="Golos" font-size="12" fill="#8894A0">Остаётся вам</text>' +
+           '<text x="34" y="120" font-family="Geologica" font-size="18" font-weight="600" fill="#0E8F6F">712 ₽</text>' +
+           '<g transform="translate(186,34)">' +
+           '<rect width="124" height="18" rx="4" fill="#E2E8EE"/><text x="0" y="32" font-family="Golos" font-size="11" fill="#8894A0">комиссия 22%</text>' +
+           '<rect y="44" width="79" height="18" rx="4" fill="#E9EEF3"/><text x="0" y="76" font-family="Golos" font-size="11" fill="#8894A0">логистика 14%</text>' +
+           '<rect y="88" width="163" height="18" rx="4" fill="#DDF3EC"/><text x="0" y="120" font-family="Golos" font-size="11" fill="#0E8F6F">ваша маржа 29%</text>' +
+           '</g></svg>' }
+  ];
+  var rail = document.getElementById("rail");
+  rail.innerHTML = CARDS.map(function (c) {
+    return '<article class="fcard"><div class="shot">' + c.svg + '</div><div class="txt">' +
+      '<h3>' + c.t + '</h3><p>' + c.p + '</p><ul>' +
+      c.li.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></div></article>";
+  }).join("");
+
+  var idx = 0, prev = document.getElementById("prev"), next = document.getElementById("next");
+  function perView() { return mob() ? 1 : 3; }
+  function maxIdx() { return Math.max(0, CARDS.length - perView()); }
+  function slide() {
+    var card = rail.querySelector(".fcard");
+    if (!card) return;
+    var step = card.getBoundingClientRect().width + 22;
+    var x = -idx * step;
+    if (hasGsap && !reduce) gsap.to(rail, { x: x, duration: .6, ease: "power3.out" });
+    else rail.style.transform = "translateX(" + x + "px)";
+    // aria-disabled вместо disabled: иначе кнопка под фокусом гасится
+    // и фокус улетает в начало документа.
+    prev.setAttribute("aria-disabled", idx === 0);
+    next.setAttribute("aria-disabled", idx >= maxIdx());
+  }
+  prev.addEventListener("click", function () { idx = Math.max(0, idx - 1); slide(); });
+  next.addEventListener("click", function () {
+    if (idx >= maxIdx()) return;
+    idx = Math.min(maxIdx(), idx + 1); slide();
+  });
+  slide();
+
+  /* ── Переключатель площадок с живым мокапом ───────────────────── */
+  var MP = {
+    "Wildberries": { st: "синхронизировано", rows: [
+      ["Худи оверсайз", "412", "2 190 ₽", "up", "+6%"],
+      ["Футболка базовая", "88", "890 ₽", "dn", "−4%"],
+      ["Джоггеры", "6", "1 740 ₽", "wait", "мало"],
+      ["Шопер", "233", "690 ₽", "up", "+3%"]] },
+    "Ozon": { st: "синхронизировано", rows: [
+      ["Худи оверсайз", "126", "2 240 ₽", "up", "+8%"],
+      ["Свитшот", "54", "1 990 ₽", "wait", "мало"],
+      ["Футболка базовая", "310", "920 ₽", "up", "+2%"],
+      ["Носки, 3 пары", "780", "390 ₽", "dn", "−5%"]] },
+    "Яндекс Маркет": { st: "обновлено 4 мин назад", rows: [
+      ["Шопер", "74", "710 ₽", "up", "+4%"],
+      ["Худи оверсайз", "18", "2 290 ₽", "wait", "мало"],
+      ["Джоггеры", "141", "1 790 ₽", "up", "+7%"],
+      ["Кепка", "9", "640 ₽", "wait", "мало"]] }
+  };
+  var tabsEl = document.getElementById("mtabs"), panel = document.getElementById("panel"), cur = "Wildberries";
+  Object.keys(MP).forEach(function (k) {
+    var b = document.createElement("button");
+    b.textContent = k;
+    b.addEventListener("click", function () { setMp(k); });
+    tabsEl.appendChild(b);
+  });
+  function setMp(k) {
+    cur = k;
+    Array.prototype.forEach.call(tabsEl.children, function (b) {
+      b.classList.toggle("on", b.textContent === k);
+    });
+    var d = MP[k];
+    panel.innerHTML =
+      '<div class="ptop"><b>' + k + '</b><span class="st">' + d.st + '</span></div>' +
+      '<div class="pbody"><div class="row h"><span>Товар</span><span>Остаток</span><span>Цена</span><span>За неделю</span></div>' +
+      d.rows.map(function (r) {
+        return '<div class="row"><span class="nm"><i class="sq"></i>' + r[0] + '</span>' +
+          '<span class="num">' + r[1] + '</span><span class="num">' + r[2] + '</span>' +
+          '<span><i class="chip ' + r[3] + '">' + r[4] + "</i></span></div>";
+      }).join("") + "</div>";
+    if (hasGsap && !reduce && !still) {
+      gsap.fromTo(panel.querySelectorAll(".row:not(.h)"), { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: .4, stagger: .05, ease: "power3.out" });
+    }
+  }
+  setMp(cur);
+
+  /* ── Меню, прокрутка по кнопкам ───────────────────────────────── */
+  var nav = document.getElementById("nav");
+  document.getElementById("burger").addEventListener("click", function () {
+    document.body.classList.toggle("menu");
+    nav.classList.toggle("open");
+  });
+  nav.addEventListener("click", function (e) {
+    if (e.target.tagName === "A") { document.body.classList.remove("menu"); nav.classList.remove("open"); }
+  });
+  document.querySelectorAll("[data-scroll]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = document.querySelector(b.dataset.scroll);
+      if (t) t.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    });
+  });
+
+  /* ── Форма: маска и проверка, отправки нет ────────────────────── */
+  var form = document.getElementById("leadForm"), done = document.getElementById("done");
+  var tel = form.querySelector("[name=tel]"), nm = form.querySelector("[name=name]");
+  tel.addEventListener("input", function () {
+    var d = tel.value.replace(/\D/g, "").replace(/^8/, "7").slice(0, 11);
+    if (!d) { tel.value = ""; return; }
+    var out = "+7";
+    if (d.length > 1) out += " (" + d.slice(1, 4);
+    if (d.length >= 5) out += ") " + d.slice(4, 7);
+    if (d.length >= 8) out += "-" + d.slice(7, 9);
+    if (d.length >= 10) out += "-" + d.slice(9, 11);
+    tel.value = out;
+    mark(tel, false);
+  });
+  nm.addEventListener("input", function () { mark(nm, false); });
+  // Подсветки мало: без aria-invalid об ошибке узнаёт только зрячий.
+  function mark(el, bad) {
+    el.parentNode.classList.toggle("bad", bad);
+    el.setAttribute("aria-invalid", bad ? "true" : "false");
+  }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var ok = true;
+    var badName = !nm.value.trim(), badTel = tel.value.replace(/\D/g, "").length !== 11;
+    mark(nm, badName); mark(tel, badTel);
+    if (badName || badTel) ok = false;
+    if (!ok) {
+      var first = form.querySelector(".bad input");
+      if (first) first.focus();
+      if (hasGsap && !reduce) gsap.fromTo(form.querySelectorAll(".bad"), { x: -5 },
+        { x: 0, duration: .45, ease: "elastic.out(1,.4)" });
+      return;
+    }
+    // Демонстрационный макет: заявка никуда не уходит
+    form.style.display = "none";
+    done.classList.add("show");
+    done.setAttribute("tabindex", "-1");
+    done.focus();
+    if (hasGsap && !reduce) gsap.from(done, { opacity: 0, y: 8, duration: .45, ease: "power3.out" });
+  });
+
+  // Пересчёт карусели нужен всегда, а не только когда включены анимации.
+  var rsz;
+  addEventListener("resize", function () {
+    clearTimeout(rsz);
+    rsz = setTimeout(function () {
+      idx = Math.min(idx, maxIdx()); slide();
+      if (hasGsap && window.ScrollTrigger) ScrollTrigger.refresh();
+    }, 120);
+  });
+
+  /* ── Движение ─────────────────────────────────────────────────── */
+  if (!hasGsap || reduce) {
+    document.querySelectorAll(".rise").forEach(function (n) { n.style.opacity = 1; n.style.transform = "none"; });
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+
+  ScrollTrigger.create({
+    start: 0, end: "max",
+    onUpdate: function (s) { document.getElementById("hdr").classList.toggle("dense", s.scroll() > 40); }
+  });
+
+  var tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+  tl.from(".bar1 > *", { y: -12, opacity: 0, duration: .6, stagger: .05 })
+    .from(".bar2 > *", { y: -8, opacity: 0, duration: .5, stagger: .04 }, "-=.4")
+    .from(".tag", { y: 14, opacity: 0, duration: .6 }, "-=.3")
+    .from("h1 .l > span", { yPercent: 115, duration: 1.1, stagger: .09 }, "-=.35")
+    .from(".hero p.lead", { y: 16, opacity: 0, duration: .7 }, "-=.7")
+    .from(".hero .acts > *", { y: 14, opacity: 0, duration: .6, stagger: .07 }, "-=.55");
+  if (still) tl.progress(1);
+
+  // Клин уходит медленнее страницы, мокап героя поднимается навстречу
+  gsap.to("#wedge", { yPercent: 14, ease: "none",
+    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .5 } });
+
+  if (still) {
+    gsap.set(".rise", { opacity: 1, y: 0 });
+  } else {
+    gsap.utils.toArray(".rise").forEach(function (el) {
+      gsap.to(el, { opacity: 1, y: 0, duration: .85, ease: "expo.out",
+        scrollTrigger: { trigger: el, start: "top 88%" } });
+    });
+    gsap.from("#clients .cl", { opacity: 0, y: 16, scale: .97, duration: .65,
+      stagger: { each: .06, from: "start" }, ease: "power3.out",
+      scrollTrigger: { trigger: "#clients", start: "top 85%" } });
+    gsap.from(".feat", { opacity: 0, y: 18, duration: .7, stagger: .08, ease: "expo.out",
+      scrollTrigger: { trigger: ".feats", start: "top 84%" } });
+    // Метрика досчитывается до значения, а не появляется готовой
+    document.querySelectorAll("[data-count]").forEach(function (el) {
+      var to = +el.dataset.count, o = { v: 0 };
+      el.textContent = "0";
+      gsap.to(o, { v: to, duration: 1.4, ease: "power2.out",
+        onUpdate: function () { el.textContent = Math.round(o.v); },
+        scrollTrigger: { trigger: el, start: "top 88%" } });
+    });
+  }
+
+
+  // ?still=1&at=<id> — кадр секции: прокрутка headless-снимку не видна,
+  // поэтому сдвигаем страницу отрицательным отступом
+  var at = (location.search.match(/[?&]at=([\w-]+)/) || [])[1];
+  if (still && at && document.getElementById(at)) {
+    ScrollTrigger.getAll().forEach(function (t) { t.kill(); });
+    document.getElementById("hdr").style.display = "none";
+    var top = document.getElementById(at).getBoundingClientRect().top + window.scrollY - 30;
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.marginTop = (-top) + "px";
+  }
+})();
+</script>
