@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Stack — сайты и боты для бизнеса</title>
-<meta name="description" content="Лендинги, телеграм-боты, магазины и приложения с фиксированной ценой и сроком. Макет показываем до оплаты.">
+<meta name="description" content="Лендинги, премиальные сайты, боты, магазины и приложения с фиксированной ценой и сроком. Макет показываем до оплаты.">
 <link rel="canonical" href="https://stackcomp.ru">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#1C2029">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Stack — сайты и боты для бизнеса">
-<meta property="og:description" content="Лендинги, телеграм-боты, магазины и приложения с фиксированной ценой и сроком. Макет показываем до оплаты.">
+<meta property="og:description" content="Лендинги, премиальные сайты, боты, магазины и приложения с фиксированной ценой и сроком. Макет показываем до оплаты.">
 <meta property="og:url" content="https://stackcomp.ru">
 <meta property="og:image" content="https://stackcomp.ru/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -187,7 +187,7 @@ body{background-color:#1C2029}
 .surface{background:var(--b1);border-radius:16px;
   box-shadow:rgba(255,255,255,.03) 0 0 0 1px inset,rgba(255,255,255,.05) 0 1px 0 0 inset,rgba(0,0,0,.6) 0 0 0 1px,rgba(0,0,0,.12) 0 4px 4px 0}
 
-/* цены: пять карточек, 3 + 2 широкие, ячеек ровно столько, сколько услуг */
+/* цены: шесть карточек, по три в каждом ряду */
 .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
 /* Выделение без обводок: карточка под курсором приближается и разгорается оранжевым снизу,
    соседние гаснут. Оранжевый — только свет, не текст. */
@@ -506,8 +506,9 @@ canvas.gridfx{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointe
       <a class="card hot rv" href="/uslugi?s=landing#landing"><span class="cn">Лендинг под товар</span><span class="cd">Первый экран с ценой, форма в телеграм, запуск на домене</span><span class="cp">23&nbsp;000&nbsp;₽ <s>45&nbsp;000</s></span><span class="ct">7 дней</span><span class="cb">Подробнее и опции</span></a>
       <a class="card rv" href="/uslugi?s=bot#bot"><span class="cn">Телеграм-бот</span><span class="cd">Отвечает клиентам, записывает, присылает заявки в чат</span><span class="cp">18&nbsp;000&nbsp;₽ <s>25&nbsp;000</s></span><span class="ct">5 дней</span><span class="cb">Подробнее и опции</span></a>
       <a class="card rv" href="/uslugi?s=audit#audit"><span class="cn">Аудит сайта</span><span class="cd">Прохожу как клиент, отдаю список правок по важности</span><span class="cp">3&nbsp;000&nbsp;₽ <s>5&nbsp;000</s></span><span class="ct">2 дня</span><span class="cb">Подробнее и опции</span></a>
-      <a class="card wide rv" href="/uslugi?s=shop#shop"><span class="cn">Интернет-магазин</span><span class="cd">Каталог с фильтром, корзина, оплата картой и СБП, своя админка</span><span class="cp">85&nbsp;000&nbsp;₽ <s>120&nbsp;000</s></span><span class="ct">14 дней</span><span class="cb">Подробнее и опции</span></a>
-      <a class="card wide rv" href="/uslugi?s=pwa#pwa"><span class="cn">Мобильное приложение</span><span class="cd">Иконка на экране, работает без интернета, ставится по ссылке — без App Store и Google Play</span><span class="cp">40&nbsp;000&nbsp;₽ <s>55&nbsp;000</s></span><span class="ct">10 дней</span><span class="cb">Подробнее и опции</span></a>
+      <a class="card rv" href="/uslugi?s=premium#premium"><span class="cn">Премиальный сайт</span><span class="cd">Дизайн под ваш бренд, интерактивные блоки и живые примеры в работах</span><span class="cp">130&nbsp;000&nbsp;₽ <s>160&nbsp;000</s></span><span class="ct">21 день</span><span class="cb">Подробнее и опции</span></a>
+      <a class="card rv" href="/uslugi?s=shop#shop"><span class="cn">Интернет-магазин</span><span class="cd">Каталог с фильтром, корзина, оплата картой и СБП, своя админка</span><span class="cp">85&nbsp;000&nbsp;₽ <s>120&nbsp;000</s></span><span class="ct">14 дней</span><span class="cb">Подробнее и опции</span></a>
+      <a class="card rv" href="/uslugi?s=pwa#pwa"><span class="cn">Мобильное приложение</span><span class="cd">Иконка на экране, работает без интернета, ставится по ссылке — без App Store и Google Play</span><span class="cp">40&nbsp;000&nbsp;₽ <s>55&nbsp;000</s></span><span class="ct">10 дней</span><span class="cb">Подробнее и опции</span></a>
     </div>
     <a class="btn ghost" href="/uslugi">Цены и что входит</a>
   </div>
